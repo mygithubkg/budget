@@ -397,7 +397,8 @@ function FriendLedgerModal({
           ) : (
             ledger.map((entry) => {
               const isSettle = entry.type === "settle";
-              const formattedDate = format(new Date(entry.date), "dd MMM yyyy, h:mm a");
+              const entryDate = entry.date instanceof Date ? entry.date : new Date(entry.date as any);
+              const formattedDate = format(entryDate, "dd MMM yyyy, h:mm a");
 
               return (
                 <div

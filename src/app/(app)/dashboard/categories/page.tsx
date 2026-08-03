@@ -72,12 +72,12 @@ export default function CategoriesPage() {
   const filteredExpenses = useMemo(() => {
     return transactions.filter((t) => {
       if (t.type !== "expense") return false;
-      const d = new Date(t.date);
+      const d = t.date instanceof Date ? t.date : new Date(t.date as any);
       if (timeFilter === "thisMonth") return isSameMonth(d, now);
       if (timeFilter === "lastMonth") return isSameMonth(d, subMonths(now, 1));
       return true;
     });
-  }, [transactions, timeFilter]);
+  }, [transactions, timeFilter, now]);
 
   const totalExpenseAmount = useMemo(() => {
     return filteredExpenses.reduce((sum, t) => sum + (t.userShare ?? t.amount), 0);

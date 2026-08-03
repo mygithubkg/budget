@@ -49,7 +49,9 @@ export default function DashboardPage() {
   const currentTotalBalance = totalIncomeAllTime - totalExpenseAllTime;
 
   // This Month computations
-  const thisMonthTrans = transactions.filter((t) => isSameMonth(new Date(t.date), now));
+  const thisMonthTrans = transactions.filter((t) =>
+    isSameMonth(t.date instanceof Date ? t.date : new Date(t.date as any), now)
+  );
   const thisMonthIncome = thisMonthTrans
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
@@ -314,7 +316,8 @@ export default function DashboardPage() {
           <div className="space-y-2.5">
             {transactions.slice(0, 10).map((t) => {
               const isIncome = t.type === "income";
-              const formattedDate = format(new Date(t.date), "dd MMM yyyy");
+              const transDate = t.date instanceof Date ? t.date : new Date(t.date as any);
+              const formattedDate = format(transDate, "dd MMM yyyy");
 
               return (
                 <div

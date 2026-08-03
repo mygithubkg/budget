@@ -18,8 +18,8 @@ export interface Transaction {
   userShare: number;
   description: string;
   category: string;
-  date: Timestamp | Date | string;
-  createdAt: Timestamp | Date | string;
+  date: Date;
+  createdAt: Date;
   rawInput: string;
   splits?: FriendSplit[];
   source: TransactionSource;
@@ -29,7 +29,7 @@ export interface Friend {
   id: string;
   name: string;
   balance: number; // positive = friend owes user, negative = user owes friend
-  createdAt: Timestamp | Date | string;
+  createdAt: Date;
 }
 
 export interface FriendLedgerEntry {
@@ -37,7 +37,7 @@ export interface FriendLedgerEntry {
   transactionId?: string;
   amount: number;
   type: LedgerEntryType;
-  date: Timestamp | Date | string;
+  date: Date;
   note: string;
 }
 
@@ -45,7 +45,7 @@ export interface Category {
   id: string;
   name: string;
   isDefault: boolean;
-  createdAt: Timestamp | Date | string;
+  createdAt: Date;
 }
 
 export interface UserProfile {
@@ -53,7 +53,7 @@ export interface UserProfile {
   displayName: string | null;
   email: string | null;
   currency: string;
-  createdAt: Timestamp | Date | string;
+  createdAt: Date;
   defaultCategories?: string[];
 }
 

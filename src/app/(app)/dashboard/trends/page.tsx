@@ -67,8 +67,8 @@ export default function TrendsPage() {
     else if (dateRange === "3months") cutoff = subMonths(now, 3);
 
     if (!cutoff) return transactions;
-    return transactions.filter((t) => new Date(t.date) >= cutoff!);
-  }, [transactions, dateRange]);
+    return transactions.filter((t) => (t.date instanceof Date ? t.date : new Date(t.date as any)) >= cutoff!);
+  }, [transactions, dateRange, now]);
 
   // Aggregate time series for charts based on grouping
   const chartData = useMemo(() => {
@@ -81,7 +81,10 @@ export default function TrendsPage() {
     else {
       // Find oldest transaction date
       const oldest = filteredTransactions.reduce(
-        (min, t) => (new Date(t.date) < min ? new Date(t.date) : min),
+        (min, t) => {
+          const d = t.date instanceof Date ? t.date : new Date(t.date as any);
+          return d < min ? d : min;
+        },
         new Date()
       );
       startDate = oldest;
@@ -91,7 +94,7 @@ export default function TrendsPage() {
       const days = eachDayOfInterval({ start: startDate, end: now });
       return days.map((day) => {
         const dayTrans = filteredTransactions.filter((t) =>
-          isSameDay(new Date(t.date), day)
+          isSameDay(t.date instanceof Date ? t.date : new Date(t.date as any), day)
         );
         const expense = dayTrans
           .filter((t) => t.type === "expense")
@@ -113,7 +116,7 @@ export default function TrendsPage() {
       const weeks = eachWeekOfInterval({ start: startDate, end: now });
       return weeks.map((week) => {
         const weekTrans = filteredTransactions.filter((t) =>
-          isSameWeek(new Date(t.date), week)
+          isSameWeek(t.date instanceof Date ? t.date : new Date(t.date as any), week)
         );
         const expense = weekTrans
           .filter((t) => t.type === "expense")
@@ -135,7 +138,7 @@ export default function TrendsPage() {
     const months = eachMonthOfInterval({ start: startDate, end: now });
     return months.map((month) => {
       const monthTrans = filteredTransactions.filter((t) =>
-        isSameMonth(new Date(t.date), month)
+        isSameMonth(t.date instanceof Date ? t.date : new Date(t.date as any), month)
       );
       const expense = monthTrans
         .filter((t) => t.type === "expense")
