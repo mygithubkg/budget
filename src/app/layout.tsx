@@ -1,17 +1,35 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-ibm-plex-sans",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "FinChat — AI Chat-Based Personal Finance Tracker",
+  title: "FinChat — Ledger Account Register & Expense Tracker",
   description:
-    "Log expenses and income effortlessly in natural language with AI. Smart category deduplication, friend debt tracking, and real-time analytics.",
+    "Log expenses line by line with natural language AI. Ruled accounts, smart category deduplication, friend debt tracking, and real-time ledger analytics.",
 };
 
 export default function RootLayout({
@@ -20,8 +38,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
+      <body className="min-h-screen bg-paper-bg text-ink-text font-sans antialiased selection:bg-stamp-indigo/20 selection:text-stamp-indigo">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -31,7 +49,18 @@ export default function RootLayout({
           <QueryProvider>
             <AuthProvider>
               {children}
-              <Toaster richColors position="top-right" closeButton />
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  style: {
+                    background: "var(--card-bg)",
+                    color: "var(--ink-text)",
+                    border: "1px solid var(--fiber-line)",
+                    fontFamily: "var(--font-ibm-plex-sans)",
+                    borderRadius: "8px",
+                  },
+                }}
+              />
             </AuthProvider>
           </QueryProvider>
         </ThemeProvider>

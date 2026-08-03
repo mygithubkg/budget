@@ -19,13 +19,13 @@ export function BottomNav() {
   const navItems = [
     {
       href: "/chat",
-      label: "Chat",
+      label: "Register",
       icon: MessageSquare,
       exact: true,
     },
     {
       href: "/dashboard",
-      label: "Overview",
+      label: "Ledger",
       icon: LayoutDashboard,
       exact: true,
     },
@@ -41,7 +41,7 @@ export function BottomNav() {
     },
     {
       href: "/dashboard/friends",
-      label: "Friends",
+      label: "Debts",
       icon: Users,
     },
     {
@@ -52,7 +52,7 @@ export function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-border bg-background/85 px-2 backdrop-blur-lg lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 flex h-14 items-center justify-around border-t border-fiber-line bg-card-bg px-1 sm:hidden">
       {navItems.map((item) => {
         const isActive = item.exact
           ? pathname === item.href
@@ -64,23 +64,16 @@ export function BottomNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "relative flex flex-col items-center justify-center gap-1 rounded-xl px-2.5 py-1 text-[10px] font-medium transition-all",
+              "relative flex flex-col items-center justify-center gap-0.5 rounded-[4px] px-2 py-1 text-[10px] font-mono tracking-tight transition-colors",
               isActive
-                ? "text-primary font-semibold"
-                : "text-muted-foreground hover:text-foreground"
+                ? "text-stamp-indigo font-bold"
+                : "text-muted-text hover:text-ink-text"
             )}
           >
-            <div
-              className={cn(
-                "flex h-7 w-7 items-center justify-center rounded-lg transition-transform",
-                isActive && "scale-110"
-              )}
-            >
-              <Icon className="h-5 w-5" />
-            </div>
+            <Icon className={cn("h-4 w-4", isActive && "text-stamp-indigo")} />
             <span>{item.label}</span>
             {isActive && (
-              <span className="absolute -top-[1px] h-0.5 w-6 rounded-full bg-primary" />
+              <span className="absolute -top-[1px] h-0.5 w-5 rounded-full bg-stamp-indigo" />
             )}
           </Link>
         );

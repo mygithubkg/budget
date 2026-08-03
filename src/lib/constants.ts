@@ -24,18 +24,38 @@ export const SUPPORTED_CURRENCIES = [
   { code: "JPY", symbol: "¥", name: "Japanese Yen" },
 ];
 
+/**
+ * 8-hue Categorical Palette (Muted, Archival-Ink Tones)
+ */
+export const LEDGER_PALETTE = [
+  "#A23B2E", // Food (rule-red)
+  "#6B8F5E", // Groceries (sage green)
+  "#2F3F6B", // Travel (stamp-indigo)
+  "#7A5232", // Rent (umber brown)
+  "#5B6670", // Utilities (slate grey)
+  "#6B4C6B", // Entertain (muted plum)
+  "#C08A2E", // Shopping (ochre)
+  "#3F7368", // Health (dusty teal)
+];
+
+export const CATEGORICAL_PALETTE = LEDGER_PALETTE;
+
 export const CATEGORY_COLORS: Record<string, string> = {
-  Food: "#f59e0b", // Amber
-  Groceries: "#10b981", // Emerald
-  "Travel/Transport": "#3b82f6", // Blue
-  Rent: "#8b5cf6", // Purple
-  Utilities: "#06b6d4", // Cyan
-  Entertainment: "#ec4899", // Pink
-  Shopping: "#f43f5e", // Rose
-  "Health/Medical": "#14b8a6", // Teal
-  Education: "#6366f1", // Indigo
-  "Salary/Income": "#22c55e", // Green
-  Miscellaneous: "#64748b", // Slate
+  Food: "#A23B2E",
+  "Food & Dining": "#A23B2E",
+  Groceries: "#6B8F5E",
+  "Travel/Transport": "#2F3F6B",
+  Travel: "#2F3F6B",
+  Rent: "#7A5232",
+  Utilities: "#5B6670",
+  Entertainment: "#6B4C6B",
+  Shopping: "#C08A2E",
+  "Health/Medical": "#3F7368",
+  Health: "#3F7368",
+  Education: "#7A5232",
+  "Salary/Income": "#8A6A2E",
+  Income: "#8A6A2E",
+  Miscellaneous: "#5B6670",
 };
 
-export const DEFAULT_CATEGORY_COLOR = "#8b5cf6";
+export const DEFAULT_CATEGORY_COLOR = "#2F3F6B";

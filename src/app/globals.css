@@ -3,85 +3,103 @@
 @tailwind utilities;
 
 @layer base {
+  /* Paper Mode (Light) */
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 243 75% 59%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 243 75% 59%;
-    --radius: 0.85rem;
+    --paper-bg: #EDF1E6;
+    --ink-text: #1B2B22;
+    --rule-red: #A23B2E;
+    --passbook-gold: #8A6A2E;
+    --stamp-indigo: #2F3F6B;
+    --fiber-line: #C7D0BC;
+    --card-bg: #F5F7F0;
+    --muted-text: #596B60;
+
+    --radius: 8px;
   }
 
+  /* Ink Mode (Dark) */
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 210 40% 98%;
-    --card: 224 71% 7%;
-    --card-foreground: 210 40% 98%;
-    --popover: 224 71% 7%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 243 75% 65%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 14%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 14%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 16%;
-    --input: 217.2 32.6% 16%;
-    --ring: 243 75% 65%;
+    --paper-bg: #12201A;
+    --ink-text: #EDE7D6;
+    --rule-red: #D2604A;
+    --passbook-gold: #D4AF6A;
+    --stamp-indigo: #7C8DD1;
+    --fiber-line: #2A3B30;
+    --card-bg: #182920;
+    --muted-text: #9EADA2;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--fiber-line);
   }
+
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    background-color: var(--paper-bg);
+    color: var(--ink-text);
+    font-family: var(--font-ibm-plex-sans), sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-fraunces), serif;
+  }
+
+  .font-mono, .font-mono-amount {
+    font-family: var(--font-ibm-plex-mono), monospace;
+    font-variant-numeric: tabular-nums;
   }
 }
 
-/* Custom modern scrollbar */
+/* Ledger Structural Motifs */
+.ruled-row {
+  border-bottom: 1px solid var(--fiber-line);
+  transition: border-color 0.15s ease;
+}
+
+.ruled-row:hover {
+  border-bottom-color: var(--stamp-indigo);
+}
+
+.margin-rule {
+  position: relative;
+}
+
+.margin-rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--rule-red);
+  border-radius: 1px;
+}
+
+/* Custom Ledger Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--paper-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 9999px;
+  background: var(--fiber-line);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: var(--muted-text);
 }
 
-/* Glassmorphic card utility */
-.glass-panel {
-  background: hsl(var(--card) / 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid hsl(var(--border) / 0.6);
-}
-
-.gradient-glow {
-  background: radial-gradient(circle at 50% 0%, hsl(var(--primary) / 0.15), transparent 70%);
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,16 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTransactions, useDeleteTransaction } from "@/hooks/useTransactions";
 import { useFriends } from "@/hooks/useFriends";
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { EmptyState } from "@/components/dashboard/EmptyState";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Wallet,
   ArrowDownRight,
@@ -21,8 +17,8 @@ import {
   Trash2,
   Calendar,
   Tag,
-  ChevronRight,
   ArrowRight,
+  Plus,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { format, isSameMonth } from "date-fns";
@@ -35,7 +31,7 @@ export default function DashboardPage() {
   const deleteMutation = useDeleteTransaction();
 
   const currency = userProfile?.currency || "INR";
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
 
   // Computations
   const totalIncomeAllTime = transactions
@@ -68,12 +64,12 @@ export default function DashboardPage() {
   const friendsNet = friends.reduce((acc, f) => acc + (f.balance || 0), 0);
 
   const handleDelete = async (t: any) => {
-    if (confirm(`Delete transaction "${t.description}"?`)) {
+    if (confirm(`Delete ledger entry "${t.description}"?`)) {
       try {
         await deleteMutation.mutateAsync(t);
-        toast.success("Transaction deleted");
+        toast.success("Entry removed from register");
       } catch (err: any) {
-        toast.error("Failed to delete transaction");
+        toast.error("Failed to delete entry");
       }
     }
   };
@@ -81,240 +77,222 @@ export default function DashboardPage() {
   const isLoading = isTransLoading || isFriendsLoading;
 
   return (
-    <div className="flex-1 space-y-6 p-6 lg:p-8 max-w-7xl mx-auto">
-      {/* Top Welcome Header */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
+      {/* Top Display: Balance Figure in Fraunces Display */}
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between border-b border-fiber-line pb-6 gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Financial Overview
-          </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Welcome back, {userProfile?.displayName || "there"}! Here is your current financial pulse.
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-muted-text">
+            Net Ledger Balance
+          </span>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink-text">
+              {currentTotalBalance >= 0 ? "+" : "−"}
+              {formatCurrency(Math.abs(currentTotalBalance), currency)}
+            </span>
+            <span
+              className={`font-mono text-xs font-bold uppercase px-2 py-0.5 border border-fiber-line rounded-[3px] ${
+                currentTotalBalance >= 0 ? "text-passbook-gold" : "text-rule-red"
+              }`}
+            >
+              {currentTotalBalance >= 0 ? "In Credit" : "In Debit"}
+            </span>
+          </div>
+          <p className="text-xs font-sans text-muted-text pt-1">
+            All-time registered income minus expenses for {userProfile?.displayName || "Account"}
           </p>
         </div>
-        <div className="flex items-center gap-2 pt-2 sm:pt-0">
-          <Button asChild variant="gradient" className="gap-2 shadow-sm">
-            <Link href="/chat">
-              <MessageSquare className="h-4 w-4" />
-              <span>Ask AI Chat</span>
-            </Link>
-          </Button>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="/chat"
+            className="inline-flex items-center gap-2 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3.5 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] transition-colors shadow-sm"
+          >
+            <MessageSquare className="h-4 w-4" />
+            <span>Open Register</span>
+          </Link>
         </div>
       </div>
 
-      {/* 4 Top KPI Stats */}
-      {isLoading ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} className="h-28 rounded-2xl" />
-          ))}
-        </div>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 4 KPI Quick-Stat Cards: Mobile Snap Carousel -> Desktop 4-col Grid */}
+      <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+        <div className="snap-start min-w-[240px] sm:min-w-0">
           <StatsCard
-            title="Total Net Balance"
-            value={formatCurrency(currentTotalBalance, currency)}
-            subtitle="All-time income minus spend"
-            icon={Wallet}
-            colorScheme="primary"
-          />
-          <StatsCard
-            title="This Month's Income"
-            value={formatCurrency(thisMonthIncome, currency)}
+            title="This Month Income"
+            value={`+${formatCurrency(thisMonthIncome, currency)}`}
             subtitle={format(now, "MMMM yyyy")}
             icon={ArrowUpRight}
-            colorScheme="income"
+            type="income"
           />
+        </div>
+        <div className="snap-start min-w-[240px] sm:min-w-0">
           <StatsCard
-            title="This Month's Expense"
-            value={formatCurrency(thisMonthExpense, currency)}
-            subtitle="Your personal spend share"
+            title="This Month Expense"
+            value={`−${formatCurrency(thisMonthExpense, currency)}`}
+            subtitle="Personal net spend"
             icon={ArrowDownRight}
-            colorScheme="expense"
+            type="expense"
           />
+        </div>
+        <div className="snap-start min-w-[240px] sm:min-w-0">
           <StatsCard
-            title="Savings Rate"
+            title="Savings Ratio"
             value={`${savingsRate}%`}
             subtitle={
               thisMonthIncome > 0
-                ? `${formatCurrency(thisMonthIncome - thisMonthExpense, currency)} saved`
-                : "No income recorded this month"
+                ? `${formatCurrency(thisMonthIncome - thisMonthExpense, currency)} net saved`
+                : "No income logged this month"
             }
             icon={PiggyBank}
-            colorScheme={savingsRate >= 20 ? "income" : "amber"}
+            type="gold"
           />
         </div>
-      )}
+        <div className="snap-start min-w-[240px] sm:min-w-0">
+          <StatsCard
+            title="Friend Balances"
+            value={`${friendsNet >= 0 ? "+" : "−"}${formatCurrency(Math.abs(friendsNet), currency)}`}
+            subtitle={friendsNet >= 0 ? "Owed to you overall" : "You owe friends overall"}
+            icon={Users}
+            type={friendsNet >= 0 ? "gold" : "expense"}
+          />
+        </div>
+      </div>
 
-      {/* Mid Section: Monthly Comparison Bar & Friends Net Owed */}
+      {/* Cashflow Bar & Friend Debts */}
       {!isLoading && transactions.length > 0 && (
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* Income vs Expense Bar Card */}
-          <Card className="md:col-span-2 border-border/80">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-base font-bold">
-                    This Month Cashflow
-                  </CardTitle>
-                  <CardDescription className="text-xs">
-                    Income vs Expense for {format(now, "MMMM yyyy")}
-                  </CardDescription>
-                </div>
-                <Badge variant="outline" className="text-xs">
-                  {format(now, "MMM yyyy")}
-                </Badge>
+        <div className="grid gap-4 md:grid-cols-3">
+          {/* Cashflow Ruled Card */}
+          <div className="md:col-span-2 rounded-[8px] border border-fiber-line bg-card-bg p-5 space-y-4 shadow-sm">
+            <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
+              <div>
+                <h2 className="font-display text-base font-bold text-ink-text">
+                  Monthly Cashflow
+                </h2>
+                <p className="text-xs font-sans text-muted-text">
+                  Income vs Expenses for {format(now, "MMMM yyyy")}
+                </p>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span className="flex items-center gap-1.5 text-emerald-500">
-                    <ArrowUpRight className="h-3.5 w-3.5" /> Income:{" "}
-                    {formatCurrency(thisMonthIncome, currency)}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-rose-500">
-                    <ArrowDownRight className="h-3.5 w-3.5" /> Expenses:{" "}
-                    {formatCurrency(thisMonthExpense, currency)}
-                  </span>
-                </div>
+              <span className="font-mono text-[10px] uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[3px]">
+                {format(now, "MMM yyyy")}
+              </span>
+            </div>
 
-                {/* Progress Comparison Bar */}
-                <div className="flex h-3 w-full overflow-hidden rounded-full bg-muted/60 p-0.5">
-                  <div
-                    className="h-full rounded-full bg-emerald-500 transition-all duration-500"
-                    style={{
-                      width: `${
-                        thisMonthIncome + thisMonthExpense > 0
-                          ? Math.min(
-                              100,
-                              Math.max(
-                                5,
-                                (thisMonthIncome /
-                                  (thisMonthIncome + thisMonthExpense)) *
-                                  100
-                              )
-                            )
-                          : 50
-                      }%`,
-                    }}
-                  />
-                  <div
-                    className="h-full rounded-full bg-rose-500 transition-all duration-500 ml-1"
-                    style={{
-                      width: `${
-                        thisMonthIncome + thisMonthExpense > 0
-                          ? Math.min(
-                              100,
-                              Math.max(
-                                5,
-                                (thisMonthExpense /
-                                  (thisMonthIncome + thisMonthExpense)) *
-                                  100
-                              )
-                            )
-                          : 50
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t border-border/60">
-                <span>Net Monthly Savings:</span>
-                <span
-                  className={`font-bold ${
-                    thisMonthIncome - thisMonthExpense >= 0
-                      ? "text-emerald-500"
-                      : "text-rose-500"
-                  }`}
-                >
-                  {formatCurrency(thisMonthIncome - thisMonthExpense, currency)}
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-mono font-bold">
+                <span className="text-passbook-gold">
+                  + Income: {formatCurrency(thisMonthIncome, currency)}
+                </span>
+                <span className="text-rule-red">
+                  − Expense: {formatCurrency(thisMonthExpense, currency)}
                 </span>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Friends Debt Summary Card */}
-          <Card className="border-border/80 flex flex-col justify-between">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-bold flex items-center gap-2">
-                  <Users className="h-4 w-4 text-primary" />
-                  <span>Friends Debt</span>
-                </CardTitle>
-                <Button asChild variant="ghost" size="sm" className="h-7 text-xs px-2">
-                  <Link href="/dashboard/friends">
-                    View all <ChevronRight className="h-3 w-3 ml-0.5" />
-                  </Link>
-                </Button>
+              {/* Progress Line */}
+              <div className="flex h-2 w-full overflow-hidden rounded-[2px] bg-paper-bg border border-fiber-line">
+                <div
+                  className="h-full bg-passbook-gold transition-all duration-300"
+                  style={{
+                    width: `${
+                      thisMonthIncome + thisMonthExpense > 0
+                        ? (thisMonthIncome / (thisMonthIncome + thisMonthExpense)) * 100
+                        : 50
+                    }%`,
+                  }}
+                />
+                <div
+                  className="h-full bg-rule-red transition-all duration-300"
+                  style={{
+                    width: `${
+                      thisMonthIncome + thisMonthExpense > 0
+                        ? (thisMonthExpense / (thisMonthIncome + thisMonthExpense)) * 100
+                        : 50
+                    }%`,
+                  }}
+                />
               </div>
-              <CardDescription className="text-xs">
-                Net amount friends owe you
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="text-2xl font-bold">
-                <span
-                  className={
-                    friendsNet > 0
-                      ? "text-emerald-500"
-                      : friendsNet < 0
-                      ? "text-rose-500"
-                      : "text-muted-foreground"
-                  }
+            </div>
+
+            <div className="flex items-center justify-between text-xs font-mono pt-2 border-t border-fiber-line">
+              <span className="text-muted-text">Net Monthly Result:</span>
+              <span
+                className={`font-bold ${
+                  thisMonthIncome - thisMonthExpense >= 0
+                    ? "text-passbook-gold"
+                    : "text-rule-red"
+                }`}
+              >
+                {thisMonthIncome - thisMonthExpense >= 0 ? "+" : "−"}
+                {formatCurrency(Math.abs(thisMonthIncome - thisMonthExpense), currency)}
+              </span>
+            </div>
+          </div>
+
+          {/* Friend Debt Summary Card */}
+          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 flex flex-col justify-between space-y-3 shadow-sm">
+            <div>
+              <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
+                <h2 className="font-display text-base font-bold text-ink-text">
+                  Friend Ledger
+                </h2>
+                <Link
+                  href="/dashboard/friends"
+                  className="text-xs font-mono text-stamp-indigo hover:underline"
                 >
-                  {friendsNet > 0 ? "+" : ""}
-                  {formatCurrency(friendsNet, currency)}
+                  View All →
+                </Link>
+              </div>
+              <div className="mt-3">
+                <span className="font-mono text-2xl font-bold text-ink-text">
+                  {friendsNet >= 0 ? "+" : "−"}
+                  {formatCurrency(Math.abs(friendsNet), currency)}
                 </span>
+                <p className="text-xs font-sans text-muted-text pt-1">
+                  {friendsNet > 0
+                    ? "Friends owe you money overall."
+                    : friendsNet < 0
+                    ? "You owe friends money overall."
+                    : "All friend ledgers are settled."}
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground">
-                {friendsNet > 0
-                  ? "Friends owe you money overall."
-                  : friendsNet < 0
-                  ? "You owe friends money overall."
-                  : "All friend balances are currently settled."}
-              </p>
+            </div>
 
-              <div className="pt-2">
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="w-full text-xs"
-                >
-                  <Link href="/dashboard/friends">Manage & Settle Balances</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            <Link
+              href="/dashboard/friends"
+              className="w-full text-center rounded-[4px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo py-2 text-xs font-mono uppercase font-bold text-ink-text transition-colors"
+            >
+              Settle Balances
+            </Link>
+          </div>
         </div>
       )}
 
-      {/* Recent Transactions Section */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-foreground">Recent Transactions</h2>
+      {/* Ruled Transaction History List */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between border-b border-fiber-line pb-2">
+          <h2 className="font-display text-lg font-bold text-ink-text">
+            Ruled Account Entries
+          </h2>
           {transactions.length > 5 && (
-            <Button asChild variant="link" size="sm" className="text-xs">
-              <Link href="/dashboard/trends">
-                See all in Trends <ArrowRight className="h-3.5 w-3.5 ml-1" />
-              </Link>
-            </Button>
+            <Link
+              href="/dashboard/trends"
+              className="text-xs font-mono text-stamp-indigo hover:underline flex items-center gap-1"
+            >
+              <span>Trends & Analysis</span>
+              <ArrowRight className="h-3 w-3" />
+            </Link>
           )}
         </div>
 
         {isLoading ? (
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-16 rounded-xl" />
+              <div key={i} className="h-12 bg-card-bg border border-fiber-line rounded-[6px] animate-pulse" />
             ))}
           </div>
         ) : transactions.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="space-y-2.5">
-            {transactions.slice(0, 10).map((t) => {
+          <div className="rounded-[8px] border border-fiber-line bg-card-bg divide-y divide-fiber-line overflow-hidden shadow-sm">
+            {transactions.slice(0, 15).map((t) => {
               const isIncome = t.type === "income";
               const transDate = t.date instanceof Date ? t.date : new Date(t.date as any);
               const formattedDate = format(transDate, "dd MMM yyyy");
@@ -322,41 +300,31 @@ export default function DashboardPage() {
               return (
                 <div
                   key={t.id}
-                  className="flex items-center justify-between rounded-xl border border-border/80 bg-card p-3.5 shadow-sm transition-all hover:border-primary/40 hover:shadow"
+                  className="relative flex items-center justify-between py-3 px-4 transition-colors hover:bg-paper-bg/60 group"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-                        isIncome
-                          ? "bg-emerald-500/10 text-emerald-500"
-                          : "bg-rose-500/10 text-rose-500"
-                      }`}
-                    >
-                      {isIncome ? (
-                        <ArrowUpRight className="h-5 w-5" />
-                      ) : (
-                        <ArrowDownRight className="h-5 w-5" />
-                      )}
-                    </div>
+                  {/* Red / Gold margin rule on the left edge */}
+                  <div
+                    className="absolute left-0 top-0 bottom-0 w-[2.5px]"
+                    style={{
+                      backgroundColor: isIncome ? "var(--passbook-gold)" : "var(--rule-red)",
+                    }}
+                  />
+
+                  <div className="flex items-center gap-3 min-w-0 pl-1">
                     <div className="truncate">
-                      <div className="font-semibold text-sm text-foreground truncate">
+                      <div className="font-semibold text-xs text-ink-text truncate">
                         {t.description}
                       </div>
-                      <div className="flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground pt-0.5">
-                        <span className="flex items-center gap-1">
-                          <Tag className="h-3 w-3" />
+                      <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-muted-text pt-0.5">
+                        <span className="uppercase px-1.5 py-0.2 border border-fiber-line rounded-[2px]">
                           {t.category}
                         </span>
                         <span>•</span>
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {formattedDate}
-                        </span>
+                        <span>{formattedDate}</span>
                         {t.splits && t.splits.length > 0 && (
                           <>
                             <span>•</span>
-                            <span className="text-indigo-500 font-medium flex items-center gap-1">
-                              <Users className="h-3 w-3" />
+                            <span className="text-stamp-indigo font-medium">
                               Split with {t.splits.length} friend{t.splits.length > 1 ? "s" : ""}
                             </span>
                           </>
@@ -365,29 +333,29 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 pl-3">
+                  <div className="flex items-center gap-3 pl-3 shrink-0">
                     <div className="text-right">
                       <div
-                        className={`text-sm font-bold ${
-                          isIncome ? "text-emerald-500" : "text-rose-500"
+                        className={`font-mono text-sm font-bold ${
+                          isIncome ? "text-passbook-gold" : "text-ink-text"
                         }`}
                       >
-                        {isIncome ? "+" : "-"}
+                        {isIncome ? "+" : "−"}
                         {formatCurrency(t.amount, currency)}
                       </div>
                       {!isIncome && t.userShare !== t.amount && (
-                        <div className="text-[10px] text-muted-foreground">
-                          Your share: {formatCurrency(t.userShare, currency)}
+                        <div className="text-[10px] font-mono text-muted-text">
+                          Share: {formatCurrency(t.userShare, currency)}
                         </div>
                       )}
                     </div>
 
                     <button
                       onClick={() => handleDelete(t)}
-                      className="text-muted-foreground/50 hover:text-destructive p-1 rounded-lg hover:bg-destructive/10 transition-colors"
-                      title="Delete transaction"
+                      className="text-muted-text/40 hover:text-rule-red p-1 rounded-[4px] hover:bg-paper-bg transition-colors"
+                      title="Delete Entry"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 </div>

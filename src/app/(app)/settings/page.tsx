@@ -3,29 +3,14 @@
 import React, { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
 import {
-  Settings as SettingsIcon,
   Coins,
   Palette,
   User,
   ShieldCheck,
   LogOut,
-  CheckCircle2,
   Loader2,
-  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -41,7 +26,7 @@ export default function SettingsPage() {
     setIsUpdatingCurrency(true);
     try {
       await updateCurrency(newVal);
-      toast.success(`Currency updated to ${newVal}`);
+      toast.success(`Currency preference updated to ${newVal}`);
     } catch (err: any) {
       toast.error("Failed to update currency preference");
     } finally {
@@ -60,169 +45,160 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-6 lg:p-8 max-w-4xl mx-auto">
+    <div className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto text-ink-text">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-          Account & Preferences
+      <div className="border-b border-fiber-line pb-4">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
+          Ledger Preferences & Account
         </h1>
-        <p className="text-xs sm:text-sm text-muted-foreground">
-          Manage your currency, app theme, and account settings.
+        <p className="text-xs font-sans text-muted-text pt-0.5">
+          Configure default currencies, paper/ink display themes, and ledger access.
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* User Profile Card */}
-        <Card className="border-border/80">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base font-bold flex items-center gap-2">
-              <User className="h-4 w-4 text-primary" />
-              <span>User Profile</span>
-            </CardTitle>
-            <CardDescription className="text-xs">
-              Your account details managed via Firebase Authentication
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-14 w-14 border-2 border-primary/20">
-                <AvatarFallback className="bg-primary/10 text-primary font-bold text-base">
-                  {getInitials(userProfile?.displayName)}
-                </AvatarFallback>
-              </Avatar>
+        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
+            <User className="h-4 w-4 text-stamp-indigo" />
+            <h2 className="font-display text-base font-bold text-ink-text">
+              Bookkeeper Identity
+            </h2>
+          </div>
 
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-foreground text-base">
-                    {userProfile?.displayName || "User"}
-                  </h3>
-                  <Badge variant="outline" className="text-[10px]">
-                    Free Plan
-                  </Badge>
-                </div>
-                <p className="text-xs text-muted-foreground">{userProfile?.email}</p>
-                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground pt-1">
-                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-                  <span>Authenticated Account</span>
-                </div>
+          <div className="flex items-center gap-4 pt-1">
+            <div className="h-12 w-12 rounded-[6px] border border-fiber-line bg-paper-bg flex items-center justify-center font-display font-bold text-lg text-stamp-indigo">
+              {getInitials(userProfile?.displayName)}
+            </div>
+
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-ink-text text-sm">
+                  {userProfile?.displayName || "Account Holder"}
+                </h3>
+                <span className="text-[10px] font-mono uppercase text-muted-text px-1.5 py-0.2 border border-fiber-line rounded-[2px]">
+                  Standard Ledger
+                </span>
+              </div>
+              <p className="text-xs font-mono text-muted-text">{userProfile?.email}</p>
+              <div className="flex items-center gap-1.5 text-[10px] font-mono text-passbook-gold pt-0.5">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Encrypted & Authenticated</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        {/* Currency & Financial Preferences */}
-        <Card className="border-border/80">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base font-bold flex items-center gap-2">
-              <Coins className="h-4 w-4 text-primary" />
-              <span>Currency & Localization</span>
-            </CardTitle>
-            <CardDescription className="text-xs">
-              Select the currency used across all dashboards, charts, and AI transaction summaries.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4 max-w-md">
-            <div className="space-y-2">
-              <Label htmlFor="currency-select">Default Currency</Label>
-              <Select
-                value={currency}
-                onValueChange={handleCurrencyChange}
-                disabled={isUpdatingCurrency}
-              >
-                <SelectTrigger id="currency-select" className="w-full">
-                  <SelectValue placeholder="Select currency" />
-                </SelectTrigger>
-                <SelectContent>
-                  {SUPPORTED_CURRENCIES.map((c) => (
-                    <SelectItem key={c.code} value={c.code}>
-                      <span className="font-mono font-bold mr-2">{c.symbol}</span>
-                      <span>{c.name} ({c.code})</span>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Currency Preferences */}
+        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
+            <Coins className="h-4 w-4 text-stamp-indigo" />
+            <h2 className="font-display text-base font-bold text-ink-text">
+              Register Currency
+            </h2>
+          </div>
 
-        {/* Appearance Theme */}
-        <Card className="border-border/80">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base font-bold flex items-center gap-2">
-              <Palette className="h-4 w-4 text-primary" />
-              <span>Appearance</span>
-            </CardTitle>
-            <CardDescription className="text-xs">
-              Customize the look and feel of the FinChat interface.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-3 gap-3 max-w-md">
-              <button
-                type="button"
-                onClick={() => setTheme("dark")}
-                className={`flex flex-col items-center justify-between rounded-xl border p-3.5 text-xs font-semibold transition-all ${
-                  theme === "dark"
-                    ? "border-primary bg-primary/10 text-primary shadow-sm"
-                    : "border-border bg-card text-muted-foreground hover:border-border/80 hover:text-foreground"
-                }`}
-              >
-                <div className="h-6 w-6 rounded-full bg-slate-900 border border-slate-700 mb-2 shadow-xs" />
-                <span>Dark Mode</span>
-              </button>
+          <p className="text-xs font-sans text-muted-text">
+            Standard denomination applied across entries, totals, and breakdown summaries.
+          </p>
 
-              <button
-                type="button"
-                onClick={() => setTheme("light")}
-                className={`flex flex-col items-center justify-between rounded-xl border p-3.5 text-xs font-semibold transition-all ${
-                  theme === "light"
-                    ? "border-primary bg-primary/10 text-primary shadow-sm"
-                    : "border-border bg-card text-muted-foreground hover:border-border/80 hover:text-foreground"
-                }`}
-              >
-                <div className="h-6 w-6 rounded-full bg-slate-100 border border-slate-300 mb-2 shadow-xs" />
-                <span>Light Mode</span>
-              </button>
+          <div className="max-w-xs pt-1">
+            <select
+              value={currency}
+              onChange={(e) => handleCurrencyChange(e.target.value)}
+              disabled={isUpdatingCurrency}
+              className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+            >
+              {SUPPORTED_CURRENCIES.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.symbol} — {c.name} ({c.code})
+                </option>
+              ))}
+            </select>
+            {isUpdatingCurrency && (
+              <p className="text-[10px] font-mono text-stamp-indigo flex items-center gap-1 pt-1">
+                <Loader2 className="h-3 w-3 animate-spin" /> Saving...
+              </p>
+            )}
+          </div>
+        </div>
 
-              <button
-                type="button"
-                onClick={() => setTheme("system")}
-                className={`flex flex-col items-center justify-between rounded-xl border p-3.5 text-xs font-semibold transition-all ${
-                  theme === "system"
-                    ? "border-primary bg-primary/10 text-primary shadow-sm"
-                    : "border-border bg-card text-muted-foreground hover:border-border/80 hover:text-foreground"
-                }`}
-              >
-                <div className="h-6 w-6 rounded-full bg-gradient-to-r from-slate-900 to-slate-100 border border-slate-400 mb-2 shadow-xs" />
-                <span>System</span>
-              </button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Appearance Theme (Paper vs Ink) */}
+        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
+            <Palette className="h-4 w-4 text-stamp-indigo" />
+            <h2 className="font-display text-base font-bold text-ink-text">
+              Ledger Surface & Ink
+            </h2>
+          </div>
+
+          <p className="text-xs font-sans text-muted-text">
+            Choose between cream ruled paper register or iron-gall ink dark register.
+          </p>
+
+          <div className="grid grid-cols-3 gap-3 max-w-md pt-1 font-mono text-xs">
+            <button
+              type="button"
+              onClick={() => setTheme("light")}
+              className={`flex flex-col items-center justify-between rounded-[6px] border p-3 text-xs transition-all ${
+                theme === "light"
+                  ? "border-stamp-indigo bg-paper-bg text-ink-text font-bold shadow-xs"
+                  : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
+              }`}
+            >
+              <div className="h-5 w-5 rounded-[2px] bg-[#F6F3E7] border border-[#D5CEBA] mb-2" />
+              <span>Paper Mode</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setTheme("dark")}
+              className={`flex flex-col items-center justify-between rounded-[6px] border p-3 text-xs transition-all ${
+                theme === "dark"
+                  ? "border-stamp-indigo bg-card-bg text-ink-text font-bold shadow-xs"
+                  : "border-fiber-line bg-card-bg text-muted-text hover:text-ink-text"
+              }`}
+            >
+              <div className="h-5 w-5 rounded-[2px] bg-[#101216] border border-[#272C35] mb-2" />
+              <span>Ink Mode</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setTheme("system")}
+              className={`flex flex-col items-center justify-between rounded-[6px] border p-3 text-xs transition-all ${
+                theme === "system"
+                  ? "border-stamp-indigo bg-paper-bg text-ink-text font-bold shadow-xs"
+                  : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
+              }`}
+            >
+              <div className="h-5 w-5 rounded-[2px] bg-gradient-to-r from-[#F6F3E7] to-[#101216] border border-fiber-line mb-2" />
+              <span>System</span>
+            </button>
+          </div>
+        </div>
 
         {/* Sign Out Card */}
-        <Card className="border-destructive/30 bg-destructive/5">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-bold text-destructive flex items-center gap-2">
-              <LogOut className="h-4 w-4" />
-              <span>Session & Sign Out</span>
-            </CardTitle>
-            <CardDescription className="text-xs">
-              Log out of your FinChat account on this browser.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={logout}
-              className="gap-2"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Sign Out</span>
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="rounded-[8px] border border-rule-red/40 bg-card-bg p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
+            <LogOut className="h-4 w-4 text-rule-red" />
+            <h2 className="font-display text-base font-bold text-rule-red">
+              Session
+            </h2>
+          </div>
+
+          <p className="text-xs font-sans text-muted-text">
+            Close your active register session on this browser.
+          </p>
+
+          <button
+            onClick={logout}
+            className="h-8 px-4 rounded-[4px] border border-rule-red/50 bg-paper-bg hover:bg-rule-red/10 text-xs font-mono font-bold uppercase tracking-wider text-rule-red transition-colors flex items-center gap-1.5"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            <span>Sign Out</span>
+          </button>
+        </div>
       </div>
     </div>
   );

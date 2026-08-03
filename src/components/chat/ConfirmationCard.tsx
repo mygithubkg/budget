@@ -1,38 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { ParsedExpense, ParsedSplit } from "@/types";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { ParsedExpense } from "@/types";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  CheckCircle2,
-  XCircle,
   Calendar,
-  Tag,
   Edit2,
   Check,
   Loader2,
-  Sparkles,
   Trash2,
-  Plus,
-  ArrowDownRight,
-  ArrowUpRight,
+  X,
+  BookOpen,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { useCategories } from "@/hooks/useCategories";
 
 interface ConfirmationCardProps {
   transactions?: ParsedExpense[];
-  parsedData?: ParsedExpense; // backward compatibility
+  parsedData?: ParsedExpense;
   currency?: string;
   onConfirm: (finalList: ParsedExpense[]) => Promise<void>;
   onCancel: () => void;
@@ -59,7 +43,6 @@ export function ConfirmationCard({
   const [items, setItems] = useState<ParsedExpense[]>(initialItems);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  // Synchronize state if transactions prop updates
   React.useEffect(() => {
     if (transactions && transactions.length > 0) {
       setItems(transactions);
@@ -101,7 +84,6 @@ export function ConfirmationCard({
     await onConfirm(items);
   };
 
-  // Calculations for running total
   const totalAmount = items.reduce((acc, it) => acc + (it.totalAmount || 0), 0);
   const totalUserShare = items.reduce((acc, it) => acc + (it.userShare || 0), 0);
   const totalItemsCount = items.length;
@@ -111,23 +93,23 @@ export function ConfirmationCard({
   }
 
   return (
-    <Card className="w-full max-w-lg border border-border/80 bg-card/95 shadow-xl backdrop-blur-md overflow-hidden animate-in fade-in-50 zoom-in-95 duration-200">
+    <div className="w-full max-w-lg rounded-[8px] border border-fiber-line bg-card-bg shadow-sm overflow-hidden text-ink-text">
       {/* Header bar */}
-      <div className="px-4 py-2.5 flex items-center justify-between text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700">
+      <div className="px-4 py-2.5 flex items-center justify-between border-b border-fiber-line bg-paper-bg">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-indigo-200" />
-          <span>
-            Review {totalItemsCount === 1 ? "Expense" : `${totalItemsCount} Parsed Expenses`}
+          <BookOpen className="h-4 w-4 text-stamp-indigo" />
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-text">
+            {totalItemsCount === 1 ? "Review Entry" : `Review ${totalItemsCount} Entries`}
           </span>
         </div>
-        <span className="bg-white/20 px-2 py-0.5 rounded-full text-[11px] font-medium">
-          {totalItemsCount} {totalItemsCount === 1 ? "item" : "items"}
+        <span className="font-mono text-[10px] uppercase text-muted-text px-1.5 py-0.5 border border-fiber-line rounded-[3px]">
+          {totalItemsCount} {totalItemsCount === 1 ? "line" : "lines"}
         </span>
       </div>
 
-      <CardContent className="p-4 space-y-3">
+      <div className="p-4 space-y-3">
         {/* Itemized Rows List */}
-        <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-0.5">
+        <div className="space-y-0 divide-y divide-fiber-line max-h-[380px] overflow-y-auto">
           {items.map((item, idx) => {
             const isEditing = editingIndex === idx;
             const isIncome = item.type === "income";
@@ -135,121 +117,107 @@ export function ConfirmationCard({
             return (
               <div
                 key={idx}
-                className={`rounded-2xl border transition-all p-3 text-xs ${
-                  isEditing
-                    ? "border-primary/50 bg-primary/5 shadow-sm"
-                    : "border-border/60 bg-background/80 hover:border-border"
+                className={`relative py-3 px-3 transition-colors ${
+                  isEditing ? "bg-paper-bg" : "hover:bg-paper-bg/60"
                 }`}
               >
+                {/* Red margin rule motif on the left */}
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-[2.5px]"
+                  style={{
+                    backgroundColor: isIncome ? "var(--passbook-gold)" : "var(--rule-red)",
+                  }}
+                />
+
                 {isEditing ? (
                   /* Edit Mode for Row */
-                  <div className="space-y-2.5">
+                  <div className="space-y-2 pl-2">
                     <div className="flex items-center justify-between gap-2">
-                      <Input
+                      <input
                         value={item.description}
                         onChange={(e) => handleUpdateItem(idx, "description", e.target.value)}
                         placeholder="Description"
-                        className="h-7 text-xs font-medium flex-1"
+                        className="h-7 text-xs font-sans rounded-[4px] border border-fiber-line bg-card-bg px-2 flex-1 text-ink-text focus:border-stamp-indigo focus:outline-none"
                       />
-                      <Input
+                      <input
                         type="number"
                         value={item.totalAmount}
                         onChange={(e) =>
                           handleUpdateItem(idx, "totalAmount", parseFloat(e.target.value) || 0)
                         }
-                        className="h-7 w-24 text-right text-xs font-bold"
+                        className="h-7 w-24 text-right text-xs font-mono font-bold rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
                       />
                     </div>
 
                     <div className="flex items-center justify-between gap-2">
-                      <Select
+                      <select
                         value={item.category}
-                        onValueChange={(val) => handleUpdateItem(idx, "category", val)}
+                        onChange={(e) => handleUpdateItem(idx, "category", e.target.value)}
+                        className="h-7 text-[11px] font-sans rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
                       >
-                        <SelectTrigger className="h-7 text-[11px] w-36">
-                          <SelectValue placeholder="Category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categories.map((c) => (
-                            <SelectItem key={c.id || c.name} value={c.name}>
-                              {c.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                        {categories.map((c) => (
+                          <option key={c.id || c.name} value={c.name}>
+                            {c.name}
+                          </option>
+                        ))}
+                      </select>
 
-                      <Input
+                      <input
                         type="date"
                         value={item.date}
                         onChange={(e) => handleUpdateItem(idx, "date", e.target.value)}
-                        className="h-7 text-[11px] w-32"
+                        className="h-7 text-[11px] font-mono rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
                       />
 
-                      <Button
+                      <button
                         type="button"
-                        size="sm"
-                        variant="secondary"
                         onClick={() => setEditingIndex(null)}
-                        className="h-7 px-2.5 text-[11px] gap-1 shrink-0"
+                        className="h-7 px-2.5 rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo text-[11px] font-mono uppercase font-bold text-stamp-indigo flex items-center gap-1 shrink-0"
                       >
                         <Check className="h-3 w-3" /> Done
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 ) : (
                   /* Preview Mode for Row */
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5 overflow-hidden flex-1">
-                      <div
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
-                          isIncome
-                            ? "bg-emerald-500/10 text-emerald-500"
-                            : "bg-rose-500/10 text-rose-500"
-                        }`}
-                      >
-                        {isIncome ? (
-                          <ArrowDownRight className="h-4 w-4" />
-                        ) : (
-                          <ArrowUpRight className="h-4 w-4" />
-                        )}
-                      </div>
-
-                      <div className="truncate">
-                        <p className="font-semibold text-foreground text-sm truncate">
+                  <div className="flex items-center justify-between gap-3 pl-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-xs text-ink-text truncate">
                           {item.description || "Expense"}
-                        </p>
-                        <div className="flex items-center gap-2 text-[11px] text-muted-foreground pt-0.5">
-                          <Badge variant="outline" className="text-[10px] h-4 px-1.5 font-normal">
-                            {item.category}
-                          </Badge>
-                          <span>•</span>
-                          <span>{item.date}</span>
-                        </div>
+                        </span>
+                        <span className="text-[10px] font-mono text-muted-text uppercase px-1.5 py-0.2 border border-fiber-line rounded-[2px]">
+                          {item.category}
+                        </span>
+                      </div>
+                      <div className="text-[10px] font-mono text-muted-text pt-0.5">
+                        {item.date}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0">
+                    {/* Right Aligned Tabular Monospace Amount */}
+                    <div className="flex items-center gap-2.5 shrink-0">
                       <div className="text-right">
-                        <div
-                          className={`text-sm font-bold ${
-                            isIncome ? "text-emerald-500" : "text-foreground"
+                        <span
+                          className={`font-mono text-sm font-bold ${
+                            isIncome ? "text-passbook-gold" : "text-ink-text"
                           }`}
                         >
-                          {formatCurrency(item.totalAmount, currency)}
-                        </div>
+                          {isIncome ? "+" : "−"}{formatCurrency(item.totalAmount, currency)}
+                        </span>
                         {item.splits && item.splits.length > 0 && (
-                          <span className="text-[10px] text-muted-foreground">
+                          <div className="text-[10px] font-mono text-muted-text">
                             Share: {formatCurrency(item.userShare, currency)}
-                          </span>
+                          </div>
                         )}
                       </div>
 
-                      {/* Row Action Buttons */}
+                      {/* Action buttons */}
                       <button
                         type="button"
                         onClick={() => setEditingIndex(idx)}
-                        className="h-7 w-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-                        title="Edit Item"
+                        className="p-1 rounded-[4px] text-muted-text hover:text-ink-text hover:bg-paper-bg transition-colors"
+                        title="Edit Entry"
                       >
                         <Edit2 className="h-3.5 w-3.5" />
                       </button>
@@ -257,8 +225,8 @@ export function ConfirmationCard({
                       <button
                         type="button"
                         onClick={() => handleRemoveItem(idx)}
-                        className="h-7 w-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-                        title="Remove Item"
+                        className="p-1 rounded-[4px] text-muted-text hover:text-rule-red hover:bg-paper-bg transition-colors"
+                        title="Delete Entry"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -266,11 +234,11 @@ export function ConfirmationCard({
                   </div>
                 )}
 
-                {/* Friend Splits Preview if present */}
+                {/* Friend Splits if present */}
                 {!isEditing && item.splits && item.splits.length > 0 && (
-                  <div className="mt-2 rounded-xl bg-muted/40 px-2.5 py-1.5 flex flex-wrap gap-2 text-[10px] text-muted-foreground">
+                  <div className="mt-1.5 pl-2 flex flex-wrap gap-2 text-[10px] font-mono text-muted-text">
                     {item.splits.map((s, sIdx) => (
-                      <span key={sIdx} className="text-rose-500 font-medium">
+                      <span key={sIdx} className="text-rule-red">
                         {s.friendName} owes {formatCurrency(s.amount, currency)}
                       </span>
                     ))}
@@ -281,54 +249,52 @@ export function ConfirmationCard({
           })}
         </div>
 
-        {/* Running Total Footer Summary */}
-        <div className="rounded-2xl bg-gradient-to-r from-muted/60 via-card to-muted/60 border border-border/80 p-3 flex items-center justify-between text-xs">
+        {/* Ledger Subtotal Line */}
+        <div className="border-t-2 border-fiber-line pt-3 flex items-center justify-between text-xs">
           <div>
-            <span className="text-muted-foreground font-medium">
-              Total ({totalItemsCount} {totalItemsCount === 1 ? "item" : "items"}):
+            <span className="font-mono text-[11px] uppercase tracking-wider text-muted-text">
+              Total ({totalItemsCount} {totalItemsCount === 1 ? "entry" : "entries"}):
             </span>
             {totalUserShare !== totalAmount && (
-              <p className="text-[11px] text-muted-foreground pt-0.5">
-                Your net share: <b className="text-foreground">{formatCurrency(totalUserShare, currency)}</b>
+              <p className="text-[10px] font-mono text-muted-text pt-0.5">
+                Net personal share: <b className="text-ink-text">{formatCurrency(totalUserShare, currency)}</b>
               </p>
             )}
           </div>
           <div className="text-right">
-            <span className="text-lg font-black text-foreground tracking-tight">
+            <span className="font-mono text-lg font-bold text-ink-text">
               {formatCurrency(totalAmount, currency)}
             </span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2 pt-1">
-          <Button
+        <div className="flex items-center gap-2 pt-2">
+          <button
             type="button"
-            variant="gradient"
-            className="flex-1 h-10 gap-1.5 shadow-md shadow-indigo-500/20"
+            className="flex-1 flex items-center justify-center gap-2 h-9 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] transition-colors disabled:opacity-50"
             onClick={handleConfirmAll}
             disabled={isSaving || totalAmount <= 0}
           >
             {isSaving ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : (
-              <CheckCircle2 className="h-4 w-4" />
+              <Check className="h-3.5 w-3.5" />
             )}
-            <span>Confirm All ({totalItemsCount})</span>
-          </Button>
+            <span>Confirm & Stamp ({totalItemsCount})</span>
+          </button>
 
-          <Button
+          <button
             type="button"
-            variant="outline"
-            className="h-10 px-4 text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+            className="h-9 px-3.5 rounded-[6px] border border-fiber-line bg-paper-bg hover:text-rule-red text-xs font-mono uppercase tracking-wider text-muted-text transition-colors"
             onClick={onCancel}
             disabled={isSaving}
           >
-            <XCircle className="h-4 w-4 mr-1" />
+            <X className="h-3.5 w-3.5 inline mr-1" />
             <span>Discard</span>
-          </Button>
+          </button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

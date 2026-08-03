@@ -5,10 +5,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTransactions } from "@/hooks/useTransactions";
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { EmptyState } from "@/components/dashboard/EmptyState";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -22,20 +18,16 @@ import {
   Legend,
 } from "recharts";
 import {
-  TrendingUp,
-  Calendar,
-  DollarSign,
-  Flame,
   ArrowDownRight,
   ArrowUpRight,
+  Flame,
+  BarChart2,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import {
   format,
   subDays,
   subMonths,
-  startOfWeek,
-  startOfMonth,
   eachDayOfInterval,
   eachWeekOfInterval,
   eachMonthOfInterval,
@@ -79,7 +71,6 @@ export default function TrendsPage() {
     else if (dateRange === "month") startDate = subDays(now, 30);
     else if (dateRange === "3months") startDate = subMonths(now, 3);
     else {
-      // Find oldest transaction date
       const oldest = filteredTransactions.reduce(
         (min, t) => {
           const d = t.date instanceof Date ? t.date : new Date(t.date as any);
@@ -134,7 +125,7 @@ export default function TrendsPage() {
       });
     }
 
-    // grouping === "month"
+    // month
     const months = eachMonthOfInterval({ start: startDate, end: now });
     return months.map((month) => {
       const monthTrans = filteredTransactions.filter((t) =>
@@ -156,7 +147,6 @@ export default function TrendsPage() {
     });
   }, [filteredTransactions, dateRange, grouping, now]);
 
-  // Statistics
   const totalExpense = filteredTransactions
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + (t.userShare ?? t.amount), 0);
@@ -174,152 +164,174 @@ export default function TrendsPage() {
   );
 
   return (
-    <div className="flex-1 space-y-6 p-6 lg:p-8 max-w-7xl mx-auto">
+    <div className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
       {/* Header & Controls */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-fiber-line pb-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            Financial Trends
+          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
+            Register Trends & Flow
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">
+          <p className="text-xs font-sans text-muted-text pt-0.5">
             Visualize income, expenses, and cashflow patterns over time.
           </p>
         </div>
 
-        {/* Range selectors */}
+        {/* Range and Grouping selectors */}
         <div className="flex flex-wrap items-center gap-2">
-          <Tabs
-            value={dateRange}
-            onValueChange={(v) => setDateRange(v as DateRangeType)}
-          >
-            <TabsList className="h-9">
-              <TabsTrigger value="week" className="text-xs">7 Days</TabsTrigger>
-              <TabsTrigger value="month" className="text-xs">30 Days</TabsTrigger>
-              <TabsTrigger value="3months" className="text-xs">3 Months</TabsTrigger>
-              <TabsTrigger value="all" className="text-xs">All Time</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          {/* Range Buttons */}
+          <div className="flex rounded-[4px] border border-fiber-line bg-card-bg p-0.5 text-xs font-mono">
+            {[
+              { id: "week", label: "7 Days" },
+              { id: "month", label: "30 Days" },
+              { id: "3months", label: "3 Months" },
+              { id: "all", label: "All Time" },
+            ].map((r) => (
+              <button
+                key={r.id}
+                onClick={() => setDateRange(r.id as DateRangeType)}
+                className={`px-2.5 py-1 rounded-[3px] transition-colors ${
+                  dateRange === r.id
+                    ? "bg-stamp-indigo text-[#EDE7D6] font-bold"
+                    : "text-muted-text hover:text-ink-text"
+                }`}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
 
-          <Tabs
-            value={grouping}
-            onValueChange={(v) => setGrouping(v as GroupingType)}
-          >
-            <TabsList className="h-9">
-              <TabsTrigger value="day" className="text-xs">Day</TabsTrigger>
-              <TabsTrigger value="week" className="text-xs">Week</TabsTrigger>
-              <TabsTrigger value="month" className="text-xs">Month</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          {/* Grouping Buttons */}
+          <div className="flex rounded-[4px] border border-fiber-line bg-card-bg p-0.5 text-xs font-mono">
+            {[
+              { id: "day", label: "Day" },
+              { id: "week", label: "Week" },
+              { id: "month", label: "Month" },
+            ].map((g) => (
+              <button
+                key={g.id}
+                onClick={() => setGrouping(g.id as GroupingType)}
+                className={`px-2.5 py-1 rounded-[3px] transition-colors ${
+                  grouping === g.id
+                    ? "bg-stamp-indigo text-[#EDE7D6] font-bold"
+                    : "text-muted-text hover:text-ink-text"
+                }`}
+              >
+                {g.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Stats Summary */}
-      {isLoading ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} className="h-28 rounded-2xl" />
-          ))}
-        </div>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+        <div className="snap-start min-w-[220px] sm:min-w-0">
           <StatsCard
-            title="Total Period Spend"
-            value={formatCurrency(totalExpense, currency)}
+            title="Period Spend"
+            value={`−${formatCurrency(totalExpense, currency)}`}
             subtitle="Personal expenses in period"
             icon={ArrowDownRight}
-            colorScheme="expense"
+            type="expense"
           />
+        </div>
+        <div className="snap-start min-w-[220px] sm:min-w-0">
           <StatsCard
-            title="Total Period Income"
-            value={formatCurrency(totalIncome, currency)}
+            title="Period Income"
+            value={`+${formatCurrency(totalIncome, currency)}`}
             subtitle="Total earnings in period"
             icon={ArrowUpRight}
-            colorScheme="income"
+            type="income"
           />
+        </div>
+        <div className="snap-start min-w-[220px] sm:min-w-0">
           <StatsCard
-            title={`Avg Spend / ${grouping.toUpperCase()}`}
+            title={`Avg / ${grouping.toUpperCase()}`}
             value={formatCurrency(averagePerUnit, currency)}
-            subtitle={`Average across ${chartData.length} ${grouping}s`}
-            icon={DollarSign}
-            colorScheme="purple"
+            subtitle={`Average over ${chartData.length} units`}
+            icon={BarChart2}
+            type="gold"
           />
+        </div>
+        <div className="snap-start min-w-[220px] sm:min-w-0">
           <StatsCard
-            title="Highest Spending Period"
+            title="Peak Period"
             value={formatCurrency(highestSpendingUnit.expense, currency)}
             subtitle={highestSpendingUnit.label}
             icon={Flame}
-            colorScheme="amber"
+            type="expense"
           />
         </div>
-      )}
+      </div>
 
-      {/* Main Interactive Chart */}
-      <Card className="border-border/80">
-        <CardHeader className="pb-2">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <CardTitle className="text-base font-bold">
-                Income vs Expense Flow
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Comparing money in vs money out grouped by {grouping}
-              </CardDescription>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant={chartType === "area" ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setChartType("area")}
-                className="h-8 text-xs font-semibold"
-              >
-                Area View
-              </Button>
-              <Button
-                variant={chartType === "bar" ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setChartType("bar")}
-                className="h-8 text-xs font-semibold"
-              >
-                Bar View
-              </Button>
-            </div>
+      {/* Main Chart Card */}
+      <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-fiber-line pb-3">
+          <div>
+            <h2 className="font-display text-base font-bold text-ink-text">
+              Income vs Expense Flow
+            </h2>
+            <p className="text-xs font-sans text-muted-text">
+              Comparing money in vs out grouped by {grouping}
+            </p>
           </div>
-        </CardHeader>
 
-        <CardContent className="pt-4">
+          <div className="flex items-center gap-1 font-mono text-xs">
+            <button
+              onClick={() => setChartType("area")}
+              className={`px-2.5 py-1 rounded-[3px] border border-fiber-line transition-colors ${
+                chartType === "area"
+                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold"
+                  : "bg-paper-bg text-muted-text hover:text-ink-text"
+              }`}
+            >
+              Area View
+            </button>
+            <button
+              onClick={() => setChartType("bar")}
+              className={`px-2.5 py-1 rounded-[3px] border border-fiber-line transition-colors ${
+                chartType === "bar"
+                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold"
+                  : "bg-paper-bg text-muted-text hover:text-ink-text"
+              }`}
+            >
+              Bar View
+            </button>
+          </div>
+        </div>
+
+        <div className="pt-2">
           {isLoading ? (
-            <Skeleton className="h-[360px] w-full rounded-xl" />
+            <div className="h-[340px] bg-paper-bg border border-fiber-line rounded-[6px] animate-pulse" />
           ) : chartData.length === 0 ? (
             <EmptyState
               title="No trend data in this period"
-              description="Log some transactions in the chat to see your historical trend graph."
+              description="Log entries in the chat register to see your historical trend graph."
             />
           ) : (
-            <div className="h-[360px] w-full pt-2">
+            <div className="h-[340px] w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
                 {chartType === "area" ? (
                   <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="incomeGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor="#C47D2B" stopOpacity={0.35} />
+                        <stop offset="95%" stopColor="#C47D2B" stopOpacity={0.0} />
                       </linearGradient>
                       <linearGradient id="expenseGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#F43F5E" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#F43F5E" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor="#8B263E" stopOpacity={0.35} />
+                        <stop offset="95%" stopColor="#8B263E" stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.15} vertical={false} />
                     <XAxis
                       dataKey="label"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 11, fontFamily: "var(--font-ibm-plex-mono)" }}
                       stroke="currentColor"
                       opacity={0.6}
                       tickLine={false}
                     />
                     <YAxis
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 11, fontFamily: "var(--font-ibm-plex-mono)" }}
                       stroke="currentColor"
                       opacity={0.6}
                       tickLine={false}
@@ -329,16 +341,16 @@ export default function TrendsPage() {
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
                           return (
-                            <div className="rounded-xl border border-border bg-popover/95 p-3 text-xs shadow-xl backdrop-blur-md">
-                              <p className="font-bold text-foreground mb-1.5">{label}</p>
+                            <div className="rounded-[6px] border border-fiber-line bg-card-bg p-3 text-xs shadow-md font-mono">
+                              <p className="font-bold text-ink-text mb-1.5">{label}</p>
                               <div className="space-y-1">
-                                <p className="flex items-center justify-between gap-4 text-emerald-500 font-medium">
+                                <p className="flex items-center justify-between gap-4 text-passbook-gold font-medium">
                                   <span>Income:</span>
-                                  <span>{formatCurrency(Number(payload[0]?.value) || 0, currency)}</span>
+                                  <span>+{formatCurrency(Number(payload[0]?.value) || 0, currency)}</span>
                                 </p>
-                                <p className="flex items-center justify-between gap-4 text-rose-500 font-medium">
+                                <p className="flex items-center justify-between gap-4 text-rule-red font-medium">
                                   <span>Expense:</span>
-                                  <span>{formatCurrency(Number(payload[1]?.value) || 0, currency)}</span>
+                                  <span>−{formatCurrency(Number(payload[1]?.value) || 0, currency)}</span>
                                 </p>
                               </div>
                             </div>
@@ -348,15 +360,15 @@ export default function TrendsPage() {
                       }}
                     />
                     <Legend
-                      wrapperStyle={{ paddingTop: "10px", fontSize: "12px" }}
-                      formatter={(val) => <span className="capitalize text-xs">{val}</span>}
+                      wrapperStyle={{ paddingTop: "10px", fontSize: "11px", fontFamily: "var(--font-ibm-plex-mono)" }}
+                      formatter={(val) => <span className="capitalize text-xs font-mono">{val}</span>}
                     />
                     <Area
                       type="monotone"
                       dataKey="income"
                       name="Income"
-                      stroke="#10B981"
-                      strokeWidth={2.5}
+                      stroke="#C47D2B"
+                      strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#incomeGrad)"
                     />
@@ -364,8 +376,8 @@ export default function TrendsPage() {
                       type="monotone"
                       dataKey="expense"
                       name="Expense"
-                      stroke="#F43F5E"
-                      strokeWidth={2.5}
+                      stroke="#8B263E"
+                      strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#expenseGrad)"
                     />
@@ -375,13 +387,13 @@ export default function TrendsPage() {
                     <CartesianGrid strokeDasharray="3 3" opacity={0.15} vertical={false} />
                     <XAxis
                       dataKey="label"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 11, fontFamily: "var(--font-ibm-plex-mono)" }}
                       stroke="currentColor"
                       opacity={0.6}
                       tickLine={false}
                     />
                     <YAxis
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 11, fontFamily: "var(--font-ibm-plex-mono)" }}
                       stroke="currentColor"
                       opacity={0.6}
                       tickLine={false}
@@ -391,16 +403,16 @@ export default function TrendsPage() {
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
                           return (
-                            <div className="rounded-xl border border-border bg-popover/95 p-3 text-xs shadow-xl backdrop-blur-md">
-                              <p className="font-bold text-foreground mb-1.5">{label}</p>
+                            <div className="rounded-[6px] border border-fiber-line bg-card-bg p-3 text-xs shadow-md font-mono">
+                              <p className="font-bold text-ink-text mb-1.5">{label}</p>
                               <div className="space-y-1">
-                                <p className="flex items-center justify-between gap-4 text-emerald-500 font-medium">
+                                <p className="flex items-center justify-between gap-4 text-passbook-gold font-medium">
                                   <span>Income:</span>
-                                  <span>{formatCurrency(Number(payload[0]?.value) || 0, currency)}</span>
+                                  <span>+{formatCurrency(Number(payload[0]?.value) || 0, currency)}</span>
                                 </p>
-                                <p className="flex items-center justify-between gap-4 text-rose-500 font-medium">
+                                <p className="flex items-center justify-between gap-4 text-rule-red font-medium">
                                   <span>Expense:</span>
-                                  <span>{formatCurrency(Number(payload[1]?.value) || 0, currency)}</span>
+                                  <span>−{formatCurrency(Number(payload[1]?.value) || 0, currency)}</span>
                                 </p>
                               </div>
                             </div>
@@ -410,28 +422,28 @@ export default function TrendsPage() {
                       }}
                     />
                     <Legend
-                      wrapperStyle={{ paddingTop: "10px", fontSize: "12px" }}
-                      formatter={(val) => <span className="capitalize text-xs">{val}</span>}
+                      wrapperStyle={{ paddingTop: "10px", fontSize: "11px", fontFamily: "var(--font-ibm-plex-mono)" }}
+                      formatter={(val) => <span className="capitalize text-xs font-mono">{val}</span>}
                     />
                     <Bar
                       dataKey="income"
                       name="Income"
-                      fill="#10B981"
-                      radius={[4, 4, 0, 0]}
+                      fill="#C47D2B"
+                      radius={[2, 2, 0, 0]}
                     />
                     <Bar
                       dataKey="expense"
                       name="Expense"
-                      fill="#F43F5E"
-                      radius={[4, 4, 0, 0]}
+                      fill="#8B263E"
+                      radius={[2, 2, 0, 0]}
                     />
                   </BarChart>
                 )}
               </ResponsiveContainer>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
