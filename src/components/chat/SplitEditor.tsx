@@ -2,9 +2,7 @@
 
 import React, { useState } from "react";
 import { Plus, Trash2, Users } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ParsedSplit } from "@/types";
+import { ParsedSplit, SplitDirection } from "@/types";
 import { formatCurrency } from "@/lib/currency";
 
 interface SplitEditorProps {
@@ -22,15 +20,20 @@ export function SplitEditor({
 }: SplitEditorProps) {
   const [friendName, setFriendName] = useState("");
   const [amount, setAmount] = useState("");
+  const [direction, setDirection] = useState<SplitDirection>("they_owe_me");
 
   const handleAdd = () => {
     if (!friendName.trim()) return;
     const val = parseFloat(amount);
     if (isNaN(val) || val <= 0) return;
 
-    onChange([...splits, { friendName: friendName.trim(), amount: val }]);
+    onChange([
+      ...splits,
+      { friendName: friendName.trim(), amount: val, direction },
+    ]);
     setFriendName("");
     setAmount("");
+    setDirection("they_owe_me");
   };
 
   const handleRemove = (index: number) => {
@@ -43,14 +46,24 @@ export function SplitEditor({
     onChange(updated);
   };
 
+  const handleToggleDirection = (index: number) => {
+    const updated = [...splits];
+    const current = updated[index].direction || "they_owe_me";
+    updated[index] = {
+      ...updated[index],
+      direction: current === "they_owe_me" ? "i_owe_them" : "they_owe_me",
+    };
+    onChange(updated);
+  };
+
   return (
-    <div className="rounded-xl border border-border/80 bg-background/80 p-3 space-y-2.5">
-      <div className="flex items-center justify-between text-xs font-semibold text-foreground">
-        <div className="flex items-center gap-1.5 text-primary">
+    <div className="rounded-[6px] border border-fiber-line bg-paper-bg/60 p-3 space-y-2.5 text-ink-text">
+      <div className="flex items-center justify-between text-xs font-mono font-bold">
+        <div className="flex items-center gap-1.5 text-stamp-indigo">
           <Users className="h-3.5 w-3.5" />
-          <span>Friend Splits</span>
+          <span>Friend Ledger Splits</span>
         </div>
-        <span className="text-[11px] text-muted-foreground">
+        <span className="text-[10px] text-muted-text uppercase">
           {splits.length} friend{splits.length === 1 ? "" : "s"}
         </span>
       </div>
@@ -58,60 +71,85 @@ export function SplitEditor({
       {/* List of current splits */}
       {splits.length > 0 && (
         <div className="space-y-1.5">
-          {splits.map((s, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between gap-2 rounded-lg bg-card px-2.5 py-1.5 text-xs border border-border/60"
-            >
-              <span className="font-medium text-foreground">{s.friendName}</span>
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  value={s.amount}
-                  onChange={(e) =>
-                    handleUpdateAmount(idx, parseFloat(e.target.value) || 0)
-                  }
-                  className="h-7 w-20 text-xs text-right font-semibold text-rose-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemove(idx)}
-                  className="text-muted-foreground hover:text-destructive p-0.5"
-                  title="Remove split"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
+          {splits.map((s, idx) => {
+            const isIOweThem = s.direction === "i_owe_them";
+            return (
+              <div
+                key={idx}
+                className="flex items-center justify-between gap-2 rounded-[4px] bg-card-bg px-2.5 py-1.5 text-xs border border-fiber-line font-mono"
+              >
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <span className="font-bold text-ink-text truncate">{s.friendName}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleToggleDirection(idx)}
+                    className={`text-[9px] uppercase px-1.5 py-0.5 rounded-[2px] border font-bold ${
+                      isIOweThem
+                        ? "border-rule-red/40 bg-rule-red/10 text-rule-red"
+                        : "border-passbook-gold/40 bg-passbook-gold/10 text-passbook-gold"
+                    }`}
+                  >
+                    {isIOweThem ? "You owe" : "Owes you"}
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={s.amount}
+                    onChange={(e) =>
+                      handleUpdateAmount(idx, parseFloat(e.target.value) || 0)
+                    }
+                    className="h-7 w-20 text-xs text-right font-mono font-bold rounded-[3px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:outline-none focus:border-stamp-indigo"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(idx)}
+                    className="text-muted-text hover:text-rule-red p-0.5 transition-colors"
+                    title="Remove split"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
       {/* Add new split input row */}
-      <div className="flex items-center gap-1.5 pt-1">
-        <Input
-          placeholder="Friend name"
-          value={friendName}
-          onChange={(e) => setFriendName(e.target.value)}
-          className="h-7 text-xs flex-1"
-        />
-        <Input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="h-7 text-xs w-20"
-        />
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          onClick={handleAdd}
-          className="h-7 px-2"
-          disabled={!friendName || !amount}
-        >
-          <Plus className="h-3.5 w-3.5" />
-        </Button>
+      <div className="flex flex-col gap-1.5 pt-1">
+        <div className="flex items-center gap-1.5">
+          <input
+            placeholder="Friend name"
+            value={friendName}
+            onChange={(e) => setFriendName(e.target.value)}
+            className="h-7 text-xs font-sans rounded-[4px] border border-fiber-line bg-card-bg px-2 flex-1 text-ink-text focus:outline-none focus:border-stamp-indigo"
+          />
+          <input
+            type="number"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="h-7 text-xs font-mono rounded-[4px] border border-fiber-line bg-card-bg px-2 w-20 text-right text-ink-text focus:outline-none focus:border-stamp-indigo"
+          />
+          <select
+            value={direction}
+            onChange={(e) => setDirection(e.target.value as SplitDirection)}
+            className="h-7 text-[10px] font-mono uppercase font-bold rounded-[4px] border border-fiber-line bg-card-bg px-1 text-ink-text focus:outline-none focus:border-stamp-indigo"
+          >
+            <option value="they_owe_me">Owes you</option>
+            <option value="i_owe_them">You owe</option>
+          </select>
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={!friendName || !amount}
+            className="h-7 px-2 rounded-[4px] bg-stamp-indigo text-[#EDE7D6] hover:bg-stamp-indigo/90 disabled:opacity-50 flex items-center justify-center transition-colors shrink-0"
+          >
+            <Plus className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
     </div>
   );

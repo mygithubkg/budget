@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Transaction, FriendSplit } from "@/types";
+import { Transaction, FriendSplit, SplitDirection } from "@/types";
 
 export interface TransactionFilters {
   startDate?: Date;
@@ -90,7 +90,7 @@ export interface AddTransactionInput {
   date: Date | string;
   rawInput: string;
   source: "chat" | "manual";
-  splits?: { friendId?: string; friendName: string; amount: number }[];
+  splits?: { friendId?: string; friendName: string; amount: number; direction?: SplitDirection }[];
 }
 
 export function useAddTransaction() {
@@ -143,10 +143,14 @@ export function useAddTransaction() {
               });
             }
 
-            // Update friend balance (positive = friend owes user)
+            const isIOweThem = split.direction === "i_owe_them";
+            // Balance convention: positive = friend owes user, negative = user owes friend
+            const delta = isIOweThem ? -split.amount : split.amount;
+
+            // Update friend balance
             const friendRef = doc(db, "users", user.uid, "friends", friendId);
             t.update(friendRef, {
-              balance: currentBalance + split.amount,
+              balance: currentBalance + delta,
             });
 
             // Create ledger entry
@@ -156,7 +160,8 @@ export function useAddTransaction() {
             t.set(ledgerRef, {
               transactionId: newTransRef.id,
               amount: split.amount,
-              type: "owe",
+              type: isIOweThem ? "borrow" : "owe",
+              direction: isIOweThem ? "i_owe_them" : "they_owe_me",
               date: firestoreDate,
               note: input.description,
             });
@@ -165,6 +170,7 @@ export function useAddTransaction() {
               friendId,
               friendName: split.friendName,
               amount: split.amount,
+              direction: isIOweThem ? "i_owe_them" : "they_owe_me",
             });
           }
         }
@@ -203,8 +209,28 @@ export function useDeleteTransaction() {
     mutationFn: async (transaction: Transaction) => {
       if (!user || !transaction.id) throw new Error("Missing transaction or user");
 
-      const transRef = doc(db, "users", user.uid, "transactions", transaction.id);
-      await deleteDoc(transRef);
+      await runTransaction(db, async (t) => {
+        const transRef = doc(db, "users", user.uid, "transactions", transaction.id!);
+
+        // Revert any friend debt updates if splits were associated
+        if (transaction.splits && transaction.splits.length > 0) {
+          for (const split of transaction.splits) {
+            if (!split.friendId) continue;
+            const friendRef = doc(db, "users", user.uid, "friends", split.friendId);
+            const friendSnap = await t.get(friendRef);
+            if (friendSnap.exists()) {
+              const curBal = Number(friendSnap.data().balance) || 0;
+              const isIOweThem = split.direction === "i_owe_them";
+              const delta = isIOweThem ? -split.amount : split.amount;
+              t.update(friendRef, {
+                balance: curBal - delta,
+              });
+            }
+          }
+        }
+
+        t.delete(transRef);
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions", user?.uid] });

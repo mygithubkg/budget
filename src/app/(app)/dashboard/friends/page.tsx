@@ -392,6 +392,7 @@ function FriendLedgerModal({
           ) : (
             ledger.map((entry) => {
               const isSettle = entry.type === "settle";
+              const isBorrow = entry.type === "borrow" || entry.direction === "i_owe_them";
               const entryDate = entry.date instanceof Date ? entry.date : new Date(entry.date as any);
               const formattedDate = format(entryDate, "dd MMM yyyy, h:mm a");
 
@@ -403,12 +404,16 @@ function FriendLedgerModal({
                   <div>
                     <div className="flex items-center gap-1.5 font-semibold text-ink-text">
                       {isSettle ? (
-                        <span className="font-mono text-passbook-gold text-[10px] uppercase border border-fiber-line px-1 rounded-[2px]">
+                        <span className="font-mono text-stamp-indigo text-[10px] uppercase border border-stamp-indigo/40 bg-stamp-indigo/10 px-1 rounded-[2px]">
                           Settlement
                         </span>
+                      ) : isBorrow ? (
+                        <span className="font-mono text-rule-red text-[10px] uppercase border border-rule-red/40 bg-rule-red/10 px-1 rounded-[2px]">
+                          You Owe
+                        </span>
                       ) : (
-                        <span className="font-mono text-stamp-indigo text-[10px] uppercase border border-fiber-line px-1 rounded-[2px]">
-                          Split
+                        <span className="font-mono text-passbook-gold text-[10px] uppercase border border-passbook-gold/40 bg-passbook-gold/10 px-1 rounded-[2px]">
+                          Owes You
                         </span>
                       )}
                       <span>— {entry.note || "Transaction"}</span>
@@ -420,8 +425,16 @@ function FriendLedgerModal({
                   </div>
 
                   <div className="text-right font-mono font-bold">
-                    <span className={isSettle ? "text-passbook-gold" : "text-rule-red"}>
-                      {isSettle ? "−" : "+"}
+                    <span
+                      className={
+                        isSettle
+                          ? "text-stamp-indigo"
+                          : isBorrow
+                          ? "text-rule-red"
+                          : "text-passbook-gold"
+                      }
+                    >
+                      {isSettle ? "" : isBorrow ? "−" : "+"}
                       {formatCurrency(entry.amount, currency)}
                     </span>
                   </div>

@@ -2,12 +2,14 @@ import { Timestamp } from "firebase/firestore";
 
 export type TransactionType = "expense" | "income";
 export type TransactionSource = "chat" | "manual";
-export type LedgerEntryType = "owe" | "settle";
+export type LedgerEntryType = "owe" | "borrow" | "settle";
+export type SplitDirection = "they_owe_me" | "i_owe_them";
 
 export interface FriendSplit {
   friendId: string;
   friendName: string;
   amount: number;
+  direction?: SplitDirection; // "they_owe_me" (friend owes user) | "i_owe_them" (user owes friend)
 }
 
 export interface Transaction {
@@ -37,6 +39,7 @@ export interface FriendLedgerEntry {
   transactionId?: string;
   amount: number;
   type: LedgerEntryType;
+  direction?: SplitDirection;
   date: Date;
   note: string;
 }
@@ -60,6 +63,7 @@ export interface UserProfile {
 export interface ParsedSplit {
   friendName: string;
   amount: number;
+  direction?: SplitDirection; // "they_owe_me" | "i_owe_them"
 }
 
 export interface ParsedExpense {

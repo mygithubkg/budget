@@ -236,12 +236,22 @@ export function ConfirmationCard({
 
                 {/* Friend Splits if present */}
                 {!isEditing && item.splits && item.splits.length > 0 && (
-                  <div className="mt-1.5 pl-2 flex flex-wrap gap-2 text-[10px] font-mono text-muted-text">
-                    {item.splits.map((s, sIdx) => (
-                      <span key={sIdx} className="text-rule-red">
-                        {s.friendName} owes {formatCurrency(s.amount, currency)}
-                      </span>
-                    ))}
+                  <div className="mt-1.5 pl-2 flex flex-wrap gap-2 text-[10px] font-mono">
+                    {item.splits.map((s, sIdx) => {
+                      const isIOweThem = s.direction === "i_owe_them";
+                      return (
+                        <span
+                          key={sIdx}
+                          className={`font-semibold ${
+                            isIOweThem ? "text-rule-red" : "text-passbook-gold"
+                          }`}
+                        >
+                          {isIOweThem
+                            ? `You owe ${s.friendName} ${formatCurrency(s.amount, currency)}`
+                            : `${s.friendName} owes you ${formatCurrency(s.amount, currency)}`}
+                        </span>
+                      );
+                    })}
                   </div>
                 )}
               </div>

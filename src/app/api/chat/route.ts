@@ -64,7 +64,7 @@ Your job is to parse messages into structured finance logs or answer status quer
       "category": string,
       "date": "YYYY-MM-DD",
       "splits": [
-        { "friendName": string, "amount": number }
+        { "friendName": string, "amount": number, "direction": "they_owe_me" | "i_owe_them" }
       ],
       "needsClarification": boolean,
       "clarificationQuestion": string | null
@@ -81,7 +81,12 @@ CRITICAL RULES:
 1. MULTI-EXPENSE SPLITTING: If the user lists multiple distinct items or amounts in one message (e.g. "spent 500 on food, 300 on mattress and 100 on cake today"), you MUST output a separate transaction object for EVERY item in the "transactions" array. Do NOT merge them into one. Do NOT drop any item.
 2. CATEGORY ASSIGNMENT: Assign each item its own best-fit category independently (e.g. Food -> "Food & Dining", Mattress -> "Shopping", Cake -> "Food & Dining").
 3. SINGLE EXPENSES: Even if there is only 1 expense, "transactions" must be an array of length 1.
-4. FRIEND SPLITS: If the user says "spent 200 on dinner, 100 mine 100 Sam's", this is 1 transaction with a split. But if the user says "Spent 250 on coffee with Sam" with no split amount, return 1 transaction with "needsClarification": true, "clarificationQuestion": "Did you split this ₹250 with Sam (e.g., does Sam owe you a share), or should I record the full ₹250 as your own complete expense?".
+4. FRIEND DEBTS & SPLIT DIRECTION:
+   - When a friend owes the user (e.g., "Spent 500 on dinner, Sam owes 250", "Sam owes me 500", "Lent 500 to Sam"):
+     Set split "direction": "they_owe_me".
+   - When the user owes a friend (e.g., "I owe 500 to Sam", "I owe my friend Rohit 300 for lunch", "Sam paid 500 for dinner for me", "Borrowed 500 from Sam"):
+     Set split "direction": "i_owe_them". The transaction is an expense of that amount with userShare = totalAmount and split = [{ "friendName": "Sam", "amount": 500, "direction": "i_owe_them" }].
+   - If the user says "Spent 250 on coffee with Sam" with no split amount, return 1 transaction with "needsClarification": true, "clarificationQuestion": "Did you split this ₹250 with Sam (e.g., does Sam owe you a share), or should I record the full ₹250 as your own complete expense?".
 5. STATUS QUERIES: If asking for balance, last transactions, friend debts, or summary, set "transactions": null and "queryType" to the appropriate value.
 
 FEW-SHOT EXAMPLES:
@@ -93,6 +98,26 @@ Output:
     { "type": "expense", "totalAmount": 500, "userShare": 500, "description": "Food", "category": "Food & Dining", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
     { "type": "expense", "totalAmount": 300, "userShare": 300, "description": "Mattress", "category": "Shopping", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
     { "type": "expense", "totalAmount": 100, "userShare": 100, "description": "Cake", "category": "Food & Dining", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null }
+  ],
+  "queryType": null
+}
+
+Input: "I owe 500 to my friend Sam for dinner"
+Output:
+{
+  "intent": "log_transaction",
+  "transactions": [
+    { "type": "expense", "totalAmount": 500, "userShare": 500, "description": "Dinner (Owe Sam)", "category": "Food & Dining", "date": "${todayDate}", "splits": [{ "friendName": "Sam", "amount": 500, "direction": "i_owe_them" }], "needsClarification": false, "clarificationQuestion": null }
+  ],
+  "queryType": null
+}
+
+Input: "Rohit owes me 300 for lunch"
+Output:
+{
+  "intent": "log_transaction",
+  "transactions": [
+    { "type": "expense", "totalAmount": 300, "userShare": 0, "description": "Lunch (Rohit share)", "category": "Food & Dining", "date": "${todayDate}", "splits": [{ "friendName": "Rohit", "amount": 300, "direction": "they_owe_me" }], "needsClarification": false, "clarificationQuestion": null }
   ],
   "queryType": null
 }
@@ -350,7 +375,7 @@ function heuristicFallbackIntentRouter(
           description: `Coffee with ${friendName}`,
           category: "Food & Dining",
           date: todayDate,
-          splits: [{ friendName, amount: half }],
+          splits: [{ friendName, amount: half, direction: "they_owe_me" }],
           needsClarification: false,
           clarificationQuestion: null,
         },
@@ -368,7 +393,7 @@ function heuristicFallbackIntentRouter(
           description: `Coffee with ${friendName}`,
           category: "Food & Dining",
           date: todayDate,
-          splits: [{ friendName, amount: friendAmt }],
+          splits: [{ friendName, amount: friendAmt, direction: "they_owe_me" }],
           needsClarification: false,
           clarificationQuestion: null,
         },
@@ -407,6 +432,56 @@ function heuristicFallbackIntentRouter(
 
   if (/(\bhow am i doing\b|\bfinancial summary\b|\bgive me an update\b|\boverview\b|\bstatus\b)/i.test(lower)) {
     return formatFallbackResponse("status_query", "general_summary", null);
+  }
+
+  // 1.5 Explicit Friend Debt Detection (e.g. "I owe 500 to my friend Sam" vs "Sam owes me 250")
+  const isUserOwes = /\b(i owe|owe to|borrowed|took|debt to|paid for me|covered for me)\b/i.test(lower);
+  const isFriendOwes = /\b(owes me|lent to|gave to|lent|credit from)\b/i.test(lower);
+
+  if (isUserOwes || isFriendOwes) {
+    const allAmts = Array.from(message.matchAll(/(?:rs\.?|inr|₹|\$)?\s*(\d+(?:\.\d{1,2})?)/gi));
+    const debtAmount = allAmts[0] ? parseFloat(allAmts[0][1]) : 0;
+
+    let detectedFriend = "";
+    for (const f of friendList) {
+      if (lower.includes(f.toLowerCase())) {
+        detectedFriend = f;
+        break;
+      }
+    }
+    if (!detectedFriend) {
+      const match =
+        message.match(/(?:friend|to|from|with)\s+([A-Za-z]+)/i) ||
+        message.match(/([A-Za-z]+)\s+(?:owes|paid)/i);
+      if (
+        match &&
+        !["my", "the", "a", "an", "for", "on", "in", "at", "and", "me"].includes(
+          match[1].toLowerCase()
+        )
+      ) {
+        detectedFriend = match[1];
+      }
+    }
+
+    if (debtAmount > 0) {
+      const friendName = detectedFriend || "Friend";
+      const direction = isUserOwes ? "i_owe_them" : "they_owe_me";
+      const desc = isUserOwes ? `Owe ${friendName}` : `${friendName} owes`;
+
+      return formatFallbackResponse("log_transaction", null, [
+        {
+          type: "expense",
+          totalAmount: debtAmount,
+          userShare: isUserOwes ? debtAmount : 0,
+          description: desc,
+          category: "Miscellaneous",
+          date: todayDate,
+          splits: [{ friendName, amount: debtAmount, direction }],
+          needsClarification: false,
+          clarificationQuestion: null,
+        },
+      ]);
+    }
   }
 
   // 2. Transaction logging check with multi-expense parsing

@@ -6,6 +6,10 @@ export const OFF_TOPIC_RESPONSE =
 export const splitSchema = z.object({
   friendName: z.string().min(1, "Friend name is required"),
   amount: z.number().positive("Split amount must be greater than 0"),
+  direction: z
+    .enum(["they_owe_me", "i_owe_them"])
+    .nullish()
+    .transform((v) => v || "they_owe_me"),
 });
 
 export const parsedExpenseSchema = z.object({
@@ -119,6 +123,7 @@ export const transactionInputSchema = z.object({
         friendId: z.string().optional(),
         friendName: z.string().min(1),
         amount: z.number().positive(),
+        direction: z.enum(["they_owe_me", "i_owe_them"]).optional().default("they_owe_me"),
       })
     )
     .optional(),

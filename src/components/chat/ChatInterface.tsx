@@ -318,6 +318,7 @@ export function ChatInterface() {
             friendId: found?.id,
             friendName: s.friendName,
             amount: s.amount,
+            direction: s.direction || "they_owe_me",
           };
         });
 
@@ -346,7 +347,12 @@ export function ChatInterface() {
         )} under ${item.category}.`;
 
         if (item.splits && item.splits.length > 0) {
-          summaryText += ` Personal share: ${formatCurrency(item.userShare, currency)}.`;
+          const splitNotices = item.splits.map((s) =>
+            s.direction === "i_owe_them"
+              ? `You owe ${s.friendName} ${formatCurrency(s.amount, currency)}`
+              : `${s.friendName} owes you ${formatCurrency(s.amount, currency)}`
+          );
+          summaryText += ` (${splitNotices.join(", ")})`;
         }
       } else {
         summaryText = `Recorded ${finalList.length} entries totaling ${formatCurrency(

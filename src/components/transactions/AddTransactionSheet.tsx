@@ -15,6 +15,7 @@ import { useAddTransaction } from "@/hooks/useTransactions";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatCurrency } from "@/lib/currency";
 import { toast } from "sonner";
+import { SplitDirection } from "@/types";
 
 interface AddTransactionSheetProps {
   open: boolean;
@@ -38,11 +39,14 @@ export function AddTransactionSheet({
   const [date, setDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
-  const [splits, setSplits] = useState<{ friendName: string; amount: number }[]>([]);
+  const [splits, setSplits] = useState<
+    { friendName: string; amount: number; direction?: SplitDirection }[]
+  >([]);
 
   // Split management
   const [newSplitFriend, setNewSplitFriend] = useState("");
   const [newSplitAmount, setNewSplitAmount] = useState("");
+  const [newSplitDirection, setNewSplitDirection] = useState<SplitDirection>("they_owe_me");
 
   const handleAddSplit = () => {
     if (!newSplitFriend.trim()) {
@@ -57,10 +61,11 @@ export function AddTransactionSheet({
 
     setSplits((prev) => [
       ...prev,
-      { friendName: newSplitFriend.trim(), amount: splitVal },
+      { friendName: newSplitFriend.trim(), amount: splitVal, direction: newSplitDirection },
     ]);
     setNewSplitFriend("");
     setNewSplitAmount("");
+    setNewSplitDirection("they_owe_me");
 
     const totalVal = parseFloat(amount) || 0;
     const currentFriendTotal =
@@ -115,6 +120,7 @@ export function AddTransactionSheet({
           friendId: friends.find((f) => f.name.toLowerCase() === s.friendName.toLowerCase())?.id || "",
           friendName: s.friendName,
           amount: s.amount,
+          direction: s.direction || "they_owe_me",
         })),
       });
 
@@ -258,31 +264,49 @@ export function AddTransactionSheet({
               {/* Existing splits */}
               {splits.length > 0 && (
                 <div className="space-y-1.5 divide-y divide-fiber-line">
-                  {splits.map((s, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between pt-1 text-xs"
-                    >
-                      <span className="font-semibold text-ink-text">{s.friendName}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-rule-red">
-                          {formatCurrency(s.amount, userProfile?.currency)}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveSplit(idx)}
-                          className="text-muted-text hover:text-rule-red"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                  {splits.map((s, idx) => {
+                    const isIOweThem = s.direction === "i_owe_them";
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between pt-1 text-xs font-mono"
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-semibold text-ink-text">{s.friendName}</span>
+                          <span
+                            className={`text-[9px] uppercase px-1 py-0.2 rounded-[2px] border font-bold ${
+                              isIOweThem
+                                ? "border-rule-red/40 bg-rule-red/10 text-rule-red"
+                                : "border-passbook-gold/40 bg-passbook-gold/10 text-passbook-gold"
+                            }`}
+                          >
+                            {isIOweThem ? "You owe" : "Owes you"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`font-mono font-bold ${
+                              isIOweThem ? "text-rule-red" : "text-passbook-gold"
+                            }`}
+                          >
+                            {formatCurrency(s.amount, userProfile?.currency)}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveSplit(idx)}
+                            className="text-muted-text hover:text-rule-red"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
 
               {/* Add Split row */}
-              <div className="flex gap-2 pt-1">
+              <div className="flex gap-1.5 pt-1">
                 <input
                   placeholder="Friend name"
                   value={newSplitFriend}
@@ -294,12 +318,20 @@ export function AddTransactionSheet({
                   placeholder="Amount"
                   value={newSplitAmount}
                   onChange={(e) => setNewSplitAmount(e.target.value)}
-                  className="h-8 text-xs w-24 rounded-[4px] border border-fiber-line bg-card-bg px-2 font-mono text-ink-text focus:outline-none"
+                  className="h-8 text-xs w-20 rounded-[4px] border border-fiber-line bg-card-bg px-2 font-mono text-ink-text focus:outline-none"
                 />
+                <select
+                  value={newSplitDirection}
+                  onChange={(e) => setNewSplitDirection(e.target.value as SplitDirection)}
+                  className="h-8 text-[10px] font-mono uppercase font-bold rounded-[4px] border border-fiber-line bg-card-bg px-1 text-ink-text focus:outline-none"
+                >
+                  <option value="they_owe_me">Owes you</option>
+                  <option value="i_owe_them">You owe</option>
+                </select>
                 <button
                   type="button"
                   onClick={handleAddSplit}
-                  className="h-8 px-2.5 rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo text-ink-text flex items-center justify-center"
+                  className="h-8 px-2.5 rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo text-ink-text flex items-center justify-center shrink-0"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>

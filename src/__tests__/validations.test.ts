@@ -161,6 +161,67 @@ describe("Validation Schemas, Multi-Expense Breakdown & Intent Router", () => {
     }
   });
 
+  it("should validate directional friend splits for 'i_owe_them' and 'they_owe_me'", () => {
+    const debtResponse = {
+      intent: "log_transaction" as const,
+      transactions: [
+        {
+          type: "expense" as const,
+          totalAmount: 500,
+          userShare: 500,
+          description: "Dinner (Owe Sam)",
+          category: "Food & Dining",
+          date: "2026-08-03",
+          splits: [
+            {
+              friendName: "Sam",
+              amount: 500,
+              direction: "i_owe_them" as const,
+            },
+          ],
+          needsClarification: false,
+          clarificationQuestion: null,
+        },
+      ],
+      queryType: null,
+    };
+
+    const result = chatApiResponseSchema.safeParse(debtResponse);
+    expect(result.success).toBe(true);
+    expect(result.data?.transactions?.[0].splits[0].direction).toBe("i_owe_them");
+    expect(result.data?.transactions?.[0].splits[0].friendName).toBe("Sam");
+    expect(result.data?.transactions?.[0].splits[0].amount).toBe(500);
+
+    // Friend owes user
+    const creditResponse = {
+      intent: "log_transaction" as const,
+      transactions: [
+        {
+          type: "expense" as const,
+          totalAmount: 300,
+          userShare: 0,
+          description: "Lunch (Rohit share)",
+          category: "Food & Dining",
+          date: "2026-08-03",
+          splits: [
+            {
+              friendName: "Rohit",
+              amount: 300,
+              direction: "they_owe_me" as const,
+            },
+          ],
+          needsClarification: false,
+          clarificationQuestion: null,
+        },
+      ],
+      queryType: null,
+    };
+
+    const resultCredit = chatApiResponseSchema.safeParse(creditResponse);
+    expect(resultCredit.success).toBe(true);
+    expect(resultCredit.data?.transactions?.[0].splits[0].direction).toBe("they_owe_me");
+  });
+
   it("should validate off_topic response and match exact canned response wording", () => {
     const offTopicResponse = {
       intent: "off_topic" as const,
