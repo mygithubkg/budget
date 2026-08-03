@@ -66,7 +66,7 @@ export default function CategoriesPage() {
   const [newCatName, setNewCatName] = useState("");
 
   const currency = userProfile?.currency || "INR";
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
 
   // Filter transactions by time
   const filteredExpenses = useMemo(() => {

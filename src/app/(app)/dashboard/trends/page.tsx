@@ -57,7 +57,7 @@ export default function TrendsPage() {
   const [chartType, setChartType] = useState<ChartType>("area");
 
   const currency = userProfile?.currency || "INR";
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
 
   // Filter transactions by selected date range
   const filteredTransactions = useMemo(() => {
@@ -154,7 +154,7 @@ export default function TrendsPage() {
         net: income - expense,
       };
     });
-  }, [filteredTransactions, dateRange, grouping]);
+  }, [filteredTransactions, dateRange, grouping, now]);
 
   // Statistics
   const totalExpense = filteredTransactions

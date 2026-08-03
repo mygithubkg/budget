@@ -37,12 +37,13 @@ export function calculateSimilarity(str1: string, str2: string): number {
   }
 
   // Word token overlap check (Jaccard on words)
-  const words1 = new Set(norm1.split(" ").filter(Boolean));
-  const words2 = new Set(norm2.split(" ").filter(Boolean));
-  const intersection = new Set([...words1].filter((w) => words2.has(w)));
-  if (intersection.size > 0) {
-    const union = new Set([...words1, ...words2]);
-    const jaccard = intersection.size / union.size;
+  const words1 = norm1.split(" ").filter(Boolean);
+  const words2 = norm2.split(" ").filter(Boolean);
+  const set2 = new Set(words2);
+  const intersectionWords = words1.filter((w) => set2.has(w));
+  if (intersectionWords.length > 0) {
+    const unionSet = new Set(words1.concat(words2));
+    const jaccard = intersectionWords.length / unionSet.size;
     if (jaccard >= 0.5) {
       return Math.max(0.86, jaccard);
     }

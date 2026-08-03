@@ -129,7 +129,7 @@ export default function LoginPage() {
           </h2>
 
           <p className="text-sm text-slate-300 leading-relaxed">
-            Just say: <span className="italic text-white">"Spent 500 on pizza with Raj, 250 is mine"</span> — FinChat parses the transaction, deduplicates categories, and manages friend debts automatically.
+            Just say: <span className="italic text-white">&quot;Spent 500 on pizza with Raj, 250 is mine&quot;</span> — FinChat parses the transaction, deduplicates categories, and manages friend debts automatically.
           </p>
 
           <div className="grid grid-cols-3 gap-3 pt-4">

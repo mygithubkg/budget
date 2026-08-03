@@ -198,7 +198,7 @@ Output:
     // Safety multi-expense checker:
     // If user message clearly has multiple distinct numbers (e.g. 500, 300, 100) and the model only returned 1 item,
     // supplement with heuristic multi-clause extraction so all items are captured.
-    const numMatches = [...message.matchAll(/(?:rs\.?|inr|₹|\$)?\s*(\d+(?:\.\d{1,2})?)/gi)];
+    const numMatches = Array.from(message.matchAll(/(?:rs\.?|inr|₹|\$)?\s*(\d+(?:\.\d{1,2})?)/gi));
     if (
       data.intent === "log_transaction" &&
       Array.isArray(data.transactions) &&
@@ -298,9 +298,20 @@ function extractMultiExpenseItems(
   return items;
 }
 
-/**
- * Heuristic fallback router with multi-expense parsing and clarification support
- */
+function formatFallbackResponse(
+  intent: "log_transaction" | "status_query" | "off_topic",
+  queryType: "balance" | "last_transactions" | "friend_debts" | "general_summary" | null = null,
+  transactions: ParsedExpenseData[] | null = null
+): ChatApiResponse {
+  return {
+    intent,
+    queryType,
+    transactions,
+    transaction: transactions && transactions.length > 0 ? transactions[0] : null,
+    modelUsed: "heuristic-fallback",
+  };
+}
+
 function heuristicFallbackIntentRouter(
   message: string,
   categoryList: string[],
@@ -311,7 +322,8 @@ function heuristicFallbackIntentRouter(
   const lower = message.toLowerCase().trim();
 
   // Multi-turn clarification resolution
-  const lastAssistantMsg = [...conversationHistory]
+  const lastAssistantMsg = conversationHistory
+    .slice()
     .reverse()
     .find((m) => m.role === "assistant")?.content;
 
@@ -330,126 +342,102 @@ function heuristicFallbackIntentRouter(
 
     if (/(split|equal|50\/50|half|yes|split it)/i.test(lower)) {
       const half = Math.round((amount / 2) * 100) / 100;
-      return {
-        intent: "log_transaction",
-        queryType: null,
-        transactions: [
-          {
-            type: "expense",
-            totalAmount: amount,
-            userShare: amount - half,
-            description: `Coffee with ${friendName}`,
-            category: "Food & Dining",
-            date: todayDate,
-            splits: [{ friendName, amount: half }],
-            needsClarification: false,
-            clarificationQuestion: null,
-          },
-        ],
-      };
+      return formatFallbackResponse("log_transaction", null, [
+        {
+          type: "expense",
+          totalAmount: amount,
+          userShare: amount - half,
+          description: `Coffee with ${friendName}`,
+          category: "Food & Dining",
+          date: todayDate,
+          splits: [{ friendName, amount: half }],
+          needsClarification: false,
+          clarificationQuestion: null,
+        },
+      ]);
     }
 
     const friendAmtMatch = lower.match(/(?:owes|share|is)?\s*(\d+)/);
     if (friendAmtMatch && /(owes|share|part)/i.test(lower)) {
       const friendAmt = parseFloat(friendAmtMatch[1]);
-      return {
-        intent: "log_transaction",
-        queryType: null,
-        transactions: [
-          {
-            type: "expense",
-            totalAmount: amount,
-            userShare: Math.max(0, amount - friendAmt),
-            description: `Coffee with ${friendName}`,
-            category: "Food & Dining",
-            date: todayDate,
-            splits: [{ friendName, amount: friendAmt }],
-            needsClarification: false,
-            clarificationQuestion: null,
-          },
-        ],
-      };
+      return formatFallbackResponse("log_transaction", null, [
+        {
+          type: "expense",
+          totalAmount: amount,
+          userShare: Math.max(0, amount - friendAmt),
+          description: `Coffee with ${friendName}`,
+          category: "Food & Dining",
+          date: todayDate,
+          splits: [{ friendName, amount: friendAmt }],
+          needsClarification: false,
+          clarificationQuestion: null,
+        },
+      ]);
     }
 
     if (/(all mine|complete|full|my expense|my treat|just me|me)/i.test(lower)) {
-      return {
-        intent: "log_transaction",
-        queryType: null,
-        transactions: [
-          {
-            type: "expense",
-            totalAmount: amount,
-            userShare: amount,
-            description: `Coffee with ${friendName}`,
-            category: "Food & Dining",
-            date: todayDate,
-            splits: [],
-            needsClarification: false,
-            clarificationQuestion: null,
-          },
-        ],
-      };
-    }
-  }
-
-  // 1. Status query checks
-  if (/(\bbalance\b|\bnet worth\b|\bhow much.*(?:have|left|money)\b|\bcurrent balance\b)/i.test(lower)) {
-    return { intent: "status_query", queryType: "balance", transactions: null };
-  }
-
-  if (/(\brecent\b|\blast\s*\d*\s*(?:transaction|expense|log|spend)|\bhistory\b|\bwhat did i spend\b)/i.test(lower)) {
-    return { intent: "status_query", queryType: "last_transactions", transactions: null };
-  }
-
-  if (/(\bwho owes\b|\bdebt\b|\bdebts\b|\bwho do i owe\b|\bowed\b|\bfriend balance\b)/i.test(lower)) {
-    return { intent: "status_query", queryType: "friend_debts", transactions: null };
-  }
-
-  if (/(\bhow am i doing\b|\bfinancial summary\b|\bgive me an update\b|\boverview\b|\bstatus\b)/i.test(lower)) {
-    return { intent: "status_query", queryType: "general_summary", transactions: null };
-  }
-
-  // 2. Transaction logging check with multi-expense parsing
-  const isIncome = /(salary|received|credited|deposit|income|got|earned)/i.test(lower);
-  const isExpenseKeyword = /(spent|paid|bought|expense|dinner|lunch|coffee|groceries|shopping|flight|cab|uber|ola|swiggy|zomato)/i.test(lower);
-  const allAmounts = [...message.matchAll(/(?:rs\.?|inr|₹|\$)?\s*(\d+(?:\.\d{1,2})?)/gi)];
-
-  if (allAmounts.length > 0 || isExpenseKeyword || isIncome) {
-    const multiItems = extractMultiExpenseItems(message, categoryList, todayDate);
-
-    if (multiItems.length > 0) {
-      return {
-        intent: "log_transaction",
-        queryType: null,
-        transactions: multiItems,
-      };
-    }
-
-    // Single item fallback
-    const totalAmount = allAmounts[0] ? parseFloat(allAmounts[0][1]) : 0;
-    return {
-      intent: "log_transaction",
-      queryType: null,
-      transactions: [
+      return formatFallbackResponse("log_transaction", null, [
         {
-          type: isIncome ? "income" : "expense",
-          totalAmount,
-          userShare: totalAmount,
-          description: message.replace(/spent|paid|for|on|\d+|rupees|rs|₹/gi, "").trim() || "Expense",
-          category: isIncome ? "Salary/Income" : "Food & Dining",
+          type: "expense",
+          totalAmount: amount,
+          userShare: amount,
+          description: `Coffee with ${friendName}`,
+          category: "Food & Dining",
           date: todayDate,
           splits: [],
           needsClarification: false,
           clarificationQuestion: null,
         },
-      ],
-    };
+      ]);
+    }
+  }
+
+  // 1. Status query checks
+  if (/(\bbalance\b|\bnet worth\b|\bhow much.*(?:have|left|money)\b|\bcurrent balance\b)/i.test(lower)) {
+    return formatFallbackResponse("status_query", "balance", null);
+  }
+
+  if (/(\brecent\b|\blast\s*\d*\s*(?:transaction|expense|log|spend)|\bhistory\b|\bwhat did i spend\b)/i.test(lower)) {
+    return formatFallbackResponse("status_query", "last_transactions", null);
+  }
+
+  if (/(\bwho owes\b|\bdebt\b|\bdebts\b|\bwho do i owe\b|\bowed\b|\bfriend balance\b)/i.test(lower)) {
+    return formatFallbackResponse("status_query", "friend_debts", null);
+  }
+
+  if (/(\bhow am i doing\b|\bfinancial summary\b|\bgive me an update\b|\boverview\b|\bstatus\b)/i.test(lower)) {
+    return formatFallbackResponse("status_query", "general_summary", null);
+  }
+
+  // 2. Transaction logging check with multi-expense parsing
+  const isIncome = /(salary|received|credited|deposit|income|got|earned)/i.test(lower);
+  const isExpenseKeyword = /(spent|paid|bought|expense|dinner|lunch|coffee|groceries|shopping|flight|cab|uber|ola|swiggy|zomato)/i.test(lower);
+  const allAmounts = Array.from(message.matchAll(/(?:rs\.?|inr|₹|\$)?\s*(\d+(?:\.\d{1,2})?)/gi));
+
+  if (allAmounts.length > 0 || isExpenseKeyword || isIncome) {
+    const multiItems = extractMultiExpenseItems(message, categoryList, todayDate);
+
+    if (multiItems.length > 0) {
+      return formatFallbackResponse("log_transaction", null, multiItems);
+    }
+
+    // Single item fallback
+    const totalAmount = allAmounts[0] ? parseFloat(allAmounts[0][1]) : 0;
+    return formatFallbackResponse("log_transaction", null, [
+      {
+        type: isIncome ? "income" : "expense",
+        totalAmount,
+        userShare: totalAmount,
+        description: message.replace(/spent|paid|for|on|\d+|rupees|rs|₹/gi, "").trim() || "Expense",
+        category: isIncome ? "Salary/Income" : "Food & Dining",
+        date: todayDate,
+        splits: [],
+        needsClarification: false,
+        clarificationQuestion: null,
+      },
+    ]);
   }
 
   // 3. Off-topic
-  return {
-    intent: "off_topic",
-    queryType: null,
-    transactions: null,
-  };
+  return formatFallbackResponse("off_topic", null, null);
 }

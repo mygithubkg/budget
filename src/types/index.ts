@@ -53,7 +53,7 @@ export interface UserProfile {
   displayName: string | null;
   email: string | null;
   currency: string;
-  createdAt: Date;
+  createdAt: Timestamp | Date | string;
   defaultCategories?: string[];
 }
 
