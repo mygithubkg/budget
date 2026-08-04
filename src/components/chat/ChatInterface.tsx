@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCategories } from "@/hooks/useCategories";
 import { useFriends } from "@/hooks/useFriends";
@@ -14,6 +14,7 @@ import {
   StatusFriendDebtSummary,
 } from "@/types";
 import { MessageBubble } from "./MessageBubble";
+import { VoiceInputButton } from "./VoiceInputButton";
 import {
   Send,
   Loader2,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { OFF_TOPIC_RESPONSE, ChatApiResponse } from "@/lib/validations";
+import { useSpeechRecognition, DEFAULT_SPEECH_LANG } from "@/hooks/useSpeechRecognition";
 import { toast } from "sonner";
 
 const SUGGESTED_CHIPS = [
@@ -43,9 +45,23 @@ export function ChatInterface() {
   const [inputText, setInputText] = useState("");
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [voiceFeedback, setVoiceFeedback] = useState<string | null>(null);
+  const [srAnnouncement, setSrAnnouncement] = useState<string>("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const feedbackTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const showVoiceFeedback = useCallback((msg: string) => {
+    setVoiceFeedback(msg);
+    setSrAnnouncement(msg);
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current);
+    }
+    feedbackTimeoutRef.current = setTimeout(() => {
+      setVoiceFeedback(null);
+    }, 4500);
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -401,6 +417,39 @@ export function ChatInterface() {
     }
   };
 
+  // Web Speech API Voice Recognition
+  const {
+    isSupported: isSpeechSupported,
+    isListening,
+    transcript: voiceTranscript,
+    interimTranscript: voiceInterim,
+    start: startVoice,
+    stop: stopVoice,
+  } = useSpeechRecognition({
+    lang: DEFAULT_SPEECH_LANG,
+    onFinalTranscript: (finalText) => {
+      setSrAnnouncement(`Recorded: ${finalText}`);
+      handleSendMessage(finalText);
+    },
+    onError: (errMsg) => {
+      showVoiceFeedback(errMsg);
+    },
+  });
+
+  const handleToggleVoice = () => {
+    if (isListening) {
+      stopVoice();
+      setSrAnnouncement("Stopped listening.");
+    } else {
+      setVoiceFeedback(null);
+      setSrAnnouncement("Listening… speak now.");
+      startVoice();
+    }
+  };
+
+  // Live transcript display when listening
+  const liveSpeechText = voiceInterim || voiceTranscript || "";
+
   return (
     <div className="flex h-screen w-full flex-col bg-paper-bg">
       {/* Top Header */}
@@ -440,7 +489,7 @@ export function ChatInterface() {
                   Ledger Ready
                 </h3>
                 <p className="text-xs font-sans text-muted-text max-w-sm mx-auto">
-                  Type any natural language expense, income, split, or query to record or review your accounts.
+                  Type or speak any expense, income, split, or query to record or review your accounts.
                 </p>
               </div>
 
@@ -485,25 +534,67 @@ export function ChatInterface() {
       </div>
 
       {/* Input Bar pinned to bottom */}
-      <div className="border-t border-fiber-line bg-card-bg p-3 sm:p-4 shrink-0">
+      <div className="border-t border-fiber-line bg-card-bg p-3 sm:p-4 shrink-0 space-y-2">
+        {/* Inline Voice Feedback / Screen Reader Live Region */}
+        <div className="mx-auto max-w-[680px]">
+          <div className="sr-only" aria-live="polite" role="status">
+            {srAnnouncement}
+          </div>
+          {voiceFeedback && (
+            <div className="mb-1.5 flex items-center justify-between rounded-[4px] border border-rule-red/30 bg-rule-red/10 px-2.5 py-1 text-[11px] font-mono text-rule-red animate-in fade-in duration-150">
+              <span>{voiceFeedback}</span>
+              <button
+                type="button"
+                onClick={() => setVoiceFeedback(null)}
+                className="text-rule-red/70 hover:text-rule-red ml-2 font-bold"
+                aria-label="Dismiss feedback"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </div>
+
         <div className="mx-auto flex max-w-[680px] items-end gap-2">
           <div className="relative flex-1">
-            <textarea
-              ref={textareaRef}
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="e.g. Spent 500 on groceries, or 'What is my balance?'..."
-              className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-[6px] border border-fiber-line bg-paper-bg text-xs font-sans text-ink-text placeholder:text-muted-text/60 focus:border-stamp-indigo focus:outline-none resize-none"
-              rows={1}
-            />
+            {isListening ? (
+              <div className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-[6px] border border-rule-red/50 bg-rule-red/5 text-xs font-sans flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-rule-red animate-ping" />
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-rule-red shrink-0">
+                  Listening:
+                </span>
+                <span className="italic text-ink-text/80 truncate">
+                  {liveSpeechText || "Speak now..."}
+                </span>
+              </div>
+            ) : (
+              <textarea
+                ref={textareaRef}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="e.g. Spent 500 on groceries, or 'What is my balance?'..."
+                className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-[6px] border border-fiber-line bg-paper-bg text-xs font-sans text-ink-text placeholder:text-muted-text/60 focus:border-stamp-indigo focus:outline-none resize-none"
+                rows={1}
+              />
+            )}
           </div>
 
+          {/* Voice Input Mic Button (left of Send button) */}
+          <VoiceInputButton
+            isSupported={isSpeechSupported}
+            isListening={isListening}
+            onToggle={handleToggleVoice}
+            disabled={isAiLoading}
+          />
+
+          {/* Send Button */}
           <button
             onClick={() => handleSendMessage()}
-            disabled={!inputText.trim() || isAiLoading}
+            disabled={(!inputText.trim() && !isListening) || isAiLoading}
             className="flex h-11 w-11 items-center justify-center rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-[#EDE7D6] transition-colors disabled:opacity-40 shrink-0"
             title="Record Entry"
+            aria-label="Record Entry"
           >
             {isAiLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -512,7 +603,7 @@ export function ChatInterface() {
             )}
           </button>
         </div>
-        <p className="mx-auto max-w-[680px] text-center text-[10px] font-mono text-muted-text/70 pt-1.5">
+        <p className="mx-auto max-w-[680px] text-center text-[10px] font-mono text-muted-text/70 pt-0.5">
           Enter to record • Shift+Enter for new line
         </p>
       </div>

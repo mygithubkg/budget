@@ -94,9 +94,14 @@ const config: Config = {
           "70%": { transform: "scale(0.96) rotate(var(--stamp-deg, -4deg))", opacity: "1" },
           "100%": { transform: "scale(1.0) rotate(var(--stamp-deg, -4deg))", opacity: "1" },
         },
+        "mic-pulse": {
+          "0%": { transform: "scale(1.0)", opacity: "0.75" },
+          "100%": { transform: "scale(1.35)", opacity: "0" },
+        },
       },
       animation: {
         stamp: "stamp-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "mic-pulse": "mic-pulse 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite",
       },
     },
   },
