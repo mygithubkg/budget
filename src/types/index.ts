@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export type TransactionType = "expense" | "income";
-export type TransactionSource = "chat" | "manual";
+export type TransactionSource = "chat" | "manual" | "telegram";
 export type LedgerEntryType = "owe" | "borrow" | "settle";
 export type SplitDirection = "they_owe_me" | "i_owe_them";
 
@@ -58,6 +58,33 @@ export interface UserProfile {
   currency: string;
   createdAt: Timestamp | Date | string;
   defaultCategories?: string[];
+  telegramChatId?: string | number | null;
+}
+
+export interface LinkCodeDoc {
+  code: string;
+  uid: string;
+  createdAt: Timestamp | Date | string | number;
+  expiresAt: Timestamp | Date | string | number; // 10 minutes TTL
+  used: boolean;
+}
+
+export interface TelegramLinkDoc {
+  uid: string;
+  chatId: number | string;
+  username?: string | null;
+  firstName?: string | null;
+  linkedAt: Timestamp | Date | string | number;
+}
+
+export interface TelegramSessionDoc {
+  id?: string;
+  uid: string;
+  chatId: number | string;
+  transactions: ParsedExpense[];
+  createdAt: Timestamp | Date | string | number;
+  expiresAt: Timestamp | Date | string | number;
+  status: "pending" | "confirmed" | "cancelled";
 }
 
 export interface ParsedSplit {
@@ -138,4 +165,14 @@ export interface GroqModelStatus {
   rateLimitedUntil: Timestamp | Date | null;
   lastUsed: Timestamp | Date;
   lastError?: string | null;
+}
+
+export interface ChatProcessResult {
+  intent: ChatIntent;
+  transactions: ParsedExpense[] | null;
+  queryType: StatusQueryType | null;
+  statusData?: StatusQueryResult | null;
+  replyText: string;
+  modelUsed?: string;
+  rateLimitExhausted?: boolean;
 }

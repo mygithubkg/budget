@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PWAInstallButton } from "@/components/pwa/InstallPrompt";
+import { TelegramConnectCard } from "@/components/telegram/TelegramConnectCard";
 
 export default function SettingsPage() {
   const { userProfile, updateCurrency, logout } = useAuth();
@@ -197,6 +198,9 @@ export default function SettingsPage() {
             <PWAInstallButton />
           </div>
         </div>
+
+        {/* Telegram Bot Register Card */}
+        <TelegramConnectCard />
 
         {/* Sign Out Card */}
         <div className="rounded-[8px] border border-rule-red/40 bg-card-bg p-5 shadow-sm space-y-3">

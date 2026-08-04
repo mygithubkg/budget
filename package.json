@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "bot:dev": "node scripts/bot-dev.mjs"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
