@@ -11,8 +11,10 @@ import {
   ShieldCheck,
   LogOut,
   Loader2,
+  Smartphone,
 } from "lucide-react";
 import { toast } from "sonner";
+import { PWAInstallButton } from "@/components/pwa/InstallPrompt";
 
 export default function SettingsPage() {
   const { userProfile, updateCurrency, logout } = useAuth();
@@ -175,6 +177,24 @@ export default function SettingsPage() {
               <div className="h-5 w-5 rounded-[2px] bg-gradient-to-r from-[#F6F3E7] to-[#101216] border border-fiber-line mb-2" />
               <span>System</span>
             </button>
+          </div>
+        </div>
+
+        {/* Progressive Web App (PWA) Card */}
+        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
+            <Smartphone className="h-4 w-4 text-stamp-indigo" />
+            <h2 className="font-display text-base font-bold text-ink-text">
+              Application & Offline Register
+            </h2>
+          </div>
+
+          <p className="text-xs font-sans text-muted-text">
+            Install FinChat on your device for standalone window access, instant launching, and offline transaction buffering.
+          </p>
+
+          <div className="pt-1 flex items-center gap-3">
+            <PWAInstallButton />
           </div>
         </div>
 
