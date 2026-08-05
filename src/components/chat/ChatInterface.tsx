@@ -469,8 +469,9 @@ export function ChatInterface() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[3px] bg-paper-bg">
-            Groq Llama 3.3 70B
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[3px] bg-paper-bg">
+            <span className="h-1.5 w-1.5 rounded-full bg-stamp-emerald animate-pulse" />
+            AI Assistant
           </span>
         </div>
       </header>

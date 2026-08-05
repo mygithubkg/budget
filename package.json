@@ -11,6 +11,8 @@
     "bot:dev": "node scripts/bot-dev.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0",
+    "@google/generative-ai": "^0.24.1",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",

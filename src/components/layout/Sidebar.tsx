@@ -32,15 +32,15 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
 
   const navItems = [
     {
-      href: "/chat",
-      label: "AI Register",
-      icon: MessageSquare,
+      href: "/dashboard",
+      label: "Ledger",
+      icon: LayoutDashboard,
       exact: true,
     },
     {
-      href: "/dashboard",
-      label: "Ledger Overview",
-      icon: LayoutDashboard,
+      href: "/chat",
+      label: "AI Register",
+      icon: MessageSquare,
       exact: true,
     },
     {
@@ -81,7 +81,7 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
       <div className="space-y-6">
         {/* Brand Header */}
         <Link
-          href="/chat"
+          href="/dashboard"
           className="flex items-center gap-2.5 px-2 py-1.5 group"
           title="FinChat Ledger"
         >

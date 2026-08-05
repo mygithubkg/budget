@@ -1,5 +1,5 @@
 import { adminDb } from "@/lib/firebase/admin";
-import { callGroqWithFallback } from "@/lib/groqFallback";
+import { getAIResponse, BYOKError } from "@/lib/ai/aiProvider";
 import {
   chatApiResponseSchema,
   ChatApiResponse,
@@ -176,54 +176,30 @@ Output:
   "queryType": null
 }`;
 
-    const groqMessages: { role: "system" | "user" | "assistant"; content: string }[] = [
-      { role: "system", content: systemPrompt },
-    ];
-
-    if (conversationHistory.length > 0) {
-      conversationHistory.slice(-4).forEach((h) => {
-        groqMessages.push({
-          role: h.role === "assistant" ? "assistant" : "user",
-          content: h.content,
-        });
-      });
-    }
-
-    groqMessages.push({ role: "user", content: message });
-
-    let rawResponse = "";
-
     try {
-      const fallbackResult = await callGroqWithFallback({
-        messages: groqMessages,
-        temperature: 0.1,
-        responseFormat: { type: "json_object" },
-      });
-      rawResponse = fallbackResult.content;
-      modelUsed = fallbackResult.modelUsed;
-
-      const cleanJson = rawResponse
-        .replace(/^```json\s*/i, "")
-        .replace(/^```\s*/i, "")
-        .replace(/\s*```$/, "")
-        .trim();
-      const parsedJson = JSON.parse(cleanJson);
-      const validated = chatApiResponseSchema.safeParse({ ...parsedJson, modelUsed });
-
-      if (validated.success) {
-        parsedApiResult = validated.data;
-      } else {
-        parsedApiResult = heuristicFallbackIntentRouter(
-          message,
-          categoryList,
-          friendList,
-          todayDate,
-          conversationHistory
-        );
+      const aiResponse = await getAIResponse(
+        uid,
+        systemPrompt,
+        message,
+        conversationHistory,
+        { categoryList, friendList, todayDate }
+      );
+      parsedApiResult = aiResponse.result;
+      modelUsed = aiResponse.modelUsed;
+    } catch (err: any) {
+      if (err instanceof BYOKError || err?.name === "BYOKError") {
+        return {
+          intent: "off_topic",
+          transactions: null,
+          queryType: null,
+          statusData: null,
+          replyText: err.userFriendlyMessage || err.message,
+          modelUsed: `byok:${err.provider || "error"}`,
+        };
       }
-    } catch (groqErr: any) {
-      console.error("Groq processing error, falling back to heuristic router:", groqErr);
-      if (String(groqErr?.message).includes("ALL_MODELS_RATE_LIMITED")) {
+
+      console.error("Default AI processing error, falling back to heuristic router:", err);
+      if (String(err?.message).includes("ALL_MODELS_RATE_LIMITED")) {
         rateLimitExhausted = true;
       }
       parsedApiResult = heuristicFallbackIntentRouter(

@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "FinChat",
     description:
       "Log expenses and income by chatting — split costs with friends and track your balance.",
-    start_url: "/chat",
+    start_url: "/dashboard",
     display: "standalone",
     orientation: "portrait",
     background_color: "#EDF1E6", // paper-bg from the Ledger design system

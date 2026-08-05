@@ -9,6 +9,8 @@ import {
   signOut as fbSignOut,
   onAuthStateChanged,
   updateProfile,
+  sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   doc,
@@ -33,6 +35,9 @@ interface AuthContextType {
   updateCurrency: (currency: string) => Promise<void>;
   refreshProfile: () => Promise<void>;
   getIdToken: () => Promise<string | null>;
+  sendVerificationEmail: () => Promise<void>;
+  sendPasswordReset: (email: string) => Promise<void>;
+  checkEmailVerified: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -154,7 +159,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (name && res.user) {
       await updateProfile(res.user, { displayName: name });
     }
+    try {
+      await sendEmailVerification(res.user);
+    } catch (verErr) {
+      console.warn("Could not automatically send verification email:", verErr);
+    }
     await initUserDocument(res.user, name);
+  };
+
+  const sendVerificationEmail = async () => {
+    if (!auth.currentUser) throw new Error("No active user session");
+    await sendEmailVerification(auth.currentUser);
+  };
+
+  const sendPasswordReset = async (email: string) => {
+    if (!email) throw new Error("Email is required");
+    await sendPasswordResetEmail(auth, email);
+  };
+
+  const checkEmailVerified = async (): Promise<boolean> => {
+    if (!auth.currentUser) return false;
+    await auth.currentUser.reload();
+    setUser(auth.currentUser);
+    return auth.currentUser.emailVerified;
   };
 
   const signInWithGoogle = async () => {
@@ -198,6 +225,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         updateCurrency,
         refreshProfile,
         getIdToken,
+        sendVerificationEmail,
+        sendPasswordReset,
+        checkEmailVerified,
       }}
     >
       {children}

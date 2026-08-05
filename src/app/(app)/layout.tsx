@@ -22,8 +22,15 @@ export default function AppLayout({
   const isChatPage = pathname === "/chat" || pathname?.startsWith("/chat");
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.replace("/login");
+    if (!loading) {
+      if (!user) {
+        router.replace("/login");
+      } else if (
+        !user.emailVerified &&
+        user.providerData.some((p) => p.providerId === "password")
+      ) {
+        router.replace("/verify-email");
+      }
     }
   }, [user, loading, router]);
 

@@ -18,15 +18,15 @@ export function BottomNav() {
 
   const navItems = [
     {
-      href: "/chat",
-      label: "Register",
-      icon: MessageSquare,
-      exact: true,
-    },
-    {
       href: "/dashboard",
       label: "Ledger",
       icon: LayoutDashboard,
+      exact: true,
+    },
+    {
+      href: "/chat",
+      label: "AI Register",
+      icon: MessageSquare,
       exact: true,
     },
     {
