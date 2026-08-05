@@ -10,6 +10,7 @@ import {
   PieChart,
   Users,
   Settings,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -43,6 +44,11 @@ export function BottomNav() {
       href: "/dashboard/friends",
       label: "Debts",
       icon: Users,
+    },
+    {
+      href: "/analysis",
+      label: "Analysis",
+      icon: Sparkles,
     },
     {
       href: "/settings",

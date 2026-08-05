@@ -4,6 +4,7 @@ import React from "react";
 import { ChatMessage, ParsedExpense } from "@/types";
 import { ConfirmationCard } from "./ConfirmationCard";
 import { StatusQueryCard } from "./StatusQueryCard";
+import { RecapCard } from "./RecapCard";
 import { MultiLogStamps, LogStamp } from "./LogStamp";
 import {
   AlertCircle,
@@ -65,8 +66,14 @@ export function MessageBubble({
   return (
     <div className="flex w-full justify-start my-3">
       <div className="flex w-full max-w-full flex-col items-start space-y-1.5">
-        {/* Case 1: Pending transaction(s) confirmation card */}
-        {hasTransactionsToConfirm && message.status === "pending_confirmation" ? (
+        {/* Case 0: Proactive Weekly / Monthly Recap */}
+        {message.messageType === "recap" ? (
+          <RecapCard
+            content={message.content}
+            recapData={message.recapData}
+            currency={currency}
+          />
+        ) : hasTransactionsToConfirm && message.status === "pending_confirmation" ? (
           <ConfirmationCard
             transactions={message.parsedTransactions || undefined}
             parsedData={message.parsedData || undefined}

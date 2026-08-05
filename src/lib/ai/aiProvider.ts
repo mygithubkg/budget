@@ -169,19 +169,18 @@ async function callClaudeBYOK(
   return "";
 }
 
+export { cleanAndParseJSON };
+
 /**
- * High-level AI response router.
- * Inspects users/{uid}/private/aiConfig to determine whether to use BYOK
- * or FinChat's default Groq fallback chain.
+ * Universal raw completion router supporting BYOK and FinChat default fallback.
  */
-export async function getAIResponse(
+export async function getRawAICompletion(
   uid: string,
   systemPrompt: string,
   userMessage: string,
-  conversationHistory: { role: string; content: string }[] = [],
-  options?: { categoryList?: string[]; friendList?: string[]; todayDate?: string }
+  conversationHistory: { role: string; content: string }[] = []
 ): Promise<{
-  result: ChatApiResponse;
+  content: string;
   modelUsed: string;
   isBYOK: boolean;
 }> {
@@ -224,16 +223,12 @@ export async function getAIResponse(
         throw new Error(`Unsupported AI provider: ${provider}`);
       }
 
-      const parsedJSON = cleanAndParseJSON(rawResponse);
-      const validated = chatApiResponseSchema.parse(parsedJSON);
-
       return {
-        result: validated,
+        content: rawResponse,
         modelUsed: `${provider}:${model}`,
         isBYOK: true,
       };
     } catch (providerErr: any) {
-      // Do NOT silently fall back to FinChat's default key.
       console.error(`BYOK ${provider} error for user ${uid}:`, providerErr);
       throw new BYOKError(provider, providerErr.message || "Request failed");
     }
@@ -260,12 +255,34 @@ export async function getAIResponse(
     responseFormat: { type: "json_object" },
   });
 
-  const parsedJSON = cleanAndParseJSON(fallbackResult.content);
+  return {
+    content: fallbackResult.content,
+    modelUsed: fallbackResult.modelUsed,
+    isBYOK: false,
+  };
+}
+
+/**
+ * High-level AI response router for expense chat processing.
+ */
+export async function getAIResponse(
+  uid: string,
+  systemPrompt: string,
+  userMessage: string,
+  conversationHistory: { role: string; content: string }[] = [],
+  options?: { categoryList?: string[]; friendList?: string[]; todayDate?: string }
+): Promise<{
+  result: ChatApiResponse;
+  modelUsed: string;
+  isBYOK: boolean;
+}> {
+  const completion = await getRawAICompletion(uid, systemPrompt, userMessage, conversationHistory);
+  const parsedJSON = cleanAndParseJSON(completion.content);
   const validated = chatApiResponseSchema.parse(parsedJSON);
 
   return {
     result: validated,
-    modelUsed: fallbackResult.modelUsed,
-    isBYOK: false,
+    modelUsed: completion.modelUsed,
+    isBYOK: completion.isBYOK,
   };
 }

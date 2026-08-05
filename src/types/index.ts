@@ -158,6 +158,24 @@ export interface ChatMessage {
   groupId?: string;
   modelUsed?: string;
   error?: string;
+  messageType?: "standard" | "recap";
+  recapData?: {
+    period: "weekly" | "monthly";
+    projection?: {
+      narrative: string;
+      projectedTotal: number;
+      comparedToAverage: string;
+    };
+    patterns?: Array<{ title: string; narrative: string }>;
+    opportunities?: Array<{ title: string; narrative: string; category: string | null }>;
+    stats?: {
+      totalExpense: number;
+      totalIncome: number;
+      savingsRate: number;
+      projectedMonthEndExpense: number;
+      projectedDiffPercentage: number;
+    };
+  };
 }
 
 export interface GroqModelStatus {

@@ -15,6 +15,7 @@ import {
   Sun,
   Plus,
   BookOpen,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
@@ -57,6 +58,11 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
       href: "/dashboard/friends",
       label: "Friend Debts",
       icon: Users,
+    },
+    {
+      href: "/analysis",
+      label: "AI Analysis",
+      icon: Sparkles,
     },
     {
       href: "/settings",
