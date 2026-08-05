@@ -269,27 +269,24 @@ export function TrendsView() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <StatsCard
           title="Period Income"
-          amount={totalIncome}
-          currency={currency}
+          value={`+${formatCurrency(totalIncome, currency)}`}
           icon={ArrowUpRight}
-          trendLabel="Total Received"
-          accent="emerald"
+          subtitle="Total Received"
+          type="income"
         />
         <StatsCard
           title="Period Outflow"
-          amount={totalExpense}
-          currency={currency}
+          value={`−${formatCurrency(totalExpense, currency)}`}
           icon={ArrowDownRight}
-          trendLabel="Total Expenses"
-          accent="red"
+          subtitle="Total Expenses"
+          type="expense"
         />
         <StatsCard
           title="Net Cashflow"
-          amount={netSavings}
-          currency={currency}
+          value={`${netSavings >= 0 ? "+" : "−"}${formatCurrency(Math.abs(netSavings), currency)}`}
           icon={Flame}
-          trendLabel={netSavings >= 0 ? "Surplus Saved" : "Deficit Incurred"}
-          accent={netSavings >= 0 ? "indigo" : "red"}
+          subtitle={netSavings >= 0 ? "Surplus Saved" : "Deficit Incurred"}
+          type={netSavings >= 0 ? "income" : "expense"}
         />
       </div>
 

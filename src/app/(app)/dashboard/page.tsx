@@ -191,47 +191,43 @@ export default function DashboardPage() {
             <div className="snap-start min-w-[240px] sm:min-w-0">
               <StatsCard
                 title="This Month Income"
-                amount={thisMonthIncome}
-                currency={currency}
+                value={`+${formatCurrency(thisMonthIncome, currency)}`}
+                subtitle={format(now, "MMMM yyyy")}
                 icon={ArrowUpRight}
-                trendLabel={format(now, "MMMM yyyy")}
-                accent="emerald"
+                type="income"
               />
             </div>
             <div className="snap-start min-w-[240px] sm:min-w-0">
               <StatsCard
                 title="This Month Expense"
-                amount={thisMonthExpense}
-                currency={currency}
+                value={`−${formatCurrency(thisMonthExpense, currency)}`}
+                subtitle="Personal net spend"
                 icon={ArrowDownRight}
-                trendLabel="Personal net spend"
-                accent="red"
+                type="expense"
               />
             </div>
             <div className="snap-start min-w-[240px] sm:min-w-0">
               <StatsCard
                 title="Monthly Savings Rate"
-                amount={savingsRate}
-                currency=""
+                value={`${savingsRate}%`}
+                subtitle={`${savingsRate}% of income saved`}
                 icon={PiggyBank}
-                trendLabel={`${savingsRate}% of income saved`}
-                accent="indigo"
+                type="neutral"
               />
             </div>
             <div className="snap-start min-w-[240px] sm:min-w-0">
               <StatsCard
                 title="Friend Debts Net"
-                amount={friendsNet}
-                currency={currency}
-                icon={Users}
-                trendLabel={
+                value={`${friendsNet >= 0 ? "+" : "−"}${formatCurrency(Math.abs(friendsNet), currency)}`}
+                subtitle={
                   friendsNet > 0
                     ? "You are owed"
                     : friendsNet < 0
                     ? "You owe friends"
                     : "All debts settled"
                 }
-                accent={friendsNet >= 0 ? "emerald" : "red"}
+                icon={Users}
+                type={friendsNet >= 0 ? "income" : "expense"}
               />
             </div>
           </div>
@@ -300,7 +296,7 @@ export default function DashboardPage() {
                           </td>
                           <td className="py-3 px-4 font-bold text-ink-text">
                             {t.description}
-                            {t.isSplit && (
+                            {t.splits && t.splits.length > 0 && (
                               <span className="ml-2 text-[10px] font-normal text-stamp-indigo border border-stamp-indigo/30 px-1.5 py-0.2 rounded-[2px] bg-stamp-indigo/5">
                                 Split
                               </span>

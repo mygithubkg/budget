@@ -324,33 +324,30 @@ export default function GroupDetailsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <StatsCard
           title="Total Group Spend"
-          amount={totalGroupSpend}
-          currency={currency}
+          value={formatCurrency(totalGroupSpend, currency)}
           icon={Receipt}
-          trendLabel={`${transactions.length} entries recorded`}
-          accent="indigo"
+          subtitle={`${transactions.length} entries recorded`}
+          type="expense"
         />
         <StatsCard
           title="Your Net Position"
-          amount={Math.abs(currentUserBalance)}
-          currency={currency}
+          value={`${currentUserBalance >= 0 ? "+" : "−"}${formatCurrency(Math.abs(currentUserBalance), currency)}`}
           icon={currentUserBalance >= 0 ? ArrowUpRight : ArrowDownRight}
-          trendLabel={
+          subtitle={
             currentUserBalance > 0
               ? "You are owed by group"
               : currentUserBalance < 0
               ? "You owe the group"
               : "You are settled up"
           }
-          accent={currentUserBalance >= 0 ? "emerald" : "red"}
+          type={currentUserBalance >= 0 ? "income" : "expense"}
         />
         <StatsCard
           title="Pending Settlements"
-          amount={simplifiedDebts.length}
-          currency=""
+          value={`${simplifiedDebts.length}`}
           icon={HandCoins}
-          trendLabel="Simplified payments needed"
-          accent={simplifiedDebts.length === 0 ? "emerald" : "gold"}
+          subtitle="Simplified payments needed"
+          type="neutral"
         />
       </div>
 
@@ -428,7 +425,7 @@ export default function GroupDetailsPage() {
               title="No Group Expenses Yet"
               description="Record your first shared expense manually or use the AI Logger tab to dictate entries."
               actionText="Add First Expense"
-              onAction={() => setAddExpenseModalOpen(true)}
+              onActionClick={() => setAddExpenseModalOpen(true)}
             />
           ) : (
             <div className="overflow-x-auto">

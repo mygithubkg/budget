@@ -126,7 +126,7 @@ export function GroupsListView() {
           title="No Group Ledgers Yet"
           description="Create a shared group ledger for your upcoming trip, apartment, or dinner party to automatically split expenses and simplify debts."
           actionText="Create Your First Group"
-          onAction={() => setCreateModalOpen(true)}
+          onActionClick={() => setCreateModalOpen(true)}
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -90,11 +90,7 @@ export function CategoriesView() {
     e.preventDefault();
     if (!newCatName.trim()) return;
     try {
-      await addCategoryMutation.mutateAsync({
-        name: newCatName.trim(),
-        color: CATEGORICAL_PALETTE[categories.length % CATEGORICAL_PALETTE.length],
-        icon: "Tag",
-      });
+      await addCategoryMutation.mutateAsync(newCatName.trim());
       setNewCatName("");
       toast.success("Category created");
     } catch (err) {
