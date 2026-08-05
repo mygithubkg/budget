@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Transaction, FriendSplit, SplitDirection } from "@/types";
+import { Transaction, FriendSplit, SplitDirection, TransactionSource } from "@/types";
 
 export interface TransactionFilters {
   startDate?: Date;
@@ -89,7 +89,7 @@ export interface AddTransactionInput {
   category: string;
   date: Date | string;
   rawInput: string;
-  source: "chat" | "manual";
+  source: TransactionSource;
   splits?: { friendId?: string; friendName: string; amount: number; direction?: SplitDirection }[];
 }
 

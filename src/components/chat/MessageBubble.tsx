@@ -52,6 +52,15 @@ export function MessageBubble({
               <span>Entry Memo</span>
               <span>{formattedTime}</span>
             </div>
+            {message.imageUrl && (
+              <div className="mb-2 overflow-hidden rounded-[4px] border border-fiber-line max-w-[200px]">
+                <img
+                  src={message.imageUrl}
+                  alt="Receipt thumbnail"
+                  className="max-h-40 w-full object-cover rounded-[3px]"
+                />
+              </div>
+            )}
             <p className="text-ink-text font-normal">{message.content}</p>
           </div>
         </div>

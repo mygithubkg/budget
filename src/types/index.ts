@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export type TransactionType = "expense" | "income";
-export type TransactionSource = "chat" | "manual" | "telegram";
+export type TransactionSource = "chat" | "manual" | "telegram" | "receipt";
 export type LedgerEntryType = "owe" | "borrow" | "settle";
 export type SplitDirection = "they_owe_me" | "i_owe_them";
 
@@ -147,6 +147,7 @@ export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
+  imageUrl?: string;
   intent?: ChatIntent | null;
   createdAt: Timestamp | Date | string | number;
   expireAt: Timestamp | Date | string | number; // createdAt + 2 hours

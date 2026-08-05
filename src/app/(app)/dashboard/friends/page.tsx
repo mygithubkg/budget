@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFriends, useFriendLedger, useSettleUp } from "@/hooks/useFriends";
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { EmptyState } from "@/components/dashboard/EmptyState";
+import { GroupsListView } from "@/components/groups/GroupsListView";
 import {
   Users,
   UserCheck,
@@ -18,6 +20,7 @@ import {
   Loader2,
   ChevronRight,
   X,
+  Compass,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { format } from "date-fns";
@@ -25,6 +28,10 @@ import { Friend } from "@/types";
 import { toast } from "sonner";
 
 export default function FriendsDebtPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || "direct";
+
   const { userProfile } = useAuth();
   const { data: friends = [], isLoading } = useFriends();
   const settleUpMutation = useSettleUp();
@@ -79,65 +86,104 @@ export default function FriendsDebtPage() {
     }
   };
 
+  const handleTabChange = (tabKey: string) => {
+    router.replace(`/dashboard/friends?tab=${tabKey}`, { scroll: false });
+  };
+
   return (
     <div className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
-      {/* Header */}
-      <div className="border-b border-fiber-line pb-4">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
-          Friends & Debt Register
-        </h1>
-        <p className="text-xs font-sans text-muted-text pt-0.5">
-          Track who owes you and who you owe from split expenses and shared entries.
-        </p>
-      </div>
+      {/* Top Segmented Sub-Tab Bar */}
+      <div className="flex items-center justify-between border-b border-fiber-line pb-3">
+        <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <button
+            type="button"
+            onClick={() => handleTabChange("direct")}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+              activeTab === "direct"
+                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                : "text-muted-text hover:text-ink-text"
+            }`}
+          >
+            <Users className="h-3.5 w-3.5" />
+            <span>1:1 Friends</span>
+          </button>
 
-      {/* 3 Top Summary Metric Cards */}
-      <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 sm:pb-0 sm:grid sm:grid-cols-3">
-        <div className="snap-start min-w-[220px] sm:min-w-0">
-          <StatsCard
-            title="Friends Owe You"
-            value={`+${formatCurrency(totalOwedToYou, currency)}`}
-            subtitle={`${friends.filter((f) => f.balance > 0).length} pending credit`}
-            icon={ArrowUpRight}
-            type="income"
-          />
-        </div>
-        <div className="snap-start min-w-[220px] sm:min-w-0">
-          <StatsCard
-            title="You Owe Friends"
-            value={`−${formatCurrency(totalYouOwe, currency)}`}
-            subtitle={`${friends.filter((f) => f.balance < 0).length} pending debit`}
-            icon={ArrowDownRight}
-            type="expense"
-          />
-        </div>
-        <div className="snap-start min-w-[220px] sm:min-w-0">
-          <StatsCard
-            title="Net Debt Position"
-            value={`${netBalance >= 0 ? "+" : "−"}${formatCurrency(Math.abs(netBalance), currency)}`}
-            subtitle={netBalance >= 0 ? "Overall credit" : "Overall debit"}
-            icon={HandCoins}
-            type={netBalance >= 0 ? "gold" : "expense"}
-          />
+          <button
+            type="button"
+            onClick={() => handleTabChange("groups")}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+              activeTab === "groups"
+                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                : "text-muted-text hover:text-ink-text"
+            }`}
+          >
+            <Compass className="h-3.5 w-3.5" />
+            <span>Trip Groups</span>
+          </button>
         </div>
       </div>
 
-      {/* Friends Ledger List */}
-      <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
-        <div className="flex items-center justify-between border-b border-fiber-line pb-3">
-          <div>
-            <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2">
-              <Users className="h-4 w-4 text-stamp-indigo" />
-              <span>Friend Ledgers</span>
-            </h2>
-            <p className="text-xs font-sans text-muted-text">
-              Select a friend to review itemized history or balance their account.
+      {activeTab === "groups" ? (
+        <GroupsListView />
+      ) : (
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="border-b border-fiber-line pb-4">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
+              Friends & Debt Register
+            </h1>
+            <p className="text-xs font-sans text-muted-text pt-0.5">
+              Track who owes you and who you owe from split expenses and shared entries.
             </p>
           </div>
-          <span className="font-mono text-[10px] uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[3px]">
-            {friends.length} friend{friends.length === 1 ? "" : "s"}
-          </span>
-        </div>
+
+          {/* 3 Top Summary Metric Cards */}
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 sm:pb-0 sm:grid sm:grid-cols-3">
+            <div className="snap-start min-w-[220px] sm:min-w-0">
+              <StatsCard
+                title="Friends Owe You"
+                value={`+${formatCurrency(totalOwedToYou, currency)}`}
+                subtitle={`${friends.filter((f) => f.balance > 0).length} pending credit`}
+                icon={ArrowUpRight}
+                type="income"
+              />
+            </div>
+            <div className="snap-start min-w-[220px] sm:min-w-0">
+              <StatsCard
+                title="You Owe Friends"
+                value={`−${formatCurrency(totalYouOwe, currency)}`}
+                subtitle={`${friends.filter((f) => f.balance < 0).length} pending debit`}
+                icon={ArrowDownRight}
+                type="expense"
+              />
+            </div>
+            <div className="snap-start min-w-[220px] sm:min-w-0">
+              <StatsCard
+                title="Net Debt Position"
+                value={`${netBalance >= 0 ? "+" : "−"}${formatCurrency(Math.abs(netBalance), currency)}`}
+                subtitle={netBalance >= 0 ? "Overall credit" : "Overall debit"}
+                icon={HandCoins}
+                type={netBalance >= 0 ? "gold" : "expense"}
+              />
+            </div>
+          </div>
+
+          {/* Friends Ledger List */}
+          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="flex items-center justify-between border-b border-fiber-line pb-3">
+              <div>
+                <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2">
+                  <Users className="h-4 w-4 text-stamp-indigo" />
+                  <span>Friend Ledgers</span>
+                </h2>
+                <p className="text-xs font-sans text-muted-text">
+                  Select a friend to review itemized history or balance their account.
+                </p>
+              </div>
+              <span className="font-mono text-[10px] uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[3px]">
+                {friends.length} friend{friends.length === 1 ? "" : "s"}
+              </span>
+            </div>
 
         {isLoading ? (
           <div className="space-y-2">
@@ -308,6 +354,8 @@ export default function FriendsDebtPage() {
           </div>
         </div>
       )}
+        </div>
+      )}
     </div>
   );
 }
@@ -325,7 +373,7 @@ function FriendLedgerModal({
   currency: string;
   onClose: () => void;
   onSettle: () => void;
-  }) {
+}) {
   const { data: ledger = [], isLoading } = useFriendLedger(friend.id);
 
   return (

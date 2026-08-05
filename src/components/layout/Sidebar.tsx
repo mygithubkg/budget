@@ -45,24 +45,15 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
       exact: true,
     },
     {
-      href: "/dashboard/trends",
-      label: "Trends & Charts",
-      icon: TrendingUp,
-    },
-    {
-      href: "/dashboard/categories",
-      label: "Categories",
-      icon: PieChart,
+      href: "/analysis",
+      label: "Analysis",
+      icon: Sparkles,
+      exact: true,
     },
     {
       href: "/dashboard/friends",
-      label: "Friend Debts",
+      label: "Friends",
       icon: Users,
-    },
-    {
-      href: "/analysis",
-      label: "AI Analysis",
-      icon: Sparkles,
     },
     {
       href: "/settings",

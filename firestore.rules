@@ -14,5 +14,24 @@ service cloud.firestore {
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
     }
+
+    // Top-level group ledgers
+    match /groups/{groupId} {
+      allow read, write: if request.auth != null && (
+        resource == null ||
+        request.auth.uid in resource.data.memberUids ||
+        request.auth.uid == request.resource.data.createdBy
+      );
+
+      match /{document=**} {
+        allow read, write: if request.auth != null;
+      }
+    }
+
+    // Invite code lookups
+    match /group_invites/{code} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
   }
 }

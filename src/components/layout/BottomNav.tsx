@@ -31,24 +31,15 @@ export function BottomNav() {
       exact: true,
     },
     {
-      href: "/dashboard/trends",
-      label: "Trends",
-      icon: TrendingUp,
-    },
-    {
-      href: "/dashboard/categories",
-      label: "Categories",
-      icon: PieChart,
-    },
-    {
-      href: "/dashboard/friends",
-      label: "Debts",
-      icon: Users,
-    },
-    {
       href: "/analysis",
       label: "Analysis",
       icon: Sparkles,
+      exact: true,
+    },
+    {
+      href: "/dashboard/friends",
+      label: "Friends",
+      icon: Users,
     },
     {
       href: "/settings",

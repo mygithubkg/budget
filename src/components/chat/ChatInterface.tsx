@@ -19,10 +19,12 @@ import {
   Send,
   Loader2,
   BookOpen,
+  Camera,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { OFF_TOPIC_RESPONSE, ChatApiResponse } from "@/lib/validations";
 import { useSpeechRecognition, DEFAULT_SPEECH_LANG } from "@/hooks/useSpeechRecognition";
+import { compressReceiptImage } from "@/lib/image-compress";
 import { toast } from "sonner";
 
 const SUGGESTED_CHIPS = [
@@ -50,6 +52,7 @@ export function ChatInterface() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const receiptInputRef = useRef<HTMLInputElement>(null);
   const feedbackTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const showVoiceFeedback = useCallback((msg: string) => {
@@ -309,6 +312,86 @@ export function ChatInterface() {
   };
 
   /**
+   * Handle Receipt Photo Capture and Scanning
+   */
+  const handleReceiptCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset file input so same file can be chosen again if needed
+    e.target.value = "";
+
+    try {
+      setIsAiLoading(true);
+      toast.info("Compressing receipt image...");
+      const compressedDataUrl = await compressReceiptImage(file, 1600, 0.8);
+
+      // Add user message with thumbnail
+      await addMessage({
+        role: "user",
+        content: "Receipt photo scanned",
+        imageUrl: compressedDataUrl,
+      });
+
+      const token = await getIdToken();
+      if (!token) throw new Error("Authentication required");
+
+      const response = await fetch("/api/chat/receipt", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: compressedDataUrl,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to parse receipt");
+      }
+
+      const txList: ParsedExpense[] = data.transactions || [];
+
+      if (txList.length === 0) {
+        await addMessage({
+          role: "assistant",
+          content: "No clear expense items could be extracted from this photo. Please try a clearer picture or enter details manually.",
+          status: "error",
+        });
+        return;
+      }
+
+      const headerText = data.merchant
+        ? `Extracted ${txList.length} line items from ${data.merchant}:`
+        : `Extracted ${txList.length} line items from receipt:`;
+
+      await addMessage({
+        role: "assistant",
+        content: headerText,
+        intent: "log_transaction",
+        status: "pending_confirmation",
+        parsedTransactions: txList,
+        parsedData: txList[0],
+        modelUsed: data.modelUsed || undefined,
+      });
+    } catch (err: any) {
+      console.error("Receipt capture error:", err);
+      toast.error(err.message || "Failed to process receipt");
+      await addMessage({
+        role: "assistant",
+        content: err.message || "Could not process receipt photo. Please try again.",
+        status: "error",
+        error: err.message,
+      });
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
+
+  /**
    * Confirm and Stamp Transactions
    */
   const handleConfirmTransaction = async (
@@ -319,6 +402,9 @@ export function ChatInterface() {
     setIsSaving(true);
 
     try {
+      const sourceMsg = messages.find((m) => m.id === messageId);
+      const isFromReceipt = sourceMsg?.content?.toLowerCase().includes("receipt");
+
       const currency = userProfile?.currency || "INR";
       const groupId =
         typeof crypto !== "undefined" && crypto.randomUUID
@@ -347,7 +433,7 @@ export function ChatInterface() {
           category: item.category,
           date: new Date(item.date),
           rawInput: item.description,
-          source: "chat",
+          source: isFromReceipt ? "receipt" : "chat",
           splits: splitsWithIds,
         });
       }
@@ -582,7 +668,29 @@ export function ChatInterface() {
             )}
           </div>
 
-          {/* Voice Input Mic Button (left of Send button) */}
+          {/* Hidden receipt photo file input */}
+          <input
+            type="file"
+            ref={receiptInputRef}
+            onChange={handleReceiptCapture}
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+          />
+
+          {/* Camera Receipt Capture Button */}
+          <button
+            type="button"
+            onClick={() => receiptInputRef.current?.click()}
+            disabled={isAiLoading}
+            className="flex h-11 w-11 items-center justify-center rounded-[6px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo hover:text-stamp-indigo active:scale-95 text-muted-text transition-all disabled:opacity-40 shrink-0 touch-manipulation shadow-xs"
+            title="Scan Receipt Photo"
+            aria-label="Scan Receipt Photo"
+          >
+            <Camera className="h-4 w-4" />
+          </button>
+
+          {/* Voice Input Mic Button */}
           <VoiceInputButton
             isSupported={isSpeechSupported}
             isListening={isListening}
