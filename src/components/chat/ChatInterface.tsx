@@ -451,7 +451,7 @@ export function ChatInterface() {
   const liveSpeechText = voiceInterim || voiceTranscript || "";
 
   return (
-    <div className="flex h-screen w-full flex-col bg-paper-bg">
+    <div className="flex h-full w-full flex-col bg-paper-bg overflow-hidden select-text">
       {/* Top Header */}
       <header className="flex h-14 items-center justify-between border-b border-fiber-line bg-card-bg px-4 sm:px-6 shrink-0">
         <div className="flex items-center gap-2.5">
@@ -476,11 +476,11 @@ export function ChatInterface() {
       </header>
 
       {/* Centered Ledger Feed (max-w-[680px] single ledger page style) */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
+      <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-4 sm:py-6 overscroll-contain touch-pan-y">
         <div className="mx-auto max-w-[680px] space-y-3">
           {/* Empty State */}
           {!isMessagesLoading && messages.length === 0 && (
-            <div className="text-center py-12 px-4 space-y-4">
+            <div className="text-center py-8 sm:py-12 px-3 sm:px-4 space-y-4">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-[6px] border border-fiber-line bg-card-bg text-stamp-indigo shadow-sm">
                 <BookOpen className="h-6 w-6" />
               </div>
@@ -498,8 +498,9 @@ export function ChatInterface() {
                 {SUGGESTED_CHIPS.map((chip, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => handleSendMessage(chip)}
-                    className="rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo px-2.5 py-1 text-[11px] font-sans text-ink-text transition-colors"
+                    className="rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo active:scale-95 touch-manipulation px-2.5 py-1.5 text-[11px] font-sans text-ink-text transition-all"
                   >
                     {chip}
                   </button>
@@ -534,7 +535,7 @@ export function ChatInterface() {
       </div>
 
       {/* Input Bar pinned to bottom */}
-      <div className="border-t border-fiber-line bg-card-bg p-3 sm:p-4 shrink-0 space-y-2">
+      <div className="sticky bottom-0 z-20 border-t border-fiber-line bg-card-bg p-2.5 sm:p-4 shrink-0 space-y-1.5">
         {/* Inline Voice Feedback / Screen Reader Live Region */}
         <div className="mx-auto max-w-[680px]">
           <div className="sr-only" aria-live="polite" role="status">
@@ -556,7 +557,7 @@ export function ChatInterface() {
         </div>
 
         <div className="mx-auto flex max-w-[680px] items-end gap-2">
-          <div className="relative flex-1">
+          <div className="relative flex-1 min-w-0">
             {isListening ? (
               <div className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-[6px] border border-rule-red/50 bg-rule-red/5 text-xs font-sans flex items-center gap-2">
                 <span className="inline-block h-2 w-2 rounded-full bg-rule-red animate-ping" />
@@ -574,7 +575,7 @@ export function ChatInterface() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="e.g. Spent 500 on groceries, or 'What is my balance?'..."
-                className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-[6px] border border-fiber-line bg-paper-bg text-xs font-sans text-ink-text placeholder:text-muted-text/60 focus:border-stamp-indigo focus:outline-none resize-none"
+                className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-[6px] border border-fiber-line bg-paper-bg text-base sm:text-xs font-sans text-ink-text placeholder:text-muted-text/60 focus:border-stamp-indigo focus:outline-none resize-none touch-manipulation"
                 rows={1}
               />
             )}
@@ -592,7 +593,7 @@ export function ChatInterface() {
           <button
             onClick={() => handleSendMessage()}
             disabled={(!inputText.trim() && !isListening) || isAiLoading}
-            className="flex h-11 w-11 items-center justify-center rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-[#EDE7D6] transition-colors disabled:opacity-40 shrink-0"
+            className="flex h-11 w-11 items-center justify-center rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 active:scale-95 text-[#EDE7D6] transition-all disabled:opacity-40 shrink-0 touch-manipulation"
             title="Record Entry"
             aria-label="Record Entry"
           >
@@ -603,7 +604,7 @@ export function ChatInterface() {
             )}
           </button>
         </div>
-        <p className="mx-auto max-w-[680px] text-center text-[10px] font-mono text-muted-text/70 pt-0.5">
+        <p className="mx-auto max-w-[680px] text-center text-[10px] font-mono text-muted-text/70 hidden sm:block pt-0.5">
           Enter to record • Shift+Enter for new line
         </p>
       </div>

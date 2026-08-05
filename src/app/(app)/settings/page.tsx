@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 import { PWAInstallButton } from "@/components/pwa/InstallPrompt";
 import { TelegramConnectCard } from "@/components/telegram/TelegramConnectCard";
+import { ExportTransactionsCard } from "@/components/export/ExportTransactionsCard";
 
 export default function SettingsPage() {
   const { userProfile, updateCurrency, logout } = useAuth();
@@ -201,6 +202,9 @@ export default function SettingsPage() {
 
         {/* Telegram Bot Register Card */}
         <TelegramConnectCard />
+
+        {/* Export Transactions Register Card */}
+        <ExportTransactionsCard />
 
         {/* Sign Out Card */}
         <div className="rounded-[8px] border border-rule-red/40 bg-card-bg p-5 shadow-sm space-y-3">

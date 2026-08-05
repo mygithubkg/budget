@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { AddTransactionSheet } from "@/components/transactions/AddTransactionSheet";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AppLayout({
   children,
@@ -15,7 +16,10 @@ export default function AppLayout({
 }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [manualAddOpen, setManualAddOpen] = useState(false);
+
+  const isChatPage = pathname === "/chat" || pathname?.startsWith("/chat");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -43,13 +47,27 @@ export default function AppLayout({
   }
 
   return (
-    <div className="relative flex min-h-screen w-full bg-background">
+    <div
+      className={cn(
+        "relative flex w-full bg-background",
+        isChatPage ? "h-[100dvh] overflow-hidden" : "min-h-screen"
+      )}
+    >
       {/* Desktop Sidebar */}
       <Sidebar onOpenManualAdd={() => setManualAddOpen(true)} />
 
       {/* Main Content Area */}
-      <div className="flex flex-1 flex-col min-w-0 pb-20 lg:pb-0 overflow-x-hidden">
-        <main className="flex-1 min-w-0">{children}</main>
+      <div
+        className={cn(
+          "flex flex-1 flex-col min-w-0 overflow-x-hidden",
+          isChatPage
+            ? "h-[calc(100dvh-3.5rem)] sm:h-screen lg:h-screen overflow-hidden"
+            : "pb-20 lg:pb-0"
+        )}
+      >
+        <main className={cn("flex-1 min-w-0", isChatPage && "h-full overflow-hidden flex flex-col")}>
+          {children}
+        </main>
       </div>
 
       {/* Mobile Bottom Navigation */}
