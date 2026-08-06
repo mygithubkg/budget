@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TrendsView } from "@/components/dashboard/TrendsView";
 
+export const dynamic = "force-dynamic";
+
 export default function TrendsPage() {
   const router = useRouter();
 

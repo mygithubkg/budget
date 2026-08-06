@@ -38,6 +38,8 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import { GroupMemberInfo } from "@/types/group";
 
+export const dynamic = "force-dynamic";
+
 export default function GroupDetailsPage() {
   const params = useParams();
   const router = useRouter();

@@ -15,11 +15,13 @@ import {
 } from "@/types";
 import { MessageBubble } from "./MessageBubble";
 import { VoiceInputButton } from "./VoiceInputButton";
+import Link from "next/link";
 import {
   Send,
   Loader2,
   BookOpen,
   Camera,
+  FileSpreadsheet,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { OFF_TOPIC_RESPONSE, ChatApiResponse } from "@/lib/validations";
@@ -689,6 +691,16 @@ export function ChatInterface() {
           >
             <Camera className="h-4 w-4" />
           </button>
+
+          {/* Import Statement / Log Button */}
+          <Link
+            href="/import"
+            className="flex h-11 w-11 items-center justify-center rounded-[6px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo hover:text-stamp-indigo active:scale-95 text-muted-text transition-all shrink-0 touch-manipulation shadow-xs"
+            title="Import Statement (.xlsx, .csv, .docx)"
+            aria-label="Import Statement (.xlsx, .csv, .docx)"
+          >
+            <FileSpreadsheet className="h-4 w-4" />
+          </Link>
 
           {/* Voice Input Mic Button */}
           <VoiceInputButton

@@ -40,6 +40,8 @@ import {
 import { toast } from "sonner";
 import { format, formatDistanceToNow } from "date-fns";
 
+export const dynamic = "force-dynamic";
+
 export default function AIAnalysisPage() {
   const { userProfile, getIdToken } = useAuth();
   const currency = userProfile?.currency || "INR";

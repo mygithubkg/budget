@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export type TransactionType = "expense" | "income";
-export type TransactionSource = "chat" | "manual" | "telegram" | "receipt";
+export type TransactionSource = "chat" | "manual" | "telegram" | "receipt" | "import";
 export type LedgerEntryType = "owe" | "borrow" | "settle";
 export type SplitDirection = "they_owe_me" | "i_owe_them";
 
@@ -195,3 +195,48 @@ export interface ChatProcessResult {
   modelUsed?: string;
   rateLimitExhausted?: boolean;
 }
+
+export interface TabularColumnMapping {
+  dateColumn: string | null;
+  dateFormat?: string | null;
+  descriptionColumn: string | null;
+  amountColumns: {
+    debit: string | null;
+    credit: string | null;
+    signedAmount: string | null;
+  };
+  ignoreColumns: string[];
+}
+
+export interface ImportPreviewItem {
+  tempId: string;
+  date: string; // ISO yyyy-MM-dd
+  description: string;
+  category: string;
+  amount: number;
+  type: TransactionType;
+  userShare: number;
+  isDuplicate: boolean;
+  duplicateReason?: string;
+  selected: boolean;
+  rawRow?: Record<string, any>;
+  splits?: Array<{
+    friendId?: string;
+    friendName: string;
+    amount: number;
+    direction?: SplitDirection;
+  }>;
+}
+
+export interface ImportParseResult {
+  success: boolean;
+  fileName: string;
+  fileType: "xlsx" | "xls" | "csv" | "docx";
+  pathType: "tabular" | "freeform";
+  totalRowsFound: number;
+  duplicatesCount: number;
+  items: ImportPreviewItem[];
+  modelUsed?: string;
+  isBYOK?: boolean;
+}
+

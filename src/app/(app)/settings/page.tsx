@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
+import Link from "next/link";
 import {
   Coins,
   Palette,
@@ -19,6 +20,9 @@ import {
   HelpCircle,
   Sliders,
   Check,
+  UploadCloud,
+  FileSpreadsheet,
+  ArrowRight,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PWAInstallButton } from "@/components/pwa/InstallPrompt";
@@ -376,7 +380,37 @@ function SettingsContent() {
         {/* TAB: DATA & EXPORTS */}
         {/* ----------------------------------------------------------------------- */}
         {activeTab === "export" && (
-          <div className="space-y-4 animate-in fade-in-50 duration-200">
+          <div className="space-y-6 animate-in fade-in-50 duration-200">
+            {/* Import Statement & Notes Banner */}
+            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+              <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
+                <div className="flex items-center gap-2">
+                  <UploadCloud className="h-4 w-4 text-stamp-indigo" />
+                  <h2 className="font-display text-base font-bold text-ink-text">
+                    Import Historical Records (.xlsx, .csv, .docx)
+                  </h2>
+                </div>
+                <span className="rounded bg-stamp-indigo/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-stamp-indigo uppercase">
+                  AI Assited
+                </span>
+              </div>
+
+              <p className="text-xs font-sans text-muted-text leading-relaxed">
+                Upload historical bank statements or personal Word diaries. FinChat automatically categorizes entries, identifies duplicates against your existing ledger, and provides an interactive review table before saving.
+              </p>
+
+              <div className="pt-1">
+                <Link
+                  href="/import"
+                  className="inline-flex items-center gap-2 rounded-[4px] bg-stamp-indigo px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] hover:bg-stamp-indigo/90 shadow-sm transition-colors"
+                >
+                  <FileSpreadsheet className="h-3.5 w-3.5" />
+                  <span>Launch Import Tool</span>
+                  <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                </Link>
+              </div>
+            </div>
+
             <ExportTransactionsCard />
           </div>
         )}
@@ -393,6 +427,8 @@ function SettingsContent() {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";
 
 export default function SettingsPage() {
   return (

@@ -5,6 +5,8 @@ export const metadata = {
   description: "Log expenses and income using conversational AI.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function ChatPage() {
   return <ChatInterface />;
 }

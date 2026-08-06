@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CategoriesView } from "@/components/dashboard/CategoriesView";
 
+export const dynamic = "force-dynamic";
+
 export default function CategoriesPage() {
   const router = useRouter();
 

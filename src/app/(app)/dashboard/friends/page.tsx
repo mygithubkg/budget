@@ -27,6 +27,8 @@ import { format } from "date-fns";
 import { Friend } from "@/types";
 import { toast } from "sonner";
 
+export const dynamic = "force-dynamic";
+
 export default function FriendsDebtPage() {
   const router = useRouter();
   const searchParams = useSearchParams();

@@ -30,6 +30,8 @@ import { formatCurrency } from "@/lib/currency";
 import { format, isSameMonth } from "date-fns";
 import { toast } from "sonner";
 
+export const dynamic = "force-dynamic";
+
 export default function DashboardPage() {
   const router = useRouter();
   const searchParams = useSearchParams();

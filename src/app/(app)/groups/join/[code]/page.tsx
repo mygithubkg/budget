@@ -8,6 +8,8 @@ import { Compass, Users, Loader2, CheckCircle2, ArrowRight } from "lucide-react"
 import { toast } from "sonner";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default function JoinGroupPage() {
   const params = useParams();
   const router = useRouter();

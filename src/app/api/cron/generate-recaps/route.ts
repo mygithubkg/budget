@@ -7,6 +7,8 @@ import { sendTelegramMessage } from "@/lib/telegram/bot";
 import { formatCurrency } from "@/lib/currency";
 import { format } from "date-fns";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);
