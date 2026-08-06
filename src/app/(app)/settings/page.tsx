@@ -159,12 +159,12 @@ function SettingsContent() {
                 key={tab.id}
                 type="button"
                 onClick={() => handleTabChange(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-[6px] text-xs font-mono whitespace-nowrap transition-all select-none shrink-0 ${isActive
-                    ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs border border-stamp-indigo"
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-mono whitespace-nowrap transition-all select-none shrink-0 ${isActive
+                    ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs border border-stamp-red"
                     : "bg-card-bg text-muted-text hover:text-ink-text border border-fiber-line hover:border-muted-text/30"
                   }`}
               >
-                <Icon className={`h-3.5 w-3.5 ${isActive ? "text-[#EDE7D6]" : "text-stamp-indigo"}`} />
+                <Icon className={`h-3.5 w-3.5 ${isActive ? "text-[#FFFFFF]" : "text-stamp-red"}`} />
                 <span className="hidden sm:inline">{tab.label}</span>
                 <span className="sm:hidden">{tab.shortLabel}</span>
               </button>
@@ -176,9 +176,9 @@ function SettingsContent() {
       {/* ========================================================================= */}
       {/* 3. ACTIVE SUB-SECTION BANNER */}
       {/* ========================================================================= */}
-      <div className="flex items-center justify-between px-3.5 py-2.5 rounded-[6px] border border-fiber-line bg-card-bg/60 text-xs font-mono text-muted-text">
+      <div className="flex items-center justify-between px-3.5 py-2.5 rounded-lg border border-fiber-line bg-card-bg/60 text-xs font-mono text-muted-text">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-stamp-emerald" />
+          <span className="h-2 w-2 rounded-full bg-thrive-green" />
           <span className="font-bold text-ink-text uppercase tracking-wider">
             {currentTabInfo.label}
           </span>
@@ -198,16 +198,16 @@ function SettingsContent() {
         {activeTab === "general" && (
           <div className="space-y-4 animate-in fade-in-50 duration-200">
             {/* User Profile Card */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-                <User className="h-4 w-4 text-stamp-indigo" />
+                <User className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Bookkeeper Identity
                 </h2>
               </div>
 
               <div className="flex items-center gap-4 pt-1">
-                <div className="h-12 w-12 rounded-[6px] border border-fiber-line bg-paper-bg flex items-center justify-center font-display font-bold text-lg text-stamp-indigo">
+                <div className="h-12 w-12 rounded-lg border border-fiber-line bg-paper-bg flex items-center justify-center font-display font-bold text-lg text-stamp-red">
                   {getInitials(userProfile?.displayName)}
                 </div>
 
@@ -221,7 +221,7 @@ function SettingsContent() {
                     </span>
                   </div>
                   <p className="text-xs font-mono text-muted-text">{userProfile?.email}</p>
-                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-passbook-gold pt-0.5">
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-thrive-green pt-0.5">
                     <ShieldCheck className="h-3.5 w-3.5" />
                     <span>Encrypted &amp; Authenticated</span>
                   </div>
@@ -230,9 +230,9 @@ function SettingsContent() {
             </div>
 
             {/* Currency Preferences */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-                <Coins className="h-4 w-4 text-stamp-indigo" />
+                <Coins className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Register Currency
                 </h2>
@@ -247,7 +247,7 @@ function SettingsContent() {
                   value={currency}
                   onChange={(e) => handleCurrencyChange(e.target.value)}
                   disabled={isUpdatingCurrency}
-                  className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                 >
                   {SUPPORTED_CURRENCIES.map((c) => (
                     <option key={c.code} value={c.code}>
@@ -256,7 +256,7 @@ function SettingsContent() {
                   ))}
                 </select>
                 {isUpdatingCurrency && (
-                  <p className="text-[10px] font-mono text-stamp-indigo flex items-center gap-1 pt-1">
+                  <p className="text-[10px] font-mono text-stamp-red flex items-center gap-1 pt-1">
                     <Loader2 className="h-3 w-3 animate-spin" /> Saving...
                   </p>
                 )}
@@ -264,9 +264,9 @@ function SettingsContent() {
             </div>
 
             {/* Appearance Theme (Paper vs Ink) */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-                <Palette className="h-4 w-4 text-stamp-indigo" />
+                <Palette className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Ledger Surface &amp; Ink
                 </h2>
@@ -280,8 +280,8 @@ function SettingsContent() {
                 <button
                   type="button"
                   onClick={() => setTheme("light")}
-                  className={`flex flex-col items-center justify-between rounded-[6px] border p-3 text-xs transition-all ${theme === "light"
-                      ? "border-stamp-indigo bg-paper-bg text-ink-text font-bold shadow-xs"
+                  className={`flex flex-col items-center justify-between rounded-lg border p-3 text-xs transition-all ${theme === "light"
+                      ? "border-stamp-red bg-paper-bg text-ink-text font-bold shadow-xs"
                       : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
                     }`}
                 >
@@ -292,8 +292,8 @@ function SettingsContent() {
                 <button
                   type="button"
                   onClick={() => setTheme("dark")}
-                  className={`flex flex-col items-center justify-between rounded-[6px] border p-3 text-xs transition-all ${theme === "dark"
-                      ? "border-stamp-indigo bg-card-bg text-ink-text font-bold shadow-xs"
+                  className={`flex flex-col items-center justify-between rounded-lg border p-3 text-xs transition-all ${theme === "dark"
+                      ? "border-stamp-red bg-card-bg text-ink-text font-bold shadow-xs"
                       : "border-fiber-line bg-card-bg text-muted-text hover:text-ink-text"
                     }`}
                 >
@@ -304,8 +304,8 @@ function SettingsContent() {
                 <button
                   type="button"
                   onClick={() => setTheme("system")}
-                  className={`flex flex-col items-center justify-between rounded-[6px] border p-3 text-xs transition-all ${theme === "system"
-                      ? "border-stamp-indigo bg-paper-bg text-ink-text font-bold shadow-xs"
+                  className={`flex flex-col items-center justify-between rounded-lg border p-3 text-xs transition-all ${theme === "system"
+                      ? "border-stamp-red bg-paper-bg text-ink-text font-bold shadow-xs"
                       : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
                     }`}
                 >
@@ -316,9 +316,9 @@ function SettingsContent() {
             </div>
 
             {/* Progressive Web App (PWA) Card */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-                <Smartphone className="h-4 w-4 text-stamp-indigo" />
+                <Smartphone className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Application &amp; Offline Register
                 </h2>
@@ -334,10 +334,10 @@ function SettingsContent() {
             </div>
 
             {/* Sign Out Card */}
-            <div className="rounded-[8px] border border-rule-red/40 bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="rounded-xl border border-stamp-red/40 bg-card-bg p-5 shadow-sm space-y-3">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-                <LogOut className="h-4 w-4 text-rule-red" />
-                <h2 className="font-display text-base font-bold text-rule-red">
+                <LogOut className="h-4 w-4 text-stamp-red" />
+                <h2 className="font-display text-base font-bold text-stamp-red">
                   Session
                 </h2>
               </div>
@@ -349,7 +349,7 @@ function SettingsContent() {
               <button
                 type="button"
                 onClick={logout}
-                className="h-8 px-4 rounded-[4px] border border-rule-red/50 bg-paper-bg hover:bg-rule-red/10 text-xs font-mono font-bold uppercase tracking-wider text-rule-red transition-colors flex items-center gap-1.5"
+                className="h-8 px-4 rounded-lg border border-stamp-red/50 bg-paper-bg hover:bg-stamp-red/10 text-xs font-mono font-bold uppercase tracking-wider text-stamp-red transition-colors flex items-center gap-1.5"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 <span>Sign Out</span>
@@ -382,15 +382,15 @@ function SettingsContent() {
         {activeTab === "export" && (
           <div className="space-y-6 animate-in fade-in-50 duration-200">
             {/* Import Statement & Notes Banner */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
               <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
                 <div className="flex items-center gap-2">
-                  <UploadCloud className="h-4 w-4 text-stamp-indigo" />
+                  <UploadCloud className="h-4 w-4 text-stamp-red" />
                   <h2 className="font-display text-base font-bold text-ink-text">
                     Import Historical Records (.xlsx, .csv, .docx)
                   </h2>
                 </div>
-                <span className="rounded bg-stamp-indigo/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-stamp-indigo uppercase">
+                <span className="rounded bg-stamp-red/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-stamp-red uppercase">
                   AI Assited
                 </span>
               </div>
@@ -402,7 +402,7 @@ function SettingsContent() {
               <div className="pt-1">
                 <Link
                   href="/import"
-                  className="inline-flex items-center gap-2 rounded-[4px] bg-stamp-indigo px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] hover:bg-stamp-indigo/90 shadow-sm transition-colors"
+                  className="inline-flex items-center gap-2 rounded-lg bg-stamp-red px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-stamp-red/90 shadow-sm transition-colors"
                 >
                   <FileSpreadsheet className="h-3.5 w-3.5" />
                   <span>Launch Import Tool</span>
@@ -435,7 +435,7 @@ export default function SettingsPage() {
     <Suspense
       fallback={
         <div className="flex-1 p-8 flex items-center justify-center text-xs font-mono text-muted-text">
-          <Loader2 className="h-4 w-4 animate-spin text-stamp-indigo mr-2" />
+          <Loader2 className="h-4 w-4 animate-spin text-stamp-red mr-2" />
           Loading Settings...
         </div>
       }

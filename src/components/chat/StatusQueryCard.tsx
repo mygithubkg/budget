@@ -27,23 +27,23 @@ export function StatusQueryCard({
     <div className="w-full space-y-3 pt-1 text-ink-text">
       {/* 1. Balance Query View */}
       {(queryType === "balance" || (queryType === "general_summary" && balance !== undefined)) && (
-        <div className="relative rounded-[6px] border border-fiber-line bg-paper-bg p-3.5 pl-4">
+        <div className="relative rounded-lg border border-fiber-line bg-paper-bg p-3.5 pl-4">
           {/* Margin Rule */}
           <div
             className="absolute left-0 top-0 bottom-0 w-[2.5px]"
             style={{
-              backgroundColor: (balance || 0) >= 0 ? "var(--passbook-gold)" : "var(--rule-red)",
+              backgroundColor: (balance || 0) >= 0 ? "var(--thrive-green)" : "var(--stamp-red)",
             }}
           />
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-muted-text">
-              <Wallet className="h-3.5 w-3.5 text-stamp-indigo" />
+              <Wallet className="h-3.5 w-3.5 text-stamp-red" />
               <span>Current Net Balance</span>
             </div>
             <span
               className={`font-mono text-[10px] uppercase font-bold px-1.5 py-0.2 border border-fiber-line rounded-[2px] ${
-                (balance || 0) >= 0 ? "text-passbook-gold" : "text-rule-red"
+                (balance || 0) >= 0 ? "text-thrive-green" : "text-stamp-red"
               }`}
             >
               {(balance || 0) >= 0 ? "+ Positive" : "− Deficit"}
@@ -58,11 +58,11 @@ export function StatusQueryCard({
             <div className="mt-2.5 grid grid-cols-2 gap-2 border-t border-fiber-line pt-2 text-xs font-mono">
               <div>
                 <span className="text-muted-text">Income: </span>
-                <b className="text-passbook-gold">+{formatCurrency(totalIncome || 0, currency)}</b>
+                <b className="text-thrive-green">+{formatCurrency(totalIncome || 0, currency)}</b>
               </div>
               <div className="text-right">
                 <span className="text-muted-text">Expense: </span>
-                <b className="text-rule-red">−{formatCurrency(totalExpense || 0, currency)}</b>
+                <b className="text-stamp-red">−{formatCurrency(totalExpense || 0, currency)}</b>
               </div>
             </div>
           )}
@@ -71,9 +71,9 @@ export function StatusQueryCard({
 
       {/* 2. Recent Transactions List View */}
       {transactions && transactions.length > 0 && (
-        <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3">
+        <div className="rounded-lg border border-fiber-line bg-paper-bg p-3">
           <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-muted-text mb-2 border-b border-fiber-line pb-1.5">
-            <Clock className="h-3.5 w-3.5 text-stamp-indigo" />
+            <Clock className="h-3.5 w-3.5 text-stamp-red" />
             <span>Recent Ruled Entries</span>
           </div>
 
@@ -96,7 +96,7 @@ export function StatusQueryCard({
                   </div>
 
                   <div className="text-right shrink-0 font-mono font-bold">
-                    <span className={isIncome ? "text-passbook-gold" : "text-ink-text"}>
+                    <span className={isIncome ? "text-thrive-green" : "text-ink-text"}>
                       {isIncome ? "+" : "−"}
                       {formatCurrency(tx.userShare || tx.amount, currency)}
                     </span>
@@ -110,9 +110,9 @@ export function StatusQueryCard({
 
       {/* 3. Friend Debts View */}
       {friendDebts && friendDebts.length > 0 && (
-        <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3">
+        <div className="rounded-lg border border-fiber-line bg-paper-bg p-3">
           <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-muted-text mb-2 border-b border-fiber-line pb-1.5">
-            <Users className="h-3.5 w-3.5 text-stamp-indigo" />
+            <Users className="h-3.5 w-3.5 text-stamp-red" />
             <span>Friend Balances</span>
           </div>
 
@@ -129,7 +129,7 @@ export function StatusQueryCard({
                   </span>
                   <span
                     className={`font-mono text-xs font-bold ${
-                      friendOwesYou ? "text-passbook-gold" : "text-rule-red"
+                      friendOwesYou ? "text-thrive-green" : "text-stamp-red"
                     }`}
                   >
                     {friendOwesYou
@@ -145,8 +145,8 @@ export function StatusQueryCard({
 
       {/* Zero Debts Empty State */}
       {queryType === "friend_debts" && (!friendDebts || friendDebts.length === 0) && (
-        <div className="flex items-center gap-2 rounded-[4px] border border-fiber-line bg-paper-bg p-2.5 text-xs text-muted-text font-mono">
-          <Check className="h-4 w-4 text-passbook-gold shrink-0" />
+        <div className="flex items-center gap-2 rounded-lg border border-fiber-line bg-paper-bg p-2.5 text-xs text-muted-text font-mono">
+          <Check className="h-4 w-4 text-thrive-green shrink-0" />
           <span>All friend accounts are currently balanced and settled.</span>
         </div>
       )}

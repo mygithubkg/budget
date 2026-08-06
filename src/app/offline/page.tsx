@@ -12,10 +12,10 @@ export default function OfflinePage() {
   };
 
   return (
-    <main className="min-h-screen bg-paper-bg flex flex-col items-center justify-center p-4 sm:p-6 text-ink-text selection:bg-stamp-indigo/20">
+    <main className="min-h-screen bg-paper-bg flex flex-col items-center justify-center p-4 sm:p-6 text-ink-text selection:bg-stamp-red/20">
       <div className="max-w-md w-full bg-paper-card border border-fiber-line shadow-ledger-sm rounded-lg p-6 sm:p-8 text-center relative overflow-hidden">
         {/* Ledger Red Margin Indicator */}
-        <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-rule-red/40 hidden sm:block" />
+        <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-stamp-red/40 hidden sm:block" />
 
         {/* Ink-stamp badge (greyed out) */}
         <div className="w-16 h-16 rounded-full bg-paper-rule/60 border border-fiber-line flex items-center justify-center mx-auto mb-5 text-ink-muted">
@@ -24,7 +24,7 @@ export default function OfflinePage() {
 
         {/* Header with Ledger typography */}
         <div className="flex items-center justify-center gap-2 mb-2">
-          <BookOpen className="w-4 h-4 text-stamp-indigo" />
+          <BookOpen className="w-4 h-4 text-stamp-red" />
           <span className="font-mono text-xs uppercase tracking-widest text-ink-muted">
             FinChat Offline Register
           </span>
@@ -45,7 +45,7 @@ export default function OfflinePage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={handleRetry}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-stamp-indigo hover:bg-stamp-indigo-hover text-white rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-stamp-indigo/40"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-stamp-red hover:bg-stamp-red-hover text-white rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-stamp-red/40"
           >
             <RefreshCw className="w-4 h-4" />
             Check Connection

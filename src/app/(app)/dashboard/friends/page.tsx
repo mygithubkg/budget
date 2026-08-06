@@ -96,13 +96,13 @@ export default function FriendsDebtPage() {
     <div className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
       {/* Top Segmented Sub-Tab Bar */}
       <div className="flex items-center justify-between border-b border-fiber-line pb-3">
-        <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+        <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
           <button
             type="button"
             onClick={() => handleTabChange("direct")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors ${
               activeTab === "direct"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -113,9 +113,9 @@ export default function FriendsDebtPage() {
           <button
             type="button"
             onClick={() => handleTabChange("groups")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors ${
               activeTab === "groups"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -171,11 +171,11 @@ export default function FriendsDebtPage() {
           </div>
 
           {/* Friends Ledger List */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div>
                 <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2">
-                  <Users className="h-4 w-4 text-stamp-indigo" />
+                  <Users className="h-4 w-4 text-stamp-red" />
                   <span>Friend Ledgers</span>
                 </h2>
                 <p className="text-xs font-sans text-muted-text">
@@ -190,7 +190,7 @@ export default function FriendsDebtPage() {
         {isLoading ? (
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-14 bg-paper-bg border border-fiber-line rounded-[6px] animate-pulse" />
+              <div key={i} className="h-14 bg-paper-bg border border-fiber-line rounded-lg animate-pulse" />
             ))}
           </div>
         ) : friends.length === 0 ? (
@@ -216,15 +216,15 @@ export default function FriendsDebtPage() {
                     className="absolute left-0 top-0 bottom-0 w-[2.5px]"
                     style={{
                       backgroundColor: owesYou
-                        ? "var(--passbook-gold)"
+                        ? "var(--thrive-green)"
                         : youOwe
-                        ? "var(--rule-red)"
+                        ? "var(--stamp-red)"
                         : "var(--fiber-line)",
                     }}
                   />
 
                   <div className="flex items-center gap-3 pl-1">
-                    <div className="h-8 w-8 rounded-[4px] border border-fiber-line bg-paper-bg flex items-center justify-center font-mono text-xs font-bold text-stamp-indigo">
+                    <div className="h-8 w-8 rounded-lg border border-fiber-line bg-paper-bg flex items-center justify-center font-mono text-xs font-bold text-stamp-red">
                       {friend.name.slice(0, 2).toUpperCase()}
                     </div>
                     <div>
@@ -235,11 +235,11 @@ export default function FriendsDebtPage() {
                         {isSettled ? (
                           <span>All settled</span>
                         ) : owesYou ? (
-                          <span className="text-passbook-gold font-bold">
+                          <span className="text-thrive-green font-bold">
                             Owes you +{formatCurrency(friend.balance, currency)}
                           </span>
                         ) : (
-                          <span className="text-rule-red font-bold">
+                          <span className="text-stamp-red font-bold">
                             You owe −{formatCurrency(Math.abs(friend.balance), currency)}
                           </span>
                         )}
@@ -250,7 +250,7 @@ export default function FriendsDebtPage() {
                   <div className="flex items-center gap-3">
                     {!isSettled && (
                       <button
-                        className="h-7 px-2.5 rounded-[4px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo text-[11px] font-mono uppercase font-bold text-stamp-indigo flex items-center gap-1"
+                        className="h-7 px-2.5 rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red text-[11px] font-mono uppercase font-bold text-stamp-red flex items-center gap-1"
                         onClick={(e) => handleOpenSettle(friend, e)}
                       >
                         <UserCheck className="h-3 w-3" />
@@ -279,10 +279,10 @@ export default function FriendsDebtPage() {
       {/* Settle Up Modal */}
       {settleModalOpen && selectedFriend && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <HandCoins className="h-4 w-4 text-stamp-indigo" />
+                <HandCoins className="h-4 w-4 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Settle Balance with {selectedFriend.name}
                 </h3>
@@ -315,7 +315,7 @@ export default function FriendsDebtPage() {
                   onChange={(e) => setSettleAmount(e.target.value)}
                   placeholder="0.00"
                   required
-                  className="w-full h-8 rounded-[4px] border border-fiber-line bg-paper-bg px-2.5 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full h-8 rounded-lg border border-fiber-line bg-paper-bg px-2.5 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -327,7 +327,7 @@ export default function FriendsDebtPage() {
                   value={settleNote}
                   onChange={(e) => setSettleNote(e.target.value)}
                   placeholder="e.g. Paid via UPI, Cash given"
-                  className="w-full h-8 rounded-[4px] border border-fiber-line bg-paper-bg px-2.5 text-xs text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full h-8 rounded-lg border border-fiber-line bg-paper-bg px-2.5 text-xs text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -335,7 +335,7 @@ export default function FriendsDebtPage() {
                 <button
                   type="submit"
                   disabled={settleUpMutation.isPending}
-                  className="flex-1 h-9 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
+                  className="flex-1 h-9 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
                 >
                   {settleUpMutation.isPending ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -347,7 +347,7 @@ export default function FriendsDebtPage() {
                 <button
                   type="button"
                   onClick={() => setSettleModalOpen(false)}
-                  className="h-9 px-4 rounded-[4px] border border-fiber-line bg-paper-bg text-xs font-mono uppercase tracking-wider text-muted-text hover:text-ink-text"
+                  className="h-9 px-4 rounded-lg border border-fiber-line bg-paper-bg text-xs font-mono uppercase tracking-wider text-muted-text hover:text-ink-text"
                 >
                   Cancel
                 </button>
@@ -380,10 +380,10 @@ function FriendLedgerModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-lg rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xl space-y-3 max-h-[85vh] flex flex-col">
+      <div className="w-full max-w-lg rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xl space-y-3 max-h-[85vh] flex flex-col">
         <div className="flex items-center justify-between border-b border-fiber-line pb-3">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-[4px] border border-fiber-line bg-paper-bg flex items-center justify-center font-mono text-xs font-bold text-stamp-indigo">
+            <div className="h-8 w-8 rounded-lg border border-fiber-line bg-paper-bg flex items-center justify-center font-mono text-xs font-bold text-stamp-red">
               {friend.name.slice(0, 2).toUpperCase()}
             </div>
             <div>
@@ -399,15 +399,15 @@ function FriendLedgerModal({
         </div>
 
         {/* Current status bar */}
-        <div className="flex items-center justify-between rounded-[4px] border border-fiber-line bg-paper-bg p-3 text-xs">
+        <div className="flex items-center justify-between rounded-lg border border-fiber-line bg-paper-bg p-3 text-xs">
           <div>
             <span className="text-muted-text font-mono">Current Balance: </span>
             <span
               className={`font-mono font-bold text-sm ${
                 friend.balance > 0
-                  ? "text-passbook-gold"
+                  ? "text-thrive-green"
                   : friend.balance < 0
-                  ? "text-rule-red"
+                  ? "text-stamp-red"
                   : "text-ink-text"
               }`}
             >
@@ -419,7 +419,7 @@ function FriendLedgerModal({
           {friend.balance !== 0 && (
             <button
               onClick={onSettle}
-              className="h-7 px-3 rounded-[3px] bg-stamp-indigo text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6]"
+              className="h-7 px-3 rounded-[3px] bg-stamp-red text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF]"
             >
               Settle
             </button>
@@ -431,7 +431,7 @@ function FriendLedgerModal({
           {isLoading ? (
             <div className="space-y-2 py-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-12 bg-paper-bg border border-fiber-line rounded-[4px] animate-pulse" />
+                <div key={i} className="h-12 bg-paper-bg border border-fiber-line rounded-lg animate-pulse" />
               ))}
             </div>
           ) : ledger.length === 0 ? (
@@ -454,15 +454,15 @@ function FriendLedgerModal({
                   <div>
                     <div className="flex items-center gap-1.5 font-semibold text-ink-text">
                       {isSettle ? (
-                        <span className="font-mono text-stamp-indigo text-[10px] uppercase border border-stamp-indigo/40 bg-stamp-indigo/10 px-1 rounded-[2px]">
+                        <span className="font-mono text-stamp-red text-[10px] uppercase border border-stamp-red/40 bg-stamp-red/10 px-1 rounded-[2px]">
                           Settlement
                         </span>
                       ) : isBorrow ? (
-                        <span className="font-mono text-rule-red text-[10px] uppercase border border-rule-red/40 bg-rule-red/10 px-1 rounded-[2px]">
+                        <span className="font-mono text-stamp-red text-[10px] uppercase border border-stamp-red/40 bg-stamp-red/10 px-1 rounded-[2px]">
                           You Owe
                         </span>
                       ) : (
-                        <span className="font-mono text-passbook-gold text-[10px] uppercase border border-passbook-gold/40 bg-passbook-gold/10 px-1 rounded-[2px]">
+                        <span className="font-mono text-thrive-green text-[10px] uppercase border border-thrive-green/40 bg-thrive-green/10 px-1 rounded-[2px]">
                           Owes You
                         </span>
                       )}
@@ -478,10 +478,10 @@ function FriendLedgerModal({
                     <span
                       className={
                         isSettle
-                          ? "text-stamp-indigo"
+                          ? "text-stamp-red"
                           : isBorrow
-                          ? "text-rule-red"
-                          : "text-passbook-gold"
+                          ? "text-stamp-red"
+                          : "text-thrive-green"
                       }
                     >
                       {isSettle ? "" : isBorrow ? "−" : "+"}

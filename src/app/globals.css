@@ -3,30 +3,54 @@
 @tailwind utilities;
 
 @layer base {
-  /* Paper Mode (Light) */
+  /* ─────────────────────────────────────────────
+     Paper Mode (Light) — Ledger v2
+     ───────────────────────────────────────────── */
   :root {
-    --paper-bg: #EDF1E6;
-    --ink-text: #1B2B22;
-    --rule-red: #A23B2E;
-    --passbook-gold: #8A6A2E;
-    --stamp-indigo: #2F3F6B;
-    --fiber-line: #C7D0BC;
-    --card-bg: #F5F7F0;
-    --muted-text: #596B60;
+    /* Surfaces */
+    --paper-bg:   #F7F6F2;   /* Clean, bright, barely-warm neutral */
+    --card-bg:    #FFFFFF;   /* Pure white — pops off paper via shadow */
 
-    --radius: 8px;
+    /* Text */
+    --ink-text:   #171923;   /* Deep blue-grey-black (sophisticated dark neutral) */
+    --muted-text: #6B7684;   /* Neutral slate */
+
+    /* Signature Colors */
+    --stamp-red:     #E63946;  /* Primary: buttons, active nav, expenses, ink-stamp */
+    --thrive-green:  #16A874;  /* Income, positive balances — clean saturated emerald */
+
+    /* Dividers */
+    --fiber-line: #E4E2DA;   /* Hairline — supporting role, shadows carry separation */
+
+    /* Gradient (hero balance + primary CTAs only) */
+    --sig-gradient: linear-gradient(135deg, #E63946 0%, #FF8A5B 100%);
+
+    /* Shadows */
+    --card-shadow:  0 2px 8px rgba(23, 25, 35, 0.06), 0 8px 24px rgba(23, 25, 35, 0.08);
+    --stamp-shadow: 0 3px 6px rgba(230, 57, 70, 0.25);
+
+    --radius: 12px;
   }
 
-  /* Ink Mode (Dark) */
+  /* ─────────────────────────────────────────────
+     Ink Mode (Dark) — Ledger v2
+     ───────────────────────────────────────────── */
   .dark {
-    --paper-bg: #12201A;
-    --ink-text: #EDE7D6;
-    --rule-red: #D2604A;
-    --passbook-gold: #D4AF6A;
-    --stamp-indigo: #7C8DD1;
-    --fiber-line: #2A3B30;
-    --card-bg: #182920;
-    --muted-text: #9EADA2;
+    --paper-bg:   #14161F;   /* Deep blue-black */
+    --card-bg:    #1D2029;   /* Lifted surface tone */
+
+    --ink-text:   #F1EFE9;   /* Warm parchment white */
+    --muted-text: #8A92A0;   /* Muted slate */
+
+    --stamp-red:    #FF6B6B;   /* Brightened for dark contrast */
+    --thrive-green: #2DD4A7;   /* Brightened emerald */
+
+    --fiber-line: rgba(255, 255, 255, 0.08);
+
+    --sig-gradient: linear-gradient(135deg, #FF6B6B 0%, #FF9A70 100%);
+
+    --card-shadow:  none;      /* Shadows invisible on dark — rely on lifted surface */
+    --stamp-shadow: 0 3px 6px rgba(255, 107, 107, 0.30);
   }
 }
 
@@ -53,14 +77,17 @@
   }
 }
 
-/* Ledger Structural Motifs */
+/* ────────────────────────────────────────────────
+   Ledger Structural Motifs (unchanged concept,
+   updated to use new vivid stamp-red)
+   ──────────────────────────────────────────────── */
 .ruled-row {
   border-bottom: 1px solid var(--fiber-line);
   transition: border-color 0.15s ease;
 }
 
 .ruled-row:hover {
-  border-bottom-color: var(--stamp-indigo);
+  border-bottom-color: var(--stamp-red);
 }
 
 .margin-rule {
@@ -74,11 +101,44 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background-color: var(--rule-red);
+  background-color: var(--stamp-red);
   border-radius: 1px;
 }
 
-/* Custom Ledger Scrollbar */
+/* ────────────────────────────────────────────────
+   Signature Gradient Utilities
+   ──────────────────────────────────────────────── */
+.sig-gradient-bg {
+  background: var(--sig-gradient);
+}
+
+/* Gradient text fill — used only on the hero balance figure */
+.sig-gradient-text {
+  background: var(--sig-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tactile card shadow */
+.card-shadow {
+  box-shadow: var(--card-shadow);
+}
+
+/* Dark mode card border (replaces shadow) */
+.dark .dark-card-border {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Ink-stamp physical presence shadow */
+.stamp-shadow {
+  box-shadow: var(--stamp-shadow);
+}
+
+/* ────────────────────────────────────────────────
+   Custom Ledger Scrollbar
+   ──────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

@@ -106,11 +106,11 @@ export function InstallPrompt() {
     return (
       <aside
         aria-label="Install App"
-        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 max-w-sm w-[calc(100%-2rem)] bg-paper-card border border-stamp-indigo/30 shadow-ledger rounded-lg p-4 animate-fadeIn"
+        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 max-w-sm w-[calc(100%-2rem)] bg-paper-card border border-stamp-red/30 shadow-ledger rounded-lg p-4 animate-fadeIn"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-md bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center flex-shrink-0 text-stamp-indigo mt-0.5">
+            <div className="w-9 h-9 rounded-md bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center flex-shrink-0 text-stamp-red mt-0.5">
               <Smartphone className="w-5 h-5" />
             </div>
             <div>
@@ -141,7 +141,7 @@ export function InstallPrompt() {
           </button>
           <button
             onClick={handleInstallClick}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-stamp-indigo hover:bg-stamp-indigo-hover text-white rounded text-xs font-medium transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-stamp-red hover:bg-stamp-red-hover text-white rounded text-xs font-medium transition-colors shadow-sm"
           >
             <Download className="w-3.5 h-3.5" />
             Install App
@@ -156,11 +156,11 @@ export function InstallPrompt() {
     return (
       <aside
         aria-label="Install App on iOS"
-        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 max-w-sm w-[calc(100%-2rem)] bg-paper-card border border-stamp-indigo/30 shadow-ledger rounded-lg p-4 animate-fadeIn"
+        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 max-w-sm w-[calc(100%-2rem)] bg-paper-card border border-stamp-red/30 shadow-ledger rounded-lg p-4 animate-fadeIn"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-md bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center flex-shrink-0 text-stamp-indigo mt-0.5">
+            <div className="w-9 h-9 rounded-md bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center flex-shrink-0 text-stamp-red mt-0.5">
               <Share className="w-5 h-5" />
             </div>
             <div>
@@ -170,7 +170,7 @@ export function InstallPrompt() {
               <p className="text-xs text-ink-muted mt-1 leading-relaxed">
                 Tap the <span className="font-medium text-ink-text">Share</span>{" "}
                 icon in Safari, then select{" "}
-                <span className="font-semibold text-stamp-indigo">
+                <span className="font-semibold text-stamp-red">
                   &apos;Add to Home Screen&apos;
                 </span>
                 .
@@ -248,7 +248,7 @@ export function PWAInstallButton() {
 
   if (isStandalone) {
     return (
-      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[4px] bg-stamp-indigo/10 border border-stamp-indigo/20 text-stamp-indigo text-xs font-mono">
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-stamp-red/10 border border-stamp-red/20 text-stamp-red text-xs font-mono">
         <CheckCircle className="w-3.5 h-3.5" />
         <span>Installed as Standalone App</span>
       </div>
@@ -260,7 +260,7 @@ export function PWAInstallButton() {
       <button
         type="button"
         onClick={handleInstall}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-stamp-indigo hover:bg-stamp-indigo-hover text-white rounded-[4px] text-xs font-mono font-medium transition-colors"
+        className="inline-flex items-center gap-2 px-4 py-2 bg-stamp-red hover:bg-stamp-red-hover text-white rounded-lg text-xs font-mono font-medium transition-colors"
       >
         <Download className="w-3.5 h-3.5" />
         <span>Install App</span>
@@ -271,7 +271,7 @@ export function PWAInstallButton() {
   if (isIOS) {
     return (
       <div className="text-xs font-mono text-muted-text flex items-center gap-1.5">
-        <Share className="w-3.5 h-3.5 text-stamp-indigo" />
+        <Share className="w-3.5 h-3.5 text-stamp-red" />
         <span>To install on iOS: Tap Share → &apos;Add to Home Screen&apos;</span>
       </div>
     );

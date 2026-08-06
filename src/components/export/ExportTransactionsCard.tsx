@@ -136,11 +136,11 @@ export function ExportTransactionsCard() {
   };
 
   return (
-    <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-4">
+    <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
         <div className="flex items-center gap-2">
-          <Download className="h-4 w-4 text-stamp-indigo" />
+          <Download className="h-4 w-4 text-stamp-red" />
           <h2 className="font-display text-base font-bold text-ink-text">
             Export Ledger Register
           </h2>
@@ -162,7 +162,7 @@ export function ExportTransactionsCard() {
             <Calendar className="h-3.5 w-3.5 text-muted-text" />
             <span>From Date</span>
             {isLoadingEarliest && (
-              <Loader2 className="h-3 w-3 animate-spin text-stamp-indigo" />
+              <Loader2 className="h-3 w-3 animate-spin text-stamp-red" />
             )}
           </label>
           <input
@@ -172,7 +172,7 @@ export function ExportTransactionsCard() {
             max={todayStr}
             onChange={(e) => setFromDate(e.target.value)}
             disabled={isExporting}
-            className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none transition-colors"
+            className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none transition-colors"
           />
           <span className="text-[10px] font-mono text-muted-text block">
             Earliest record: {minSelectableDate}
@@ -192,7 +192,7 @@ export function ExportTransactionsCard() {
             max={todayStr}
             onChange={(e) => setToDate(e.target.value)}
             disabled={isExporting}
-            className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none transition-colors"
+            className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none transition-colors"
           />
           <span className="text-[10px] font-mono text-muted-text block">
             Latest permitted: Today ({todayStr})
@@ -202,14 +202,14 @@ export function ExportTransactionsCard() {
 
       {/* Range Validation Warnings */}
       {isFromAfterTo && (
-        <div className="flex items-center gap-2 p-2.5 rounded-[4px] bg-rule-red/10 border border-rule-red/30 text-rule-red text-xs font-mono">
+        <div className="flex items-center gap-2 p-2.5 rounded-lg bg-stamp-red/10 border border-stamp-red/30 text-stamp-red text-xs font-mono">
           <AlertCircle className="h-4 w-4 shrink-0" />
           <span>Invalid date range: &quot;From&quot; date cannot be later than &quot;To&quot; date.</span>
         </div>
       )}
 
       {isFutureTo && (
-        <div className="flex items-center gap-2 p-2.5 rounded-[4px] bg-rule-red/10 border border-rule-red/30 text-rule-red text-xs font-mono">
+        <div className="flex items-center gap-2 p-2.5 rounded-lg bg-stamp-red/10 border border-stamp-red/30 text-stamp-red text-xs font-mono">
           <AlertCircle className="h-4 w-4 shrink-0" />
           <span>Future dates cannot be included in register exports.</span>
         </div>
@@ -226,21 +226,21 @@ export function ExportTransactionsCard() {
             type="button"
             onClick={() => setFormatType("csv")}
             disabled={isExporting}
-            className={`flex flex-col items-start p-3 rounded-[6px] border text-left transition-all ${
+            className={`flex flex-col items-start p-3 rounded-lg border text-left transition-all ${
               formatType === "csv"
-                ? "border-stamp-indigo bg-paper-bg ring-1 ring-stamp-indigo/30 shadow-xs"
-                : "border-fiber-line bg-paper-bg/60 hover:bg-paper-bg hover:border-stamp-indigo/50"
+                ? "border-stamp-red bg-paper-bg ring-1 ring-stamp-red/30 shadow-xs"
+                : "border-fiber-line bg-paper-bg/60 hover:bg-paper-bg hover:border-stamp-red/50"
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1">
               <div className="flex items-center gap-1.5">
-                <FileText className="h-4 w-4 text-stamp-indigo" />
+                <FileText className="h-4 w-4 text-stamp-red" />
                 <span className="font-display font-bold text-xs text-ink-text">
                   CSV (.csv)
                 </span>
               </div>
               {formatType === "csv" && (
-                <CheckCircle2 className="h-3.5 w-3.5 text-stamp-indigo" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-stamp-red" />
               )}
             </div>
             <p className="text-[10px] font-sans text-muted-text">
@@ -253,10 +253,10 @@ export function ExportTransactionsCard() {
             type="button"
             onClick={() => setFormatType("xlsx")}
             disabled={isExporting}
-            className={`flex flex-col items-start p-3 rounded-[6px] border text-left transition-all ${
+            className={`flex flex-col items-start p-3 rounded-lg border text-left transition-all ${
               formatType === "xlsx"
-                ? "border-stamp-indigo bg-paper-bg ring-1 ring-stamp-indigo/30 shadow-xs"
-                : "border-fiber-line bg-paper-bg/60 hover:bg-paper-bg hover:border-stamp-indigo/50"
+                ? "border-stamp-red bg-paper-bg ring-1 ring-stamp-red/30 shadow-xs"
+                : "border-fiber-line bg-paper-bg/60 hover:bg-paper-bg hover:border-stamp-red/50"
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1">
@@ -267,7 +267,7 @@ export function ExportTransactionsCard() {
                 </span>
               </div>
               {formatType === "xlsx" && (
-                <CheckCircle2 className="h-3.5 w-3.5 text-stamp-indigo" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-stamp-red" />
               )}
             </div>
             <p className="text-[10px] font-sans text-muted-text">
@@ -280,21 +280,21 @@ export function ExportTransactionsCard() {
             type="button"
             onClick={() => setFormatType("pdf")}
             disabled={isExporting}
-            className={`flex flex-col items-start p-3 rounded-[6px] border text-left transition-all ${
+            className={`flex flex-col items-start p-3 rounded-lg border text-left transition-all ${
               formatType === "pdf"
-                ? "border-stamp-indigo bg-paper-bg ring-1 ring-stamp-indigo/30 shadow-xs"
-                : "border-fiber-line bg-paper-bg/60 hover:bg-paper-bg hover:border-stamp-indigo/50"
+                ? "border-stamp-red bg-paper-bg ring-1 ring-stamp-red/30 shadow-xs"
+                : "border-fiber-line bg-paper-bg/60 hover:bg-paper-bg hover:border-stamp-red/50"
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1">
               <div className="flex items-center gap-1.5">
-                <FileType className="h-4 w-4 text-rule-red" />
+                <FileType className="h-4 w-4 text-stamp-red" />
                 <span className="font-display font-bold text-xs text-ink-text">
                   PDF Statement
                 </span>
               </div>
               {formatType === "pdf" && (
-                <CheckCircle2 className="h-3.5 w-3.5 text-stamp-indigo" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-stamp-red" />
               )}
             </div>
             <p className="text-[10px] font-sans text-muted-text">
@@ -315,7 +315,7 @@ export function ExportTransactionsCard() {
           type="button"
           onClick={handleExport}
           disabled={isRangeInvalid || isExporting}
-          className="w-full sm:w-auto h-9 px-5 rounded-[4px] border border-stamp-indigo/60 bg-stamp-indigo hover:bg-stamp-indigo/90 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xs flex items-center justify-center gap-2"
+          className="w-full sm:w-auto h-9 px-5 rounded-lg border border-stamp-red/60 bg-stamp-red hover:bg-stamp-red/90 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xs flex items-center justify-center gap-2"
         >
           {isExporting ? (
             <>

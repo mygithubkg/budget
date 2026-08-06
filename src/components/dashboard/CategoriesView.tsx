@@ -113,9 +113,9 @@ export function CategoriesView() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="rounded-[4px] border border-fiber-line bg-card-bg p-2.5 shadow-md text-xs font-mono">
+        <div className="rounded-lg border border-fiber-line bg-card-bg p-2.5 shadow-md text-xs font-mono">
           <p className="font-bold text-ink-text pb-1">{data.name}</p>
-          <p className="text-stamp-indigo">{formatCurrency(data.amount, currency)}</p>
+          <p className="text-stamp-red">{formatCurrency(data.amount, currency)}</p>
           <p className="text-muted-text">{data.percentage}% of total spend</p>
         </div>
       );
@@ -131,13 +131,13 @@ export function CategoriesView() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-fiber-line pb-4">
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] font-mono uppercase text-muted-text hidden sm:inline">Timeframe:</span>
-          <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
             <button
               type="button"
               onClick={() => setTimeFilter("thisMonth")}
-              className={`px-2.5 py-1 rounded-[4px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg transition-colors ${
                 timeFilter === "thisMonth"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -146,9 +146,9 @@ export function CategoriesView() {
             <button
               type="button"
               onClick={() => setTimeFilter("lastMonth")}
-              className={`px-2.5 py-1 rounded-[4px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg transition-colors ${
                 timeFilter === "lastMonth"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -157,9 +157,9 @@ export function CategoriesView() {
             <button
               type="button"
               onClick={() => setTimeFilter("all")}
-              className={`px-2.5 py-1 rounded-[4px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg transition-colors ${
                 timeFilter === "all"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -179,8 +179,8 @@ export function CategoriesView() {
 
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-pulse">
-          <div className="h-72 rounded-[8px] border border-fiber-line bg-card-bg/60" />
-          <div className="h-72 rounded-[8px] border border-fiber-line bg-card-bg/60" />
+          <div className="h-72 rounded-xl border border-fiber-line bg-card-bg/60" />
+          <div className="h-72 rounded-xl border border-fiber-line bg-card-bg/60" />
         </div>
       ) : categoryStats.length === 0 ? (
         <EmptyState
@@ -192,9 +192,9 @@ export function CategoriesView() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Donut Chart & Category Distribution */}
-          <div className="lg:col-span-5 rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
+          <div className="lg:col-span-5 rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
             <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2 border-b border-fiber-line pb-2.5">
-              <PieIcon className="h-4 w-4 text-stamp-indigo" />
+              <PieIcon className="h-4 w-4 text-stamp-red" />
               Allocation Share
             </h2>
 
@@ -241,9 +241,9 @@ export function CategoriesView() {
                       selectedCategoryName === cat.name ? null : cat.name
                     )
                   }
-                  className={`w-full flex items-center justify-between p-2 rounded-[4px] text-xs font-mono transition-colors ${
+                  className={`w-full flex items-center justify-between p-2 rounded-lg text-xs font-mono transition-colors ${
                     selectedCategoryName === cat.name
-                      ? "bg-stamp-indigo/10 border border-stamp-indigo/30"
+                      ? "bg-stamp-red/10 border border-stamp-red/30"
                       : "hover:bg-paper-bg"
                   }`}
                 >
@@ -266,17 +266,17 @@ export function CategoriesView() {
           </div>
 
           {/* Category Ruled List / Drilldown */}
-          <div className="lg:col-span-7 rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
+          <div className="lg:col-span-7 rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
               <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2">
-                <Layers className="h-4 w-4 text-stamp-indigo" />
+                <Layers className="h-4 w-4 text-stamp-red" />
                 {selectedCategoryName ? `${selectedCategoryName} Entries` : "Category Breakdown"}
               </h2>
               {selectedCategoryName && (
                 <button
                   type="button"
                   onClick={() => setSelectedCategoryName(null)}
-                  className="flex items-center gap-1 text-[11px] font-mono text-stamp-indigo hover:underline"
+                  className="flex items-center gap-1 text-[11px] font-mono text-stamp-red hover:underline"
                 >
                   <X className="h-3 w-3" /> Show All
                 </button>
@@ -289,7 +289,7 @@ export function CategoriesView() {
                 {selectedCategoryTransactions.map((tx) => (
                   <div
                     key={tx.id}
-                    className="flex items-center justify-between p-2.5 rounded-[4px] border border-fiber-line/80 bg-paper-bg"
+                    className="flex items-center justify-between p-2.5 rounded-lg border border-fiber-line/80 bg-paper-bg"
                   >
                     <div className="space-y-0.5">
                       <p className="font-bold text-ink-text">{tx.description}</p>
@@ -297,7 +297,7 @@ export function CategoriesView() {
                         {format(tx.date instanceof Date ? tx.date : new Date(tx.date as any), "yyyy-MM-dd")}
                       </span>
                     </div>
-                    <span className="font-bold text-rule-red">
+                    <span className="font-bold text-stamp-red">
                       {formatCurrency(tx.userShare ?? tx.amount, currency)}
                     </span>
                   </div>
@@ -350,12 +350,12 @@ export function CategoriesView() {
                 placeholder="New Category Name..."
                 value={newCatName}
                 onChange={(e) => setNewCatName(e.target.value)}
-                className="flex-1 rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-1.5 text-xs font-mono text-ink-text focus:outline-none focus:border-stamp-indigo"
+                className="flex-1 rounded-lg border border-fiber-line bg-paper-bg px-3 py-1.5 text-xs font-mono text-ink-text focus:outline-none focus:border-stamp-red"
               />
               <button
                 type="submit"
                 disabled={!newCatName.trim() || addCategoryMutation.isPending}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-[4px] bg-stamp-indigo text-[#EDE7D6] font-mono text-xs font-bold disabled:opacity-50 transition-opacity shadow-xs"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-stamp-red text-[#FFFFFF] font-mono text-xs font-bold disabled:opacity-50 transition-opacity shadow-xs"
               >
                 <Plus className="h-3.5 w-3.5" /> Add
               </button>

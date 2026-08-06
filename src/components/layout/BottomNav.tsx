@@ -61,16 +61,16 @@ export function BottomNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "relative flex flex-col items-center justify-center gap-0.5 rounded-[4px] px-2 py-1 text-[10px] font-mono tracking-tight transition-colors",
+              "relative flex flex-col items-center justify-center gap-0.5 rounded-lg px-2 py-1 text-[10px] font-mono tracking-tight transition-colors",
               isActive
-                ? "text-stamp-indigo font-bold"
+                ? "text-stamp-red font-bold"
                 : "text-muted-text hover:text-ink-text"
             )}
           >
-            <Icon className={cn("h-4 w-4", isActive && "text-stamp-indigo")} />
+            <Icon className={cn("h-4 w-4", isActive && "text-stamp-red")} />
             <span>{item.label}</span>
             {isActive && (
-              <span className="absolute -top-[1px] h-0.5 w-5 rounded-full bg-stamp-indigo" />
+              <span className="absolute -top-[1px] h-0.5 w-5 rounded-full bg-stamp-red" />
             )}
           </Link>
         );

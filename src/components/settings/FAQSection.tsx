@@ -123,10 +123,10 @@ export function FAQSection() {
   };
 
   return (
-    <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-6 text-ink-text">
+    <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-6 text-ink-text">
       {/* Section Header */}
       <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-        <HelpCircle className="h-4 w-4 text-stamp-indigo" />
+        <HelpCircle className="h-4 w-4 text-stamp-red" />
         <h2 className="font-display text-base font-bold text-ink-text">
           Frequently Asked Questions & Guide
         </h2>
@@ -138,11 +138,11 @@ export function FAQSection() {
           return (
             <div key={cat.id} className="space-y-2.5">
               <div className="flex items-center gap-2 text-xs font-mono uppercase text-muted-text">
-                <Icon className="h-3.5 w-3.5 text-stamp-indigo" />
+                <Icon className="h-3.5 w-3.5 text-stamp-red" />
                 <span className="font-bold tracking-wider">{cat.title}</span>
               </div>
 
-              <div className="divide-y divide-fiber-line border border-fiber-line rounded-[6px] bg-paper-bg/50 overflow-hidden">
+              <div className="divide-y divide-fiber-line border border-fiber-line rounded-lg bg-paper-bg/50 overflow-hidden">
                 {cat.items.map((item, idx) => {
                   const key = `${cat.id}-${idx}`;
                   const isOpen = !!openItems[key];

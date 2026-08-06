@@ -140,7 +140,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-paper-bg text-ink-text selection:bg-stamp-indigo/20">
+    <div className="min-h-screen w-full flex bg-paper-bg text-ink-text selection:bg-stamp-red/20">
       {/* LEFT PANEL: Product Preview & Ledger Mockup (Hidden on mobile, 50% on lg) */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between border-r border-fiber-line bg-card-bg/60 p-8 xl:p-12 relative overflow-hidden">
         {/* Subtle decorative background pattern */}
@@ -149,7 +149,7 @@ function LoginForm() {
         {/* Top Branding */}
         <div className="relative space-y-3">
           <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-[6px] bg-stamp-indigo text-[#EDE7D6] font-display font-bold text-base shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] font-display font-bold text-base shadow-sm">
               <BookOpen className="h-4.5 w-4.5" />
             </div>
             <div className="flex items-center gap-1.5">
@@ -164,7 +164,7 @@ function LoginForm() {
 
           <h2 className="font-display text-3xl xl:text-4xl font-bold tracking-tight text-ink-text leading-tight pt-4">
             The Ruled Account Register, <br />
-            <span className="text-stamp-indigo italic font-serif">Reimagined for Speed.</span>
+            <span className="text-stamp-red italic font-serif">Reimagined for Speed.</span>
           </h2>
           <p className="text-sm font-sans text-muted-text max-w-md leading-relaxed">
             Record expenses, split shared costs with friends, and track daily running totals just by typing or talking.
@@ -172,22 +172,22 @@ function LoginForm() {
         </div>
 
         {/* Realistic Ledger Conversation Simulation Card */}
-        <div className="relative my-8 rounded-[8px] border border-fiber-line bg-paper-bg shadow-sm p-5 space-y-4 max-w-lg border-l-4 border-l-stamp-indigo">
+        <div className="relative my-8 rounded-xl border border-fiber-line bg-paper-bg shadow-sm p-5 space-y-4 max-w-lg border-l-4 border-l-stamp-red">
           {/* Top Simulated Register Header */}
           <div className="flex items-center justify-between border-b border-fiber-line pb-2 text-[10px] font-mono text-muted-text uppercase">
             <span>REGISTER FOLIO: 2026-A</span>
-            <span className="text-stamp-emerald font-bold flex items-center gap-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-stamp-emerald animate-pulse" />
+            <span className="text-thrive-green font-bold flex items-center gap-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-thrive-green animate-pulse" />
               LIVE REGISTER
             </span>
           </div>
 
           {/* User Speech Entry */}
           <div className="flex items-start gap-2.5">
-            <div className="h-6 w-6 rounded-full bg-card-bg border border-fiber-line flex items-center justify-center text-[10px] font-mono font-bold text-stamp-indigo shrink-0">
+            <div className="h-6 w-6 rounded-full bg-card-bg border border-fiber-line flex items-center justify-center text-[10px] font-mono font-bold text-stamp-red shrink-0">
               YOU
             </div>
-            <div className="rounded-[6px] bg-card-bg border border-fiber-line px-3 py-2 text-xs font-sans text-ink-text shadow-xs">
+            <div className="rounded-lg bg-card-bg border border-fiber-line px-3 py-2 text-xs font-sans text-ink-text shadow-xs">
               &quot;Spent ₹1,800 on team dinner, Sam owes ₹600, Priya owes ₹600&quot;
             </div>
           </div>
@@ -195,22 +195,22 @@ function LoginForm() {
           {/* Assistant Parse & Multi-Expense Ledger Breakdown */}
           <div className="space-y-2 pt-1">
             <div className="flex items-center gap-2 text-[10px] font-mono uppercase text-muted-text">
-              <Sparkles className="h-3 w-3 text-passbook-gold" />
+              <Sparkles className="h-3 w-3 text-thrive-green" />
               <span>PARSED & RECORDED (3 ENTRIES)</span>
             </div>
 
             <div className="space-y-1.5 text-xs font-mono">
-              <div className="flex items-center justify-between p-2 rounded-[4px] bg-card-bg/80 border border-fiber-line">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-card-bg/80 border border-fiber-line">
                 <span className="text-ink-text">Food &amp; Dining (Your Share)</span>
-                <span className="font-bold text-rule-red">₹600.00</span>
+                <span className="font-bold text-stamp-red">₹600.00</span>
               </div>
-              <div className="flex items-center justify-between p-2 rounded-[4px] bg-card-bg/80 border border-fiber-line">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-card-bg/80 border border-fiber-line">
                 <span className="text-ink-text">Sam &bull; Debt Tab</span>
-                <span className="font-bold text-stamp-emerald">+₹600.00</span>
+                <span className="font-bold text-thrive-green">+₹600.00</span>
               </div>
-              <div className="flex items-center justify-between p-2 rounded-[4px] bg-card-bg/80 border border-fiber-line">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-card-bg/80 border border-fiber-line">
                 <span className="text-ink-text">Priya &bull; Debt Tab</span>
-                <span className="font-bold text-stamp-emerald">+₹600.00</span>
+                <span className="font-bold text-thrive-green">+₹600.00</span>
               </div>
             </div>
 
@@ -224,15 +224,15 @@ function LoginForm() {
         {/* Feature Pills Footer */}
         <div className="relative grid grid-cols-3 gap-3 border-t border-fiber-line pt-6 text-[11px] font-mono text-muted-text">
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="h-3.5 w-3.5 text-stamp-indigo shrink-0" />
+            <ShieldCheck className="h-3.5 w-3.5 text-stamp-red shrink-0" />
             <span>AES-256 Encrypted</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Send className="h-3.5 w-3.5 text-stamp-indigo shrink-0" />
+            <Send className="h-3.5 w-3.5 text-stamp-red shrink-0" />
             <span>Telegram Bot Sync</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Zap className="h-3.5 w-3.5 text-stamp-indigo shrink-0" />
+            <Zap className="h-3.5 w-3.5 text-stamp-red shrink-0" />
             <span>Offline Ready PWA</span>
           </div>
         </div>
@@ -244,7 +244,7 @@ function LoginForm() {
           {/* Mobile Top Header */}
           <div className="text-center lg:text-left space-y-2">
             <Link href="/" className="inline-flex items-center gap-2 group lg:hidden">
-              <div className="flex h-8 w-8 items-center justify-center rounded-[6px] bg-stamp-indigo text-[#EDE7D6] font-display font-bold text-base shadow-sm">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] font-display font-bold text-base shadow-sm">
                 <BookOpen className="h-4 w-4" />
               </div>
               <span className="font-display text-xl font-bold tracking-tight text-ink-text">
@@ -263,7 +263,7 @@ function LoginForm() {
           </div>
 
           {/* Auth Card */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-6 sm:p-8 shadow-sm">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-6 sm:p-8 shadow-sm">
             {/* Tab Selector */}
             <div className="flex border-b border-fiber-line pb-4 mb-6">
               <button
@@ -280,7 +280,7 @@ function LoginForm() {
               >
                 Sign In
                 {activeTab === "signin" && !forgotPasswordOpen && (
-                  <div className="absolute bottom-[-17px] left-0 right-0 h-[2px] bg-stamp-indigo" />
+                  <div className="absolute bottom-[-17px] left-0 right-0 h-[2px] bg-stamp-red" />
                 )}
               </button>
               <button
@@ -297,7 +297,7 @@ function LoginForm() {
               >
                 Open Register
                 {activeTab === "signup" && !forgotPasswordOpen && (
-                  <div className="absolute bottom-[-17px] left-0 right-0 h-[2px] bg-stamp-indigo" />
+                  <div className="absolute bottom-[-17px] left-0 right-0 h-[2px] bg-stamp-red" />
                 )}
               </button>
             </div>
@@ -315,8 +315,8 @@ function LoginForm() {
                 </div>
 
                 {resetSent ? (
-                  <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-4 space-y-3 text-center">
-                    <CheckCircle2 className="h-6 w-6 text-stamp-emerald mx-auto" />
+                  <div className="rounded-lg border border-fiber-line bg-paper-bg p-4 space-y-3 text-center">
+                    <CheckCircle2 className="h-6 w-6 text-thrive-green mx-auto" />
                     <p className="text-xs font-sans text-ink-text">
                       If an account exists for <strong>{resetEmail}</strong>, we have dispatched a password reset link.
                     </p>
@@ -327,7 +327,7 @@ function LoginForm() {
                         setResetSent(false);
                         setResetEmail("");
                       }}
-                      className="text-xs font-mono text-stamp-indigo hover:underline"
+                      className="text-xs font-mono text-stamp-red hover:underline"
                     >
                       Return to Sign In
                     </button>
@@ -344,7 +344,7 @@ function LoginForm() {
                         placeholder="you@example.com"
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
-                        className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                       />
                     </div>
 
@@ -359,7 +359,7 @@ function LoginForm() {
                       <button
                         type="submit"
                         disabled={isSendingReset}
-                        className="px-4 py-2 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold text-[#EDE7D6] transition-colors disabled:opacity-50 flex items-center gap-1.5"
+                        className="px-4 py-2 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold text-[#FFFFFF] transition-colors disabled:opacity-50 flex items-center gap-1.5"
                       >
                         {isSendingReset && <Loader2 className="h-3 w-3 animate-spin" />}
                         Send Reset Link
@@ -376,7 +376,7 @@ function LoginForm() {
                   type="button"
                   onClick={handleGoogleSignIn}
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2.5 rounded-[6px] border border-fiber-line bg-paper-bg hover:bg-card-bg px-4 py-2.5 text-xs font-medium text-ink-text transition-colors disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2.5 rounded-lg border border-fiber-line bg-paper-bg hover:bg-card-bg px-4 py-2.5 text-xs font-medium text-ink-text transition-colors disabled:opacity-50"
                 >
                   <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                     <path
@@ -421,7 +421,7 @@ function LoginForm() {
                         placeholder="Alex Morgan"
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
-                        className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                       />
                     </div>
                   )}
@@ -436,7 +436,7 @@ function LoginForm() {
                       placeholder="alex@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                      className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                     />
                   </div>
 
@@ -452,7 +452,7 @@ function LoginForm() {
                             setForgotPasswordOpen(true);
                             setResetEmail(email);
                           }}
-                          className="text-[11px] font-mono text-stamp-indigo hover:underline"
+                          className="text-[11px] font-mono text-stamp-red hover:underline"
                         >
                           Forgot password?
                         </button>
@@ -465,7 +465,7 @@ function LoginForm() {
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full h-9 rounded-[4px] border border-fiber-line bg-paper-bg px-3 pr-10 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="w-full h-9 rounded-lg border border-fiber-line bg-paper-bg px-3 pr-10 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                       />
                       <button
                         type="button"
@@ -480,7 +480,7 @@ function LoginForm() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold text-[#EDE7D6] py-2.5 px-4 transition-colors disabled:opacity-50 mt-2"
+                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold text-[#FFFFFF] py-2.5 px-4 transition-colors disabled:opacity-50 mt-2"
                   >
                     {isSubmitting ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -511,7 +511,7 @@ export default function LoginPage() {
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-paper-bg">
           <div className="flex items-center gap-2 text-xs font-mono text-muted-text">
-            <Loader2 className="h-4 w-4 animate-spin text-stamp-indigo" />
+            <Loader2 className="h-4 w-4 animate-spin text-stamp-red" />
             Loading login...
           </div>
         </div>

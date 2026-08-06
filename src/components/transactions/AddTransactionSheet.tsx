@@ -153,7 +153,7 @@ export function AddTransactionSheet({
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-4">
           {/* Type Toggle */}
-          <div className="flex rounded-[4px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
             <button
               type="button"
               onClick={() => {
@@ -161,7 +161,7 @@ export function AddTransactionSheet({
               }}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-[3px] transition-colors ${
                 type === "expense"
-                  ? "bg-rule-red text-[#EDE7D6] font-bold"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -176,7 +176,7 @@ export function AddTransactionSheet({
               }}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-[3px] transition-colors ${
                 type === "income"
-                  ? "bg-passbook-gold text-[#EDE7D6] font-bold"
+                  ? "bg-thrive-green text-[#FFFFFF] font-bold"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -196,7 +196,7 @@ export function AddTransactionSheet({
               placeholder="0.00"
               value={amount}
               onChange={(e) => handleAmountChange(e.target.value)}
-              className="w-full h-10 rounded-[4px] border border-fiber-line bg-paper-bg px-3 text-base font-mono font-bold text-ink-text focus:border-stamp-indigo focus:outline-none"
+              className="w-full h-10 rounded-lg border border-fiber-line bg-paper-bg px-3 text-base font-mono font-bold text-ink-text focus:border-stamp-red focus:outline-none"
               required
             />
           </div>
@@ -211,7 +211,7 @@ export function AddTransactionSheet({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              className="w-full h-8 rounded-[4px] border border-fiber-line bg-paper-bg px-2.5 text-xs text-ink-text focus:border-stamp-indigo focus:outline-none"
+              className="w-full h-8 rounded-lg border border-fiber-line bg-paper-bg px-2.5 text-xs text-ink-text focus:border-stamp-red focus:outline-none"
             />
           </div>
 
@@ -223,7 +223,7 @@ export function AddTransactionSheet({
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full h-8 rounded-[4px] border border-fiber-line bg-paper-bg px-2.5 text-xs text-ink-text focus:border-stamp-indigo focus:outline-none"
+              className="w-full h-8 rounded-lg border border-fiber-line bg-paper-bg px-2.5 text-xs text-ink-text focus:border-stamp-red focus:outline-none"
               required
             >
               <option value="">Select an account</option>
@@ -245,13 +245,13 @@ export function AddTransactionSheet({
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
-              className="w-full h-8 rounded-[4px] border border-fiber-line bg-paper-bg px-2.5 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+              className="w-full h-8 rounded-lg border border-fiber-line bg-paper-bg px-2.5 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
             />
           </div>
 
           {/* Splits section (Expenses only) */}
           {type === "expense" && (
-            <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3.5 space-y-3">
+            <div className="rounded-lg border border-fiber-line bg-paper-bg p-3.5 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono font-bold uppercase text-ink-text tracking-wider">
                   Split with friends (optional)
@@ -276,8 +276,8 @@ export function AddTransactionSheet({
                           <span
                             className={`text-[9px] uppercase px-1 py-0.2 rounded-[2px] border font-bold ${
                               isIOweThem
-                                ? "border-rule-red/40 bg-rule-red/10 text-rule-red"
-                                : "border-passbook-gold/40 bg-passbook-gold/10 text-passbook-gold"
+                                ? "border-stamp-red/40 bg-stamp-red/10 text-stamp-red"
+                                : "border-thrive-green/40 bg-thrive-green/10 text-thrive-green"
                             }`}
                           >
                             {isIOweThem ? "You owe" : "Owes you"}
@@ -286,7 +286,7 @@ export function AddTransactionSheet({
                         <div className="flex items-center gap-2">
                           <span
                             className={`font-mono font-bold ${
-                              isIOweThem ? "text-rule-red" : "text-passbook-gold"
+                              isIOweThem ? "text-stamp-red" : "text-thrive-green"
                             }`}
                           >
                             {formatCurrency(s.amount, userProfile?.currency)}
@@ -294,7 +294,7 @@ export function AddTransactionSheet({
                           <button
                             type="button"
                             onClick={() => handleRemoveSplit(idx)}
-                            className="text-muted-text hover:text-rule-red"
+                            className="text-muted-text hover:text-stamp-red"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
@@ -311,19 +311,19 @@ export function AddTransactionSheet({
                   placeholder="Friend name"
                   value={newSplitFriend}
                   onChange={(e) => setNewSplitFriend(e.target.value)}
-                  className="h-8 text-xs flex-1 rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:outline-none"
+                  className="h-8 text-xs flex-1 rounded-lg border border-fiber-line bg-card-bg px-2 text-ink-text focus:outline-none"
                 />
                 <input
                   type="number"
                   placeholder="Amount"
                   value={newSplitAmount}
                   onChange={(e) => setNewSplitAmount(e.target.value)}
-                  className="h-8 text-xs w-20 rounded-[4px] border border-fiber-line bg-card-bg px-2 font-mono text-ink-text focus:outline-none"
+                  className="h-8 text-xs w-20 rounded-lg border border-fiber-line bg-card-bg px-2 font-mono text-ink-text focus:outline-none"
                 />
                 <select
                   value={newSplitDirection}
                   onChange={(e) => setNewSplitDirection(e.target.value as SplitDirection)}
-                  className="h-8 text-[10px] font-mono uppercase font-bold rounded-[4px] border border-fiber-line bg-card-bg px-1 text-ink-text focus:outline-none"
+                  className="h-8 text-[10px] font-mono uppercase font-bold rounded-lg border border-fiber-line bg-card-bg px-1 text-ink-text focus:outline-none"
                 >
                   <option value="they_owe_me">Owes you</option>
                   <option value="i_owe_them">You owe</option>
@@ -331,7 +331,7 @@ export function AddTransactionSheet({
                 <button
                   type="button"
                   onClick={handleAddSplit}
-                  className="h-8 px-2.5 rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo text-ink-text flex items-center justify-center shrink-0"
+                  className="h-8 px-2.5 rounded-lg border border-fiber-line bg-card-bg hover:border-stamp-red text-ink-text flex items-center justify-center shrink-0"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>
@@ -343,8 +343,8 @@ export function AddTransactionSheet({
           <button
             type="submit"
             disabled={addTransactionMutation.isPending}
-            className={`w-full h-10 rounded-[4px] font-mono font-bold text-xs uppercase tracking-wider text-[#EDE7D6] flex items-center justify-center gap-2 transition-colors disabled:opacity-50 ${
-              type === "income" ? "bg-passbook-gold hover:bg-passbook-gold/90" : "bg-rule-red hover:bg-rule-red/90"
+            className={`w-full h-10 rounded-lg font-mono font-bold text-xs uppercase tracking-wider text-[#FFFFFF] flex items-center justify-center gap-2 transition-colors disabled:opacity-50 ${
+              type === "income" ? "bg-thrive-green hover:bg-thrive-green/90" : "bg-stamp-red hover:bg-stamp-red/90"
             }`}
           >
             {addTransactionMutation.isPending ? (

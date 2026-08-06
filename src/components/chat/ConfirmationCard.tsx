@@ -93,11 +93,11 @@ export function ConfirmationCard({
   }
 
   return (
-    <div className="w-full max-w-lg rounded-[8px] border border-fiber-line bg-card-bg shadow-sm overflow-hidden text-ink-text">
+    <div className="w-full max-w-lg rounded-xl border border-fiber-line bg-card-bg shadow-sm overflow-hidden text-ink-text">
       {/* Header bar */}
       <div className="px-4 py-2.5 flex items-center justify-between border-b border-fiber-line bg-paper-bg">
         <div className="flex items-center gap-2">
-          <BookOpen className="h-4 w-4 text-stamp-indigo" />
+          <BookOpen className="h-4 w-4 text-stamp-red" />
           <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-text">
             {totalItemsCount === 1 ? "Review Entry" : `Review ${totalItemsCount} Entries`}
           </span>
@@ -125,7 +125,7 @@ export function ConfirmationCard({
                 <div
                   className="absolute left-0 top-0 bottom-0 w-[2.5px]"
                   style={{
-                    backgroundColor: isIncome ? "var(--passbook-gold)" : "var(--rule-red)",
+                    backgroundColor: isIncome ? "var(--thrive-green)" : "var(--stamp-red)",
                   }}
                 />
 
@@ -137,7 +137,7 @@ export function ConfirmationCard({
                         value={item.description}
                         onChange={(e) => handleUpdateItem(idx, "description", e.target.value)}
                         placeholder="Description"
-                        className="h-7 text-xs font-sans rounded-[4px] border border-fiber-line bg-card-bg px-2 flex-1 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="h-7 text-xs font-sans rounded-lg border border-fiber-line bg-card-bg px-2 flex-1 text-ink-text focus:border-stamp-red focus:outline-none"
                       />
                       <input
                         type="number"
@@ -145,7 +145,7 @@ export function ConfirmationCard({
                         onChange={(e) =>
                           handleUpdateItem(idx, "totalAmount", parseFloat(e.target.value) || 0)
                         }
-                        className="h-7 w-24 text-right text-xs font-mono font-bold rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="h-7 w-24 text-right text-xs font-mono font-bold rounded-lg border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-red focus:outline-none"
                       />
                     </div>
 
@@ -153,7 +153,7 @@ export function ConfirmationCard({
                       <select
                         value={item.category}
                         onChange={(e) => handleUpdateItem(idx, "category", e.target.value)}
-                        className="h-7 text-[11px] font-sans rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="h-7 text-[11px] font-sans rounded-lg border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-red focus:outline-none"
                       >
                         {categories.map((c) => (
                           <option key={c.id || c.name} value={c.name}>
@@ -166,13 +166,13 @@ export function ConfirmationCard({
                         type="date"
                         value={item.date}
                         onChange={(e) => handleUpdateItem(idx, "date", e.target.value)}
-                        className="h-7 text-[11px] font-mono rounded-[4px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                        className="h-7 text-[11px] font-mono rounded-lg border border-fiber-line bg-card-bg px-2 text-ink-text focus:border-stamp-red focus:outline-none"
                       />
 
                       <button
                         type="button"
                         onClick={() => setEditingIndex(null)}
-                        className="h-7 px-2.5 rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo text-[11px] font-mono uppercase font-bold text-stamp-indigo flex items-center gap-1 shrink-0"
+                        className="h-7 px-2.5 rounded-lg border border-fiber-line bg-card-bg hover:border-stamp-red text-[11px] font-mono uppercase font-bold text-stamp-red flex items-center gap-1 shrink-0"
                       >
                         <Check className="h-3 w-3" /> Done
                       </button>
@@ -200,7 +200,7 @@ export function ConfirmationCard({
                       <div className="text-right">
                         <span
                           className={`font-mono text-sm font-bold ${
-                            isIncome ? "text-passbook-gold" : "text-ink-text"
+                            isIncome ? "text-thrive-green" : "text-ink-text"
                           }`}
                         >
                           {isIncome ? "+" : "−"}{formatCurrency(item.totalAmount, currency)}
@@ -216,7 +216,7 @@ export function ConfirmationCard({
                       <button
                         type="button"
                         onClick={() => setEditingIndex(idx)}
-                        className="p-1 rounded-[4px] text-muted-text hover:text-ink-text hover:bg-paper-bg transition-colors"
+                        className="p-1 rounded-lg text-muted-text hover:text-ink-text hover:bg-paper-bg transition-colors"
                         title="Edit Entry"
                       >
                         <Edit2 className="h-3.5 w-3.5" />
@@ -225,7 +225,7 @@ export function ConfirmationCard({
                       <button
                         type="button"
                         onClick={() => handleRemoveItem(idx)}
-                        className="p-1 rounded-[4px] text-muted-text hover:text-rule-red hover:bg-paper-bg transition-colors"
+                        className="p-1 rounded-lg text-muted-text hover:text-stamp-red hover:bg-paper-bg transition-colors"
                         title="Delete Entry"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -243,7 +243,7 @@ export function ConfirmationCard({
                         <span
                           key={sIdx}
                           className={`font-semibold ${
-                            isIOweThem ? "text-rule-red" : "text-passbook-gold"
+                            isIOweThem ? "text-stamp-red" : "text-thrive-green"
                           }`}
                         >
                           {isIOweThem
@@ -282,7 +282,7 @@ export function ConfirmationCard({
         <div className="flex items-center gap-2 pt-2">
           <button
             type="button"
-            className="flex-1 flex items-center justify-center gap-2 h-9 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] transition-colors disabled:opacity-50"
+            className="flex-1 flex items-center justify-center gap-2 h-9 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] transition-colors disabled:opacity-50"
             onClick={handleConfirmAll}
             disabled={isSaving || totalAmount <= 0}
           >
@@ -296,7 +296,7 @@ export function ConfirmationCard({
 
           <button
             type="button"
-            className="h-9 px-3.5 rounded-[6px] border border-fiber-line bg-paper-bg hover:text-rule-red text-xs font-mono uppercase tracking-wider text-muted-text transition-colors"
+            className="h-9 px-3.5 rounded-lg border border-fiber-line bg-paper-bg hover:text-stamp-red text-xs font-mono uppercase tracking-wider text-muted-text transition-colors"
             onClick={onCancel}
             disabled={isSaving}
           >

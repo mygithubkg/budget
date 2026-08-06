@@ -237,10 +237,10 @@ export default function GroupDetailsPage() {
   if (!group) {
     return (
       <div className="p-8 max-w-lg mx-auto text-center space-y-4">
-        <p className="text-xs font-mono text-rule-red">Group not found or access denied.</p>
+        <p className="text-xs font-mono text-stamp-red">Group not found or access denied.</p>
         <Link
           href="/dashboard/friends?tab=groups"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-stamp-indigo hover:underline"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-stamp-red hover:underline"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to Group Ledgers</span>
@@ -266,7 +266,7 @@ export default function GroupDetailsPage() {
             <button
               type="button"
               onClick={() => setAddGhostModalOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-[4px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo px-2.5 py-1 text-xs font-mono text-ink-text shadow-xs"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red px-2.5 py-1 text-xs font-mono text-ink-text shadow-xs"
             >
               <UserPlus className="h-3.5 w-3.5" />
               <span>Add Member</span>
@@ -275,7 +275,7 @@ export default function GroupDetailsPage() {
             <button
               type="button"
               onClick={() => setInviteModalOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] shadow-xs"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] shadow-xs"
             >
               <Share2 className="h-3.5 w-3.5" />
               <span>Invite</span>
@@ -285,7 +285,7 @@ export default function GroupDetailsPage() {
 
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-stamp-indigo/10 text-stamp-indigo border border-stamp-indigo/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-stamp-red/10 text-stamp-red border border-stamp-red/20">
               <Compass className="h-5 w-5" />
             </div>
             <div>
@@ -312,7 +312,7 @@ export default function GroupDetailsPage() {
                   </span>
                 )}
                 {m.id === user?.uid && (
-                  <span className="text-[9px] uppercase px-1 rounded-[2px] bg-stamp-indigo/10 text-stamp-indigo font-bold">
+                  <span className="text-[9px] uppercase px-1 rounded-[2px] bg-stamp-red/10 text-stamp-red font-bold">
                     you
                   </span>
                 )}
@@ -355,13 +355,13 @@ export default function GroupDetailsPage() {
 
       {/* Sub-Tabs: Ledger | AI Group Logger | Settle Up */}
       <div className="flex items-center justify-between border-b border-fiber-line pb-3">
-        <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+        <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
           <button
             type="button"
             onClick={() => setActiveTab("ledger")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors ${
               activeTab === "ledger"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -372,9 +372,9 @@ export default function GroupDetailsPage() {
           <button
             type="button"
             onClick={() => setActiveTab("ai")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors ${
               activeTab === "ai"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -385,9 +385,9 @@ export default function GroupDetailsPage() {
           <button
             type="button"
             onClick={() => setActiveTab("balances")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg transition-colors ${
               activeTab === "balances"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -400,7 +400,7 @@ export default function GroupDetailsPage() {
           <button
             type="button"
             onClick={() => setAddExpenseModalOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] shadow-xs"
           >
             <Plus className="h-3.5 w-3.5" />
             <span>Add Expense</span>
@@ -410,7 +410,7 @@ export default function GroupDetailsPage() {
 
       {/* TAB 1: LEDGER */}
       {activeTab === "ledger" && (
-        <div className="rounded-[8px] border border-fiber-line bg-card-bg shadow-xs overflow-hidden">
+        <div className="rounded-xl border border-fiber-line bg-card-bg shadow-xs overflow-hidden">
           <div className="p-4 sm:p-5 border-b border-fiber-line flex items-center justify-between">
             <div>
               <h2 className="font-display text-base font-bold text-ink-text">
@@ -471,7 +471,7 @@ export default function GroupDetailsPage() {
                           </div>
                         </td>
                         <td className="py-3 px-4 text-ink-text">
-                          <span className="font-semibold text-stamp-indigo">{payer}</span>
+                          <span className="font-semibold text-stamp-red">{payer}</span>
                         </td>
                         <td className="py-3 px-4">
                           <span className="text-[10px] px-2 py-0.5 rounded-[3px] border border-fiber-line bg-paper-bg text-muted-text">
@@ -494,19 +494,19 @@ export default function GroupDetailsPage() {
                         : (st.date as any)?.toDate?.() || new Date();
 
                     return (
-                      <tr key={st.id} className="bg-stamp-indigo/5 hover:bg-stamp-indigo/10 transition-colors">
+                      <tr key={st.id} className="bg-stamp-red/5 hover:bg-stamp-red/10 transition-colors">
                         <td className="py-3 px-4 text-muted-text whitespace-nowrap">
                           {format(stDate, "yyyy-MM-dd")}
                         </td>
-                        <td className="py-3 px-4 font-bold text-stamp-indigo" colSpan={2}>
+                        <td className="py-3 px-4 font-bold text-stamp-red" colSpan={2}>
                           Settlement: {fromName} paid {toName}
                         </td>
                         <td className="py-3 px-4">
-                          <span className="text-[10px] px-2 py-0.5 rounded-[3px] border border-stamp-indigo/30 bg-stamp-indigo/10 text-stamp-indigo uppercase">
+                          <span className="text-[10px] px-2 py-0.5 rounded-[3px] border border-stamp-red/30 bg-stamp-red/10 text-stamp-red uppercase">
                             Settlement
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-right font-bold text-stamp-emerald whitespace-nowrap">
+                        <td className="py-3 px-4 text-right font-bold text-thrive-green whitespace-nowrap">
                           ✓ {formatCurrency(st.amount, currency)}
                         </td>
                       </tr>
@@ -522,9 +522,9 @@ export default function GroupDetailsPage() {
       {/* TAB 2: AI GROUP LOGGER */}
       {activeTab === "ai" && (
         <div className="max-w-2xl mx-auto space-y-4">
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
             <div className="flex items-center gap-2 border-b border-fiber-line pb-3">
-              <Sparkles className="h-5 w-5 text-stamp-indigo" />
+              <Sparkles className="h-5 w-5 text-stamp-red" />
               <div>
                 <h3 className="font-display text-base font-bold text-ink-text">
                   AI Group Trip Logger
@@ -546,7 +546,7 @@ export default function GroupDetailsPage() {
                   key={idx}
                   type="button"
                   onClick={() => handleAiGroupSend(chip)}
-                  className="rounded-[4px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo text-[11px] font-sans text-ink-text px-2.5 py-1 transition-all"
+                  className="rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red text-[11px] font-sans text-ink-text px-2.5 py-1 transition-all"
                 >
                   {chip}
                 </button>
@@ -562,13 +562,13 @@ export default function GroupDetailsPage() {
                 onKeyDown={(e) => e.key === "Enter" && handleAiGroupSend()}
                 placeholder="e.g. Maya paid 1200 for groceries..."
                 disabled={isAiLoading}
-                className="flex-1 rounded-[6px] border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-indigo focus:outline-none"
+                className="flex-1 rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-red focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => handleAiGroupSend()}
                 disabled={!aiMessage.trim() || isAiLoading}
-                className="flex h-9 w-9 items-center justify-center rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-[#EDE7D6] disabled:opacity-40"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-[#FFFFFF] disabled:opacity-40"
               >
                 {isAiLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -580,9 +580,9 @@ export default function GroupDetailsPage() {
 
             {/* Pending Confirmation Card */}
             {pendingAiTransaction && (
-              <div className="rounded-[6px] border border-stamp-indigo/40 bg-stamp-indigo/5 p-4 space-y-3 animate-in fade-in duration-200">
-                <div className="flex items-center justify-between border-b border-stamp-indigo/20 pb-2">
-                  <span className="text-xs font-mono font-bold uppercase text-stamp-indigo">
+              <div className="rounded-lg border border-stamp-red/40 bg-stamp-red/5 p-4 space-y-3 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between border-b border-stamp-red/20 pb-2">
+                  <span className="text-xs font-mono font-bold uppercase text-stamp-red">
                     Confirm Group Entry
                   </span>
                   <button
@@ -601,7 +601,7 @@ export default function GroupDetailsPage() {
                   </div>
                   <div>
                     <span className="text-muted-text text-[10px] uppercase">Total Amount:</span>
-                    <p className="font-bold text-stamp-emerald">
+                    <p className="font-bold text-thrive-green">
                       {formatCurrency(pendingAiTransaction.totalAmount, currency)}
                     </p>
                   </div>
@@ -617,7 +617,7 @@ export default function GroupDetailsPage() {
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-stamp-indigo/20">
+                <div className="pt-2 border-t border-stamp-red/20">
                   <span className="text-muted-text text-[10px] uppercase font-mono block mb-1">
                     Splits ({pendingAiTransaction.splits?.length || 0} members):
                   </span>
@@ -640,14 +640,14 @@ export default function GroupDetailsPage() {
                   <button
                     type="button"
                     onClick={() => setPendingAiTransaction(null)}
-                    className="px-3 py-1 text-xs font-mono rounded-[4px] border border-fiber-line text-muted-text hover:text-ink-text"
+                    className="px-3 py-1 text-xs font-mono rounded-lg border border-fiber-line text-muted-text hover:text-ink-text"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
                     onClick={handleConfirmAiTransaction}
-                    className="px-4 py-1 text-xs font-mono font-bold uppercase rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-[#EDE7D6]"
+                    className="px-4 py-1 text-xs font-mono font-bold uppercase rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-[#FFFFFF]"
                   >
                     Confirm &amp; Record
                   </button>
@@ -662,7 +662,7 @@ export default function GroupDetailsPage() {
       {activeTab === "balances" && (
         <div className="space-y-6">
           {/* Member Balance Summary Table */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-3">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-3">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div>
                 <h2 className="font-display text-base font-bold text-ink-text">
@@ -695,7 +695,7 @@ export default function GroupDetailsPage() {
                           </span>
                         )}
                         {b.memberRef === user?.uid && (
-                          <span className="text-[9px] font-normal uppercase px-1 rounded-[2px] bg-stamp-indigo/10 text-stamp-indigo font-bold">
+                          <span className="text-[9px] font-normal uppercase px-1 rounded-[2px] bg-stamp-red/10 text-stamp-red font-bold">
                             you
                           </span>
                         )}
@@ -709,9 +709,9 @@ export default function GroupDetailsPage() {
                       <td
                         className={`py-3 px-4 text-right font-bold whitespace-nowrap ${
                           b.netBalance > 0
-                            ? "text-stamp-emerald"
+                            ? "text-thrive-green"
                             : b.netBalance < 0
-                            ? "text-rule-red"
+                            ? "text-stamp-red"
                             : "text-muted-text"
                         }`}
                       >
@@ -726,11 +726,11 @@ export default function GroupDetailsPage() {
           </div>
 
           {/* Simplified Debt Settlements Card */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-fiber-line pb-3">
               <div>
                 <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2">
-                  <HandCoins className="h-4 w-4 text-stamp-indigo" />
+                  <HandCoins className="h-4 w-4 text-stamp-red" />
                   <span>Minimum Settlement Plan (Debt Simplification)</span>
                 </h2>
                 <p className="text-xs text-muted-text">
@@ -741,15 +741,15 @@ export default function GroupDetailsPage() {
               <button
                 type="button"
                 onClick={() => setSettleModalOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] shadow-xs shrink-0"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] shadow-xs shrink-0"
               >
                 <span>Record Payment</span>
               </button>
             </div>
 
             {simplifiedDebts.length === 0 ? (
-              <div className="py-8 text-center text-xs font-mono text-stamp-emerald space-y-1">
-                <Check className="h-6 w-6 mx-auto mb-1 text-stamp-emerald" />
+              <div className="py-8 text-center text-xs font-mono text-thrive-green space-y-1">
+                <Check className="h-6 w-6 mx-auto mb-1 text-thrive-green" />
                 <p className="font-bold">All group debts are completely settled!</p>
                 <p className="text-muted-text text-[11px]">No pending payments between members.</p>
               </div>
@@ -758,12 +758,12 @@ export default function GroupDetailsPage() {
                 {simplifiedDebts.map((payment, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3.5 rounded-[6px] border border-fiber-line bg-paper-bg/60"
+                    className="flex items-center justify-between p-3.5 rounded-lg border border-fiber-line bg-paper-bg/60"
                   >
                     <div className="flex items-center gap-2 font-mono text-xs">
-                      <span className="font-bold text-rule-red">{payment.fromName}</span>
+                      <span className="font-bold text-stamp-red">{payment.fromName}</span>
                       <ArrowRight className="h-3.5 w-3.5 text-muted-text" />
-                      <span className="font-bold text-stamp-emerald">{payment.toName}</span>
+                      <span className="font-bold text-thrive-green">{payment.toName}</span>
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -773,7 +773,7 @@ export default function GroupDetailsPage() {
                       <button
                         type="button"
                         onClick={() => handleQuickSettleClick(payment)}
-                        className="px-2.5 py-1 rounded-[3px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-[#EDE7D6] font-mono text-[10px] font-bold uppercase shadow-2xs"
+                        className="px-2.5 py-1 rounded-[3px] bg-stamp-red hover:bg-stamp-red/90 text-[#FFFFFF] font-mono text-[10px] font-bold uppercase shadow-2xs"
                       >
                         Settle
                       </button>
@@ -789,10 +789,10 @@ export default function GroupDetailsPage() {
       {/* Invite Link Modal */}
       {inviteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <Share2 className="h-5 w-5 text-stamp-indigo" />
+                <Share2 className="h-5 w-5 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Invite to {group.name}
                 </h3>
@@ -811,8 +811,8 @@ export default function GroupDetailsPage() {
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-muted-text block mb-1">
                   6-Character Invite Code
                 </span>
-                <div className="p-3 bg-paper-bg border border-fiber-line rounded-[4px] text-center">
-                  <span className="font-mono text-2xl font-bold tracking-widest text-stamp-indigo uppercase">
+                <div className="p-3 bg-paper-bg border border-fiber-line rounded-lg text-center">
+                  <span className="font-mono text-2xl font-bold tracking-widest text-stamp-red uppercase">
                     {group.inviteCode || "TRIP01"}
                   </span>
                 </div>
@@ -825,14 +825,14 @@ export default function GroupDetailsPage() {
                 <button
                   type="button"
                   onClick={handleCopyInviteLink}
-                  className="w-full flex items-center justify-between p-2.5 rounded-[4px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo text-xs font-mono text-ink-text transition-colors"
+                  className="w-full flex items-center justify-between p-2.5 rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red text-xs font-mono text-ink-text transition-colors"
                 >
                   <span className="truncate mr-2">
                     {typeof window !== "undefined"
                       ? `${window.location.origin}/groups/join/${group.inviteCode}`
                       : ""}
                   </span>
-                  <Copy className="h-4 w-4 shrink-0 text-stamp-indigo" />
+                  <Copy className="h-4 w-4 shrink-0 text-stamp-red" />
                 </button>
               </div>
             </div>
@@ -841,7 +841,7 @@ export default function GroupDetailsPage() {
               <button
                 type="button"
                 onClick={() => setInviteModalOpen(false)}
-                className="px-4 py-1.5 rounded-[4px] bg-stamp-indigo text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6]"
+                className="px-4 py-1.5 rounded-lg bg-stamp-red text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF]"
               >
                 Done
               </button>
@@ -853,10 +853,10 @@ export default function GroupDetailsPage() {
       {/* Add Offline Ghost Member Modal */}
       {addGhostModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <UserPlus className="h-5 w-5 text-stamp-indigo" />
+                <UserPlus className="h-5 w-5 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Add Member
                 </h3>
@@ -881,7 +881,7 @@ export default function GroupDetailsPage() {
                   placeholder="e.g. Charlie"
                   value={ghostName}
                   onChange={(e) => setGhostName(e.target.value)}
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -889,14 +889,14 @@ export default function GroupDetailsPage() {
                 <button
                   type="button"
                   onClick={() => setAddGhostModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-[4px] border border-fiber-line text-xs font-mono text-muted-text"
+                  className="px-3.5 py-1.5 rounded-lg border border-fiber-line text-xs font-mono text-muted-text"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addGhostMutation.isPending}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6]"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF]"
                 >
                   {addGhostMutation.isPending && (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -912,10 +912,10 @@ export default function GroupDetailsPage() {
       {/* Add Expense Modal */}
       {addExpenseModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <Receipt className="h-5 w-5 text-stamp-indigo" />
+                <Receipt className="h-5 w-5 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Record Group Expense
                 </h3>
@@ -940,7 +940,7 @@ export default function GroupDetailsPage() {
                   placeholder="e.g. Scuba diving, Grocery run"
                   value={expenseDesc}
                   onChange={(e) => setExpenseDesc(e.target.value)}
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -956,7 +956,7 @@ export default function GroupDetailsPage() {
                     placeholder="0.00"
                     value={expenseAmount}
                     onChange={(e) => setExpenseAmount(e.target.value)}
-                    className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                    className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                   />
                 </div>
 
@@ -969,7 +969,7 @@ export default function GroupDetailsPage() {
                     placeholder="Food, Travel, etc."
                     value={expenseCategory}
                     onChange={(e) => setExpenseCategory(e.target.value)}
-                    className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                    className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                   />
                 </div>
               </div>
@@ -981,7 +981,7 @@ export default function GroupDetailsPage() {
                 <select
                   value={expensePaidBy || user?.uid || members[0]?.id}
                   onChange={(e) => setExpensePaidBy(e.target.value)}
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                 >
                   {members.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -999,14 +999,14 @@ export default function GroupDetailsPage() {
                 <button
                   type="button"
                   onClick={() => setAddExpenseModalOpen(false)}
-                  className="px-3 py-1.5 rounded-[4px] border border-fiber-line text-muted-text"
+                  className="px-3 py-1.5 rounded-lg border border-fiber-line text-muted-text"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addTransactionMutation.isPending}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 font-bold uppercase tracking-wider text-[#EDE7D6]"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 font-bold uppercase tracking-wider text-[#FFFFFF]"
                 >
                   {addTransactionMutation.isPending && (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -1022,10 +1022,10 @@ export default function GroupDetailsPage() {
       {/* Record Settlement Modal */}
       {settleModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <HandCoins className="h-5 w-5 text-stamp-indigo" />
+                <HandCoins className="h-5 w-5 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Record Settlement Payment
                 </h3>
@@ -1048,7 +1048,7 @@ export default function GroupDetailsPage() {
                   <select
                     value={settleFrom || members[0]?.id}
                     onChange={(e) => setSettleFrom(e.target.value)}
-                    className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                    className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                   >
                     {members.map((m) => (
                       <option key={m.id} value={m.id}>
@@ -1065,7 +1065,7 @@ export default function GroupDetailsPage() {
                   <select
                     value={settleTo || members[1]?.id || members[0]?.id}
                     onChange={(e) => setSettleTo(e.target.value)}
-                    className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                    className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                   >
                     {members.map((m) => (
                       <option key={m.id} value={m.id}>
@@ -1087,7 +1087,7 @@ export default function GroupDetailsPage() {
                   placeholder="0.00"
                   value={settleAmount}
                   onChange={(e) => setSettleAmount(e.target.value)}
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -1095,14 +1095,14 @@ export default function GroupDetailsPage() {
                 <button
                   type="button"
                   onClick={() => setSettleModalOpen(false)}
-                  className="px-3 py-1.5 rounded-[4px] border border-fiber-line text-muted-text"
+                  className="px-3 py-1.5 rounded-lg border border-fiber-line text-muted-text"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addSettlementMutation.isPending}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 font-bold uppercase tracking-wider text-[#EDE7D6]"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 font-bold uppercase tracking-wider text-[#FFFFFF]"
                 >
                   {addSettlementMutation.isPending && (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />

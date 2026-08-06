@@ -47,13 +47,13 @@ export function MessageBubble({
     return (
       <div className="flex w-full justify-end my-3">
         <div className="flex max-w-[85%] sm:max-w-md flex-col items-end">
-          <div className="rounded-[6px] border border-fiber-line bg-card-bg px-4 py-2.5 shadow-sm text-xs font-sans text-ink-text leading-relaxed w-full">
+          <div className="rounded-lg border border-fiber-line bg-card-bg px-4 py-2.5 shadow-sm text-xs font-sans text-ink-text leading-relaxed w-full">
             <div className="flex items-center justify-between border-b border-fiber-line pb-1.5 mb-1.5 text-[10px] font-mono text-muted-text uppercase tracking-wider">
               <span>Entry Memo</span>
               <span>{formattedTime}</span>
             </div>
             {message.imageUrl && (
-              <div className="mb-2 overflow-hidden rounded-[4px] border border-fiber-line max-w-[200px]">
+              <div className="mb-2 overflow-hidden rounded-lg border border-fiber-line max-w-[200px]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={message.imageUrl}
@@ -94,7 +94,7 @@ export function MessageBubble({
           />
         ) : message.status === "status_query" && message.statusData ? (
           /* Case 2: Status Query Result (Ledger Ruled Card) */
-          <div className="w-full rounded-[6px] border border-fiber-line bg-card-bg p-4 text-xs text-ink-text shadow-sm space-y-2 leading-relaxed">
+          <div className="w-full rounded-lg border border-fiber-line bg-card-bg p-4 text-xs text-ink-text shadow-sm space-y-2 leading-relaxed">
             {message.content && (
               <p className="font-medium text-ink-text whitespace-pre-wrap pb-1">
                 {message.content}
@@ -104,8 +104,8 @@ export function MessageBubble({
           </div>
         ) : message.status === "off_topic" ? (
           /* Case 3: Off-topic canned guardrail message */
-          <div className="rounded-[6px] border border-rule-red/40 bg-card-bg p-3 text-xs text-ink-text space-y-1 leading-relaxed">
-            <div className="flex items-center gap-1.5 font-mono uppercase text-[10px] text-rule-red font-bold tracking-wider">
+          <div className="rounded-lg border border-stamp-red/40 bg-card-bg p-3 text-xs text-ink-text space-y-1 leading-relaxed">
+            <div className="flex items-center gap-1.5 font-mono uppercase text-[10px] text-stamp-red font-bold tracking-wider">
               <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
               <span>FinChat Focus Notice</span>
             </div>
@@ -113,14 +113,14 @@ export function MessageBubble({
           </div>
         ) : message.status === "error" ? (
           /* Case 4: Error response */
-          <div className="rounded-[6px] border border-rule-red/50 bg-card-bg p-3 text-xs text-rule-red space-y-2">
+          <div className="rounded-lg border border-stamp-red/50 bg-card-bg p-3 text-xs text-stamp-red space-y-2">
             <div className="flex items-center gap-2">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{message.content || "Could not process ledger entry."}</span>
             </div>
             {onRetry && (
               <button
-                className="inline-flex items-center gap-1 text-[11px] font-mono uppercase font-bold text-stamp-indigo hover:underline"
+                className="inline-flex items-center gap-1 text-[11px] font-mono uppercase font-bold text-stamp-red hover:underline"
                 onClick={() => onRetry(message.content)}
               >
                 <RefreshCw className="h-3 w-3" /> Retry

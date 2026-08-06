@@ -19,43 +19,61 @@ export function StatsCard({
   type = "neutral",
   className,
 }: StatsCardProps) {
-  const marginColor =
+  const accentColor =
     type === "expense"
-      ? "var(--rule-red)"
+      ? "var(--stamp-red)"
       : type === "income" || type === "gold"
-      ? "var(--passbook-gold)"
-      : "var(--stamp-indigo)";
+      ? "var(--thrive-green)"
+      : "var(--stamp-red)";
+
+  const valueColor =
+    type === "expense"
+      ? "text-stamp-red"
+      : type === "income" || type === "gold"
+      ? "text-thrive-green"
+      : "text-ink-text";
 
   return (
     <div
       className={cn(
-        "relative rounded-[8px] border border-fiber-line bg-card-bg p-4 pl-4.5 shadow-sm overflow-hidden shrink-0 min-w-[220px] sm:min-w-0 transition-colors",
+        // Base layout
+        "relative rounded-xl border border-fiber-line bg-card-bg p-4 pl-5 overflow-hidden shrink-0 min-w-[220px] sm:min-w-0 transition-all duration-200",
+        // Tactile card shadow (light mode) — dark mode uses lifted surface via bg-card-bg
+        "shadow-card dark:shadow-none dark:border dark:border-white/[0.06]",
+        // Hover lift
+        "hover:shadow-lg hover:-translate-y-0.5",
         className
       )}
     >
-      {/* Red/Gold margin rule motif on left edge */}
+      {/* Margin rule — vivid stamp-red accent stripe */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-[3px]"
-        style={{ backgroundColor: marginColor }}
+        className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl"
+        style={{ backgroundColor: accentColor }}
       />
 
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2 mb-3">
         <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-text truncate">
           {title}
         </span>
-        {Icon && <Icon className="h-3.5 w-3.5 text-muted-text shrink-0" />}
-      </div>
-
-      <div className="mt-2">
-        <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-ink-text">
-          {value}
-        </div>
-        {subtitle && (
-          <div className="mt-1 text-[11px] font-sans text-muted-text truncate">
-            {subtitle}
+        {Icon && (
+          <div
+            className="flex h-6 w-6 items-center justify-center rounded-md"
+            style={{ backgroundColor: `color-mix(in srgb, ${accentColor} 12%, transparent)` }}
+          >
+            <Icon className="h-3.5 w-3.5 shrink-0" style={{ color: accentColor }} />
           </div>
         )}
       </div>
+
+      <div className={cn("font-mono text-xl sm:text-2xl font-bold tracking-tight", valueColor)}>
+        {value}
+      </div>
+
+      {subtitle && (
+        <div className="mt-1 text-[11px] font-sans text-muted-text truncate">
+          {subtitle}
+        </div>
+      )}
     </div>
   );
 }

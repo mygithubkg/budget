@@ -100,7 +100,7 @@ export function GroupsListView() {
           <button
             type="button"
             onClick={() => setJoinModalOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-[4px] border border-fiber-line bg-paper-bg hover:border-stamp-indigo hover:text-stamp-indigo px-3 py-1.5 text-xs font-mono text-ink-text transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red hover:text-stamp-red px-3 py-1.5 text-xs font-mono text-ink-text transition-colors shadow-xs"
           >
             <KeyRound className="h-3.5 w-3.5" />
             <span>Join with Code</span>
@@ -109,7 +109,7 @@ export function GroupsListView() {
           <button
             type="button"
             onClick={() => setCreateModalOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] transition-colors shadow-xs"
           >
             <Plus className="h-3.5 w-3.5" />
             <span>Create Group</span>
@@ -143,15 +143,15 @@ export function GroupsListView() {
               <Link
                 key={group.id}
                 href={`/dashboard/friends/groups/${group.id}`}
-                className="group relative flex flex-col justify-between rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs hover:border-stamp-indigo/50 transition-all"
+                className="group relative flex flex-col justify-between rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs hover:border-stamp-red/50 transition-all"
               >
                 <div>
                   <div className="flex items-center justify-between pb-3 border-b border-fiber-line">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-[4px] bg-stamp-indigo/10 text-stamp-indigo border border-stamp-indigo/20">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-stamp-red/10 text-stamp-red border border-stamp-red/20">
                         <Compass className="h-4 w-4" />
                       </div>
-                      <span className="font-display font-bold text-base text-ink-text group-hover:text-stamp-indigo transition-colors">
+                      <span className="font-display font-bold text-base text-ink-text group-hover:text-stamp-red transition-colors">
                         {group.name}
                       </span>
                     </div>
@@ -174,7 +174,7 @@ export function GroupsListView() {
 
                 <div className="flex items-center justify-between pt-3 border-t border-fiber-line text-[11px] font-mono text-muted-text">
                   <span>Created {format(createdDate, "MMM d, yyyy")}</span>
-                  <span className="flex items-center gap-1 font-bold text-stamp-indigo group-hover:translate-x-0.5 transition-transform">
+                  <span className="flex items-center gap-1 font-bold text-stamp-red group-hover:translate-x-0.5 transition-transform">
                     <span>Open Ledger</span>
                     <ArrowRight className="h-3 w-3" />
                   </span>
@@ -188,10 +188,10 @@ export function GroupsListView() {
       {/* Create Group Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <Compass className="h-5 w-5 text-stamp-indigo" />
+                <Compass className="h-5 w-5 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Create Group Ledger
                 </h3>
@@ -216,7 +216,7 @@ export function GroupsListView() {
                   placeholder="e.g. Goa Trip 2026, Apartment 4B"
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -232,7 +232,7 @@ export function GroupsListView() {
                   placeholder="e.g. Alex, Maya, Dave"
                   value={ghostMembersInput}
                   onChange={(e) => setGhostMembersInput(e.target.value)}
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-xs font-sans text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -240,14 +240,14 @@ export function GroupsListView() {
                 <button
                   type="button"
                   onClick={() => setCreateModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-[4px] border border-fiber-line text-xs font-mono text-muted-text hover:text-ink-text"
+                  className="px-3.5 py-1.5 rounded-lg border border-fiber-line text-xs font-mono text-muted-text hover:text-ink-text"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createGroupMutation.isPending}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] disabled:opacity-50"
                 >
                   {createGroupMutation.isPending && (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -263,10 +263,10 @@ export function GroupsListView() {
       {/* Join Group Modal */}
       {joinModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[8px] border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
+          <div className="w-full max-w-md rounded-xl border border-fiber-line bg-card-bg p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <KeyRound className="h-5 w-5 text-stamp-indigo" />
+                <KeyRound className="h-5 w-5 text-stamp-red" />
                 <h3 className="font-display text-base font-bold text-ink-text">
                   Join Group Ledger
                 </h3>
@@ -292,7 +292,7 @@ export function GroupsListView() {
                   placeholder="e.g. TRP8X2"
                   value={inviteCodeInput}
                   onChange={(e) => setInviteCodeInput(e.target.value.toUpperCase())}
-                  className="w-full text-center font-mono font-bold tracking-widest text-lg uppercase rounded-[4px] border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full text-center font-mono font-bold tracking-widest text-lg uppercase rounded-lg border border-fiber-line bg-paper-bg px-3 py-2 text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
 
@@ -300,14 +300,14 @@ export function GroupsListView() {
                 <button
                   type="button"
                   onClick={() => setJoinModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-[4px] border border-fiber-line text-xs font-mono text-muted-text hover:text-ink-text"
+                  className="px-3.5 py-1.5 rounded-lg border border-fiber-line text-xs font-mono text-muted-text hover:text-ink-text"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={joinGroupMutation.isPending}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] disabled:opacity-50"
                 >
                   {joinGroupMutation.isPending && (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />

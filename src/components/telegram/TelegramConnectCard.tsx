@@ -174,17 +174,17 @@ export function TelegramConnectCard() {
   };
 
   return (
-    <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
+    <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-3">
       <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
         <div className="flex items-center gap-2">
-          <Send className="h-4 w-4 text-stamp-indigo" />
+          <Send className="h-4 w-4 text-stamp-red" />
           <h2 className="font-display text-base font-bold text-ink-text">
             Telegram Bot Register
           </h2>
         </div>
 
         {status.isLinked && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-stamp-indigo px-2 py-0.5 border border-stamp-indigo/30 bg-stamp-indigo/5 rounded-[2px]">
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-stamp-red px-2 py-0.5 border border-stamp-red/30 bg-stamp-red/5 rounded-[2px]">
             <Check className="h-3 w-3" /> Connected
           </span>
         )}
@@ -197,17 +197,17 @@ export function TelegramConnectCard() {
 
       {isLoading ? (
         <div className="flex items-center gap-2 text-xs font-mono text-muted-text py-2">
-          <Loader2 className="h-3.5 w-3.5 animate-spin text-stamp-indigo" />
+          <Loader2 className="h-3.5 w-3.5 animate-spin text-stamp-red" />
           <span>Checking connection status...</span>
         </div>
       ) : status.isLinked ? (
         /* Connected State */
         <div className="pt-1 space-y-3">
-          <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3.5 space-y-2">
+          <div className="rounded-lg border border-fiber-line bg-paper-bg p-3.5 space-y-2">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <div className="text-xs font-mono font-bold text-ink-text flex items-center gap-1.5">
-                  <MessageSquare className="h-3.5 w-3.5 text-stamp-indigo" />
+                  <MessageSquare className="h-3.5 w-3.5 text-stamp-red" />
                   <span>
                     {status.username ? `@${status.username}` : `Chat ID: ${status.chatId}`}
                   </span>
@@ -219,7 +219,7 @@ export function TelegramConnectCard() {
                 )}
               </div>
 
-              <div className="flex items-center gap-1 text-[10px] font-mono text-passbook-gold">
+              <div className="flex items-center gap-1 text-[10px] font-mono text-thrive-green">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 <span>Active Sync</span>
               </div>
@@ -233,7 +233,7 @@ export function TelegramConnectCard() {
           <button
             onClick={handleUnlink}
             disabled={isUnlinking}
-            className="h-8 px-3.5 rounded-[4px] border border-rule-red/40 bg-paper-bg hover:bg-rule-red/10 text-xs font-mono font-bold uppercase tracking-wider text-rule-red transition-colors flex items-center gap-1.5 disabled:opacity-60"
+            className="h-8 px-3.5 rounded-lg border border-stamp-red/40 bg-paper-bg hover:bg-stamp-red/10 text-xs font-mono font-bold uppercase tracking-wider text-stamp-red transition-colors flex items-center gap-1.5 disabled:opacity-60"
           >
             {isUnlinking ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -251,7 +251,7 @@ export function TelegramConnectCard() {
               <button
                 onClick={handleGenerateLinkCode}
                 disabled={isGenerating}
-                className="h-8 px-4 rounded-[4px] border border-stamp-indigo bg-paper-bg hover:bg-stamp-indigo/10 text-xs font-mono font-bold uppercase tracking-wider text-stamp-indigo transition-colors flex items-center gap-1.5 shadow-xs disabled:opacity-60"
+                className="h-8 px-4 rounded-lg border border-stamp-red bg-paper-bg hover:bg-stamp-red/10 text-xs font-mono font-bold uppercase tracking-wider text-stamp-red transition-colors flex items-center gap-1.5 shadow-xs disabled:opacity-60"
               >
                 {isGenerating ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -263,12 +263,12 @@ export function TelegramConnectCard() {
             </div>
           ) : (
             /* Active Linking Code State */
-            <div className="rounded-[6px] border border-stamp-indigo/40 bg-paper-bg p-4 space-y-3">
+            <div className="rounded-lg border border-stamp-red/40 bg-paper-bg p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold text-ink-text">
                   Complete Connection in Telegram:
                 </span>
-                <div className="flex items-center gap-1 text-[11px] font-mono text-rule-red">
+                <div className="flex items-center gap-1 text-[11px] font-mono text-stamp-red">
                   <Clock className="h-3.5 w-3.5" />
                   <span>Expires in {formatSeconds(timeLeft)}</span>
                 </div>
@@ -280,7 +280,7 @@ export function TelegramConnectCard() {
                     href={deepLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="h-8 px-3.5 rounded-[4px] border border-stamp-indigo bg-stamp-indigo text-white hover:bg-stamp-indigo/90 text-xs font-mono font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 shadow-xs"
+                    className="h-8 px-3.5 rounded-lg border border-stamp-red bg-stamp-red text-white hover:bg-stamp-red/90 text-xs font-mono font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 shadow-xs"
                   >
                     <span>Open in Telegram</span>
                     <ExternalLink className="h-3.5 w-3.5" />
@@ -289,11 +289,11 @@ export function TelegramConnectCard() {
 
                 <button
                   onClick={copyCode}
-                  className="h-8 px-3 rounded-[4px] border border-fiber-line bg-card-bg hover:border-stamp-indigo text-xs font-mono text-ink-text transition-colors inline-flex items-center gap-1.5"
+                  className="h-8 px-3 rounded-lg border border-fiber-line bg-card-bg hover:border-stamp-red text-xs font-mono text-ink-text transition-colors inline-flex items-center gap-1.5"
                 >
                   <span className="font-bold tracking-widest">{linkCode}</span>
                   {isCopied ? (
-                    <Check className="h-3.5 w-3.5 text-stamp-indigo" />
+                    <Check className="h-3.5 w-3.5 text-stamp-red" />
                   ) : (
                     <Copy className="h-3.5 w-3.5 text-muted-text" />
                   )}
@@ -309,7 +309,7 @@ export function TelegramConnectCard() {
               </p>
 
               <div className="flex items-center gap-2 pt-1 text-[10px] font-mono text-muted-text">
-                <Loader2 className="h-3 w-3 animate-spin text-stamp-indigo" />
+                <Loader2 className="h-3 w-3 animate-spin text-stamp-red" />
                 <span>Waiting for confirmation in Telegram...</span>
               </div>
             </div>

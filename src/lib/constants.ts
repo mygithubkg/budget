@@ -28,9 +28,9 @@ export const SUPPORTED_CURRENCIES = [
  * 8-hue Categorical Palette (Muted, Archival-Ink Tones)
  */
 export const LEDGER_PALETTE = [
-  "#A23B2E", // Food (rule-red)
+  "#A23B2E", // Food (stamp-red)
   "#6B8F5E", // Groceries (sage green)
-  "#2F3F6B", // Travel (stamp-indigo)
+  "#2F3F6B", // Travel (stamp-red)
   "#7A5232", // Rent (umber brown)
   "#5B6670", // Utilities (slate grey)
   "#6B4C6B", // Entertain (muted plum)

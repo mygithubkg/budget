@@ -57,9 +57,9 @@ export function SplitEditor({
   };
 
   return (
-    <div className="rounded-[6px] border border-fiber-line bg-paper-bg/60 p-3 space-y-2.5 text-ink-text">
+    <div className="rounded-lg border border-fiber-line bg-paper-bg/60 p-3 space-y-2.5 text-ink-text">
       <div className="flex items-center justify-between text-xs font-mono font-bold">
-        <div className="flex items-center gap-1.5 text-stamp-indigo">
+        <div className="flex items-center gap-1.5 text-stamp-red">
           <Users className="h-3.5 w-3.5" />
           <span>Friend Ledger Splits</span>
         </div>
@@ -76,7 +76,7 @@ export function SplitEditor({
             return (
               <div
                 key={idx}
-                className="flex items-center justify-between gap-2 rounded-[4px] bg-card-bg px-2.5 py-1.5 text-xs border border-fiber-line font-mono"
+                className="flex items-center justify-between gap-2 rounded-lg bg-card-bg px-2.5 py-1.5 text-xs border border-fiber-line font-mono"
               >
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <span className="font-bold text-ink-text truncate">{s.friendName}</span>
@@ -85,8 +85,8 @@ export function SplitEditor({
                     onClick={() => handleToggleDirection(idx)}
                     className={`text-[9px] uppercase px-1.5 py-0.5 rounded-[2px] border font-bold ${
                       isIOweThem
-                        ? "border-rule-red/40 bg-rule-red/10 text-rule-red"
-                        : "border-passbook-gold/40 bg-passbook-gold/10 text-passbook-gold"
+                        ? "border-stamp-red/40 bg-stamp-red/10 text-stamp-red"
+                        : "border-thrive-green/40 bg-thrive-green/10 text-thrive-green"
                     }`}
                   >
                     {isIOweThem ? "You owe" : "Owes you"}
@@ -100,12 +100,12 @@ export function SplitEditor({
                     onChange={(e) =>
                       handleUpdateAmount(idx, parseFloat(e.target.value) || 0)
                     }
-                    className="h-7 w-20 text-xs text-right font-mono font-bold rounded-[3px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:outline-none focus:border-stamp-indigo"
+                    className="h-7 w-20 text-xs text-right font-mono font-bold rounded-[3px] border border-fiber-line bg-card-bg px-2 text-ink-text focus:outline-none focus:border-stamp-red"
                   />
                   <button
                     type="button"
                     onClick={() => handleRemove(idx)}
-                    className="text-muted-text hover:text-rule-red p-0.5 transition-colors"
+                    className="text-muted-text hover:text-stamp-red p-0.5 transition-colors"
                     title="Remove split"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -124,19 +124,19 @@ export function SplitEditor({
             placeholder="Friend name"
             value={friendName}
             onChange={(e) => setFriendName(e.target.value)}
-            className="h-7 text-xs font-sans rounded-[4px] border border-fiber-line bg-card-bg px-2 flex-1 text-ink-text focus:outline-none focus:border-stamp-indigo"
+            className="h-7 text-xs font-sans rounded-lg border border-fiber-line bg-card-bg px-2 flex-1 text-ink-text focus:outline-none focus:border-stamp-red"
           />
           <input
             type="number"
             placeholder="Amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="h-7 text-xs font-mono rounded-[4px] border border-fiber-line bg-card-bg px-2 w-20 text-right text-ink-text focus:outline-none focus:border-stamp-indigo"
+            className="h-7 text-xs font-mono rounded-lg border border-fiber-line bg-card-bg px-2 w-20 text-right text-ink-text focus:outline-none focus:border-stamp-red"
           />
           <select
             value={direction}
             onChange={(e) => setDirection(e.target.value as SplitDirection)}
-            className="h-7 text-[10px] font-mono uppercase font-bold rounded-[4px] border border-fiber-line bg-card-bg px-1 text-ink-text focus:outline-none focus:border-stamp-indigo"
+            className="h-7 text-[10px] font-mono uppercase font-bold rounded-lg border border-fiber-line bg-card-bg px-1 text-ink-text focus:outline-none focus:border-stamp-red"
           >
             <option value="they_owe_me">Owes you</option>
             <option value="i_owe_them">You owe</option>
@@ -145,7 +145,7 @@ export function SplitEditor({
             type="button"
             onClick={handleAdd}
             disabled={!friendName || !amount}
-            className="h-7 px-2 rounded-[4px] bg-stamp-indigo text-[#EDE7D6] hover:bg-stamp-indigo/90 disabled:opacity-50 flex items-center justify-center transition-colors shrink-0"
+            className="h-7 px-2 rounded-lg bg-stamp-red text-[#FFFFFF] hover:bg-stamp-red/90 disabled:opacity-50 flex items-center justify-center transition-colors shrink-0"
           >
             <Plus className="h-3.5 w-3.5" />
           </button>

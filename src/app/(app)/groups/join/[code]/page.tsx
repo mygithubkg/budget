@@ -47,7 +47,7 @@ export default function JoinGroupPage() {
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
-        <Loader2 className="h-6 w-6 animate-spin text-stamp-indigo" />
+        <Loader2 className="h-6 w-6 animate-spin text-stamp-red" />
       </div>
     );
   }
@@ -55,19 +55,19 @@ export default function JoinGroupPage() {
   if (!user) {
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-sm rounded-[8px] border border-fiber-line bg-card-bg p-6 text-center space-y-4 shadow-sm">
-          <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-stamp-indigo/10 text-stamp-indigo">
+        <div className="w-full max-w-sm rounded-xl border border-fiber-line bg-card-bg p-6 text-center space-y-4 shadow-sm">
+          <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-stamp-red/10 text-stamp-red">
             <Compass className="h-6 w-6" />
           </div>
           <h1 className="font-display text-lg font-bold text-ink-text">
             Join Group Trip Ledger
           </h1>
           <p className="text-xs text-muted-text">
-            Please log in or create a FinChat account to join this group ledger with invite code <strong className="font-mono text-stamp-indigo">{code}</strong>.
+            Please log in or create a FinChat account to join this group ledger with invite code <strong className="font-mono text-stamp-red">{code}</strong>.
           </p>
           <Link
             href={`/login?redirect=/groups/join/${code}`}
-            className="block w-full rounded-[4px] bg-stamp-indigo py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] hover:bg-stamp-indigo/90"
+            className="block w-full rounded-lg bg-stamp-red py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-stamp-red/90"
           >
             Log In to Join
           </Link>
@@ -78,10 +78,10 @@ export default function JoinGroupPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <div className="w-full max-w-sm rounded-[8px] border border-fiber-line bg-card-bg p-6 text-center space-y-4 shadow-sm">
+      <div className="w-full max-w-sm rounded-xl border border-fiber-line bg-card-bg p-6 text-center space-y-4 shadow-sm">
         {hasJoined ? (
           <>
-            <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-stamp-emerald/10 text-stamp-emerald">
+            <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-thrive-green/10 text-thrive-green">
               <CheckCircle2 className="h-6 w-6" />
             </div>
             <h1 className="font-display text-lg font-bold text-ink-text">
@@ -93,7 +93,7 @@ export default function JoinGroupPage() {
             {groupId && (
               <Link
                 href={`/dashboard/friends/groups/${groupId}`}
-                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-stamp-indigo hover:underline"
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-stamp-red hover:underline"
               >
                 <span>Go to Group Ledger</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -102,7 +102,7 @@ export default function JoinGroupPage() {
           </>
         ) : (
           <>
-            <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-stamp-indigo/10 text-stamp-indigo">
+            <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-stamp-red/10 text-stamp-red">
               <Compass className="h-6 w-6" />
             </div>
             <h1 className="font-display text-lg font-bold text-ink-text">
@@ -112,13 +112,13 @@ export default function JoinGroupPage() {
               Code: {code}
             </p>
             <div className="py-2 flex justify-center">
-              <Loader2 className="h-5 w-5 animate-spin text-stamp-indigo" />
+              <Loader2 className="h-5 w-5 animate-spin text-stamp-red" />
             </div>
             <button
               type="button"
               onClick={handleJoin}
               disabled={joinGroupMutation.isPending}
-              className="w-full rounded-[4px] bg-stamp-indigo py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] hover:bg-stamp-indigo/90 disabled:opacity-50"
+              className="w-full rounded-lg bg-stamp-red py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-stamp-red/90 disabled:opacity-50"
             >
               Retry Join
             </button>

@@ -46,7 +46,7 @@ export default function LandingPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-paper-bg">
         <div className="flex items-center gap-2 text-xs font-mono text-muted-text">
-          <Loader2 className="h-4 w-4 animate-spin text-stamp-indigo" />
+          <Loader2 className="h-4 w-4 animate-spin text-stamp-red" />
           Loading FinChat Ledger...
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-paper-bg text-ink-text selection:bg-stamp-indigo/20 font-sans">
+    <div className="min-h-screen bg-paper-bg text-ink-text selection:bg-stamp-red/20 font-sans">
       {/* ========================================================================= */}
       {/* 1. TOP NAVIGATION BAR */}
       {/* ========================================================================= */}
@@ -67,7 +67,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-[6px] bg-stamp-indigo text-[#EDE7D6] font-display font-bold text-base shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] font-display font-bold text-base shadow-sm">
               <BookOpen className="h-4.5 w-4.5" />
             </div>
             <div className="flex items-center gap-1.5">
@@ -103,13 +103,13 @@ export default function LandingPage() {
           <div className="hidden sm:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-4 py-2 text-xs font-mono text-ink-text hover:text-stamp-indigo transition-colors"
+              className="px-4 py-2 text-xs font-mono text-ink-text hover:text-stamp-red transition-colors"
             >
               Sign In
             </Link>
             <Link
               href="/login?tab=signup"
-              className="px-4 py-2 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold text-[#EDE7D6] transition-colors shadow-sm flex items-center gap-1.5"
+              className="px-4 py-2 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold text-[#FFFFFF] transition-colors shadow-sm flex items-center gap-1.5"
             >
               <span>Open Register</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -120,7 +120,7 @@ export default function LandingPage() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-ink-text hover:text-stamp-indigo"
+            className="md:hidden p-2 text-ink-text hover:text-stamp-red"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -169,13 +169,13 @@ export default function LandingPage() {
             <div className="pt-2 border-t border-fiber-line flex flex-col gap-2">
               <Link
                 href="/login"
-                className="w-full text-center py-2 text-xs font-mono border border-fiber-line rounded-[4px] bg-paper-bg text-ink-text"
+                className="w-full text-center py-2 text-xs font-mono border border-fiber-line rounded-lg bg-paper-bg text-ink-text"
               >
                 Sign In
               </Link>
               <Link
                 href="/login?tab=signup"
-                className="w-full text-center py-2 text-xs font-mono font-bold bg-stamp-indigo text-[#EDE7D6] rounded-[4px]"
+                className="w-full text-center py-2 text-xs font-mono font-bold bg-stamp-red text-[#FFFFFF] rounded-lg"
               >
                 Open Free Register
               </Link>
@@ -194,14 +194,14 @@ export default function LandingPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
           {/* Tagline Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-fiber-line bg-card-bg px-3.5 py-1 text-[11px] font-mono text-muted-text uppercase tracking-wider shadow-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-stamp-emerald" />
+            <span className="h-1.5 w-1.5 rounded-full bg-thrive-green" />
             The Authentic Ruled Ledger Reimagined
           </div>
 
           {/* Main Title */}
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink-text leading-[1.15]">
             The conversational ledger for people who{" "}
-            <span className="text-stamp-indigo italic font-serif underline decoration-rule-red/40 decoration-wavy decoration-2">
+            <span className="text-stamp-red italic font-serif underline decoration-stamp-red/40 decoration-wavy decoration-2">
               hate budgeting apps.
             </span>
           </h1>
@@ -215,14 +215,14 @@ export default function LandingPage() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/login?tab=signup"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-sm font-mono font-bold text-[#EDE7D6] transition-all shadow-md flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-sm font-mono font-bold text-[#FFFFFF] transition-all shadow-md flex items-center justify-center gap-2 group"
             >
               <span>Open Your Free Ledger</span>
               <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <a
               href="#demo"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-[6px] border border-fiber-line bg-card-bg hover:bg-paper-bg text-sm font-mono text-ink-text transition-colors shadow-xs"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-lg border border-fiber-line bg-card-bg hover:bg-paper-bg text-sm font-mono text-ink-text transition-colors shadow-xs"
             >
               See Live Register Demo
             </a>
@@ -231,13 +231,13 @@ export default function LandingPage() {
           {/* Trust points */}
           <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-muted-text">
             <span className="flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5 text-stamp-emerald" /> 100% Client-Side Exports
+              <ShieldCheck className="h-3.5 w-3.5 text-thrive-green" /> 100% Client-Side Exports
             </span>
             <span className="flex items-center gap-1.5">
-              <Lock className="h-3.5 w-3.5 text-stamp-emerald" /> AES-256 Encrypted BYOK
+              <Lock className="h-3.5 w-3.5 text-thrive-green" /> AES-256 Encrypted BYOK
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 text-stamp-emerald" /> No Ad Tracking or Data Selling
+              <CheckCircle2 className="h-3.5 w-3.5 text-thrive-green" /> No Ad Tracking or Data Selling
             </span>
           </div>
         </div>
@@ -250,14 +250,14 @@ export default function LandingPage() {
             {/* Top Passbook Titlebar */}
             <div className="flex items-center justify-between border-b border-fiber-line bg-paper-bg px-4 py-2.5 text-[11px] font-mono text-muted-text">
               <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-rule-red/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-passbook-gold/70" />
-                <span className="h-2.5 w-2.5 rounded-full bg-stamp-emerald/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-stamp-red/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-thrive-green/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-thrive-green/70" />
                 <span className="ml-2 font-bold text-ink-text uppercase">
                   FOLIO 2026-08 • REGISTER DEMO
                 </span>
               </div>
-              <span className="text-stamp-emerald font-bold uppercase tracking-wider">
+              <span className="text-thrive-green font-bold uppercase tracking-wider">
                 AUTO-STAMPED
               </span>
             </div>
@@ -266,38 +266,38 @@ export default function LandingPage() {
             <div className="p-5 sm:p-8 bg-paper-bg/60 space-y-6">
               {/* User Message */}
               <div className="flex items-start gap-3">
-                <div className="h-7 w-7 rounded-[4px] bg-stamp-indigo text-[#EDE7D6] flex items-center justify-center text-xs font-mono font-bold shrink-0">
+                <div className="h-7 w-7 rounded-lg bg-stamp-red text-[#FFFFFF] flex items-center justify-center text-xs font-mono font-bold shrink-0">
                   YOU
                 </div>
-                <div className="rounded-[6px] bg-card-bg border border-fiber-line p-3 text-sm font-sans text-ink-text shadow-xs max-w-md">
+                <div className="rounded-lg bg-card-bg border border-fiber-line p-3 text-sm font-sans text-ink-text shadow-xs max-w-md">
                   &quot;Paid 2400 for electricity bill, 600 for grocery, and Sam owes 200 for coffee&quot;
                 </div>
               </div>
 
               {/* Bot Response Stamp & Breakdown */}
               <div className="space-y-3 pl-0 sm:pl-10">
-                <div className="flex items-center gap-2 text-xs font-mono uppercase text-stamp-indigo font-bold">
+                <div className="flex items-center gap-2 text-xs font-mono uppercase text-stamp-red font-bold">
                   <Sparkles className="h-4 w-4" />
                   <span>3 Transactions Extracted &amp; Posted to Passbook</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 font-mono text-xs">
-                  <div className="p-3 rounded-[6px] bg-card-bg border border-fiber-line space-y-1">
+                  <div className="p-3 rounded-lg bg-card-bg border border-fiber-line space-y-1">
                     <div className="text-muted-text text-[10px] uppercase">Bills &amp; Utilities</div>
                     <div className="font-bold text-ink-text text-sm">Electricity Bill</div>
-                    <div className="font-bold text-rule-red">-₹2,400.00</div>
+                    <div className="font-bold text-stamp-red">-₹2,400.00</div>
                   </div>
 
-                  <div className="p-3 rounded-[6px] bg-card-bg border border-fiber-line space-y-1">
+                  <div className="p-3 rounded-lg bg-card-bg border border-fiber-line space-y-1">
                     <div className="text-muted-text text-[10px] uppercase">Food &amp; Dining</div>
                     <div className="font-bold text-ink-text text-sm">Grocery</div>
-                    <div className="font-bold text-rule-red">-₹600.00</div>
+                    <div className="font-bold text-stamp-red">-₹600.00</div>
                   </div>
 
-                  <div className="p-3 rounded-[6px] bg-card-bg border border-fiber-line space-y-1">
+                  <div className="p-3 rounded-lg bg-card-bg border border-fiber-line space-y-1">
                     <div className="text-muted-text text-[10px] uppercase">Friend Debt (Sam)</div>
                     <div className="font-bold text-ink-text text-sm">Coffee Split</div>
-                    <div className="font-bold text-stamp-emerald">+₹200.00 (Owed)</div>
+                    <div className="font-bold text-thrive-green">+₹200.00 (Owed)</div>
                   </div>
                 </div>
 
@@ -317,7 +317,7 @@ export default function LandingPage() {
       <section id="features" className="py-16 md:py-24 border-t border-fiber-line bg-card-bg">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="text-xs font-mono uppercase text-stamp-indigo font-bold tracking-wider">
+            <span className="text-xs font-mono uppercase text-stamp-red font-bold tracking-wider">
               Comprehensive Financial Control
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-ink-text">
@@ -330,8 +330,8 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Feature 1 */}
-            <div className="p-6 rounded-[8px] border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-indigo/50 transition-colors">
-              <div className="h-10 w-10 rounded-[6px] bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="p-6 rounded-xl border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-red/50 transition-colors">
+              <div className="h-10 w-10 rounded-lg bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
                 <Sparkles className="h-5 w-5" />
               </div>
               <h3 className="font-display text-lg font-bold text-ink-text">
@@ -343,8 +343,8 @@ export default function LandingPage() {
             </div>
 
             {/* Feature 2 */}
-            <div className="p-6 rounded-[8px] border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-indigo/50 transition-colors">
-              <div className="h-10 w-10 rounded-[6px] bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="p-6 rounded-xl border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-red/50 transition-colors">
+              <div className="h-10 w-10 rounded-lg bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
                 <BookOpen className="h-5 w-5" />
               </div>
               <h3 className="font-display text-lg font-bold text-ink-text">
@@ -356,8 +356,8 @@ export default function LandingPage() {
             </div>
 
             {/* Feature 3 */}
-            <div className="p-6 rounded-[8px] border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-indigo/50 transition-colors">
-              <div className="h-10 w-10 rounded-[6px] bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="p-6 rounded-xl border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-red/50 transition-colors">
+              <div className="h-10 w-10 rounded-lg bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
                 <Users className="h-5 w-5" />
               </div>
               <h3 className="font-display text-lg font-bold text-ink-text">
@@ -369,8 +369,8 @@ export default function LandingPage() {
             </div>
 
             {/* Feature 4 */}
-            <div className="p-6 rounded-[8px] border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-indigo/50 transition-colors">
-              <div className="h-10 w-10 rounded-[6px] bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="p-6 rounded-xl border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-red/50 transition-colors">
+              <div className="h-10 w-10 rounded-lg bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
                 <Send className="h-5 w-5" />
               </div>
               <h3 className="font-display text-lg font-bold text-ink-text">
@@ -382,8 +382,8 @@ export default function LandingPage() {
             </div>
 
             {/* Feature 5 */}
-            <div className="p-6 rounded-[8px] border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-indigo/50 transition-colors">
-              <div className="h-10 w-10 rounded-[6px] bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="p-6 rounded-xl border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-red/50 transition-colors">
+              <div className="h-10 w-10 rounded-lg bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
                 <Key className="h-5 w-5" />
               </div>
               <h3 className="font-display text-lg font-bold text-ink-text">
@@ -395,8 +395,8 @@ export default function LandingPage() {
             </div>
 
             {/* Feature 6 */}
-            <div className="p-6 rounded-[8px] border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-indigo/50 transition-colors">
-              <div className="h-10 w-10 rounded-[6px] bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="p-6 rounded-xl border border-fiber-line bg-paper-bg space-y-3 hover:border-stamp-red/50 transition-colors">
+              <div className="h-10 w-10 rounded-lg bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
                 <Download className="h-5 w-5" />
               </div>
               <h3 className="font-display text-lg font-bold text-ink-text">
@@ -416,7 +416,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-16 md:py-24 border-t border-fiber-line">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center space-y-3 max-w-xl mx-auto">
-            <span className="text-xs font-mono uppercase text-stamp-indigo font-bold tracking-wider">
+            <span className="text-xs font-mono uppercase text-stamp-red font-bold tracking-wider">
               Simplicity First
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-ink-text">
@@ -425,24 +425,24 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="space-y-3 border-t-2 border-stamp-indigo pt-4">
-              <span className="text-xs font-mono font-bold text-stamp-indigo">STEP 01</span>
+            <div className="space-y-3 border-t-2 border-stamp-red pt-4">
+              <span className="text-xs font-mono font-bold text-stamp-red">STEP 01</span>
               <h3 className="font-display text-lg font-bold text-ink-text">Speak or Type</h3>
               <p className="text-xs font-sans text-muted-text leading-relaxed">
                 Tell the assistant what you bought, who you split with, or any income you earned in natural words.
               </p>
             </div>
 
-            <div className="space-y-3 border-t-2 border-stamp-indigo pt-4">
-              <span className="text-xs font-mono font-bold text-stamp-indigo">STEP 02</span>
+            <div className="space-y-3 border-t-2 border-stamp-red pt-4">
+              <span className="text-xs font-mono font-bold text-stamp-red">STEP 02</span>
               <h3 className="font-display text-lg font-bold text-ink-text">Instant Parsing</h3>
               <p className="text-xs font-sans text-muted-text leading-relaxed">
                 FinChat separates amounts, matches categories, calculates friend splits, and formats the transaction card.
               </p>
             </div>
 
-            <div className="space-y-3 border-t-2 border-stamp-indigo pt-4">
-              <span className="text-xs font-mono font-bold text-stamp-indigo">STEP 03</span>
+            <div className="space-y-3 border-t-2 border-stamp-red pt-4">
+              <span className="text-xs font-mono font-bold text-stamp-red">STEP 03</span>
               <h3 className="font-display text-lg font-bold text-ink-text">Passbook Posting</h3>
               <p className="text-xs font-sans text-muted-text leading-relaxed">
                 Your Ledger updates in real time with running totals, debt tabs, and downloadable PDF statements.
@@ -459,7 +459,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-[10px] border border-fiber-line bg-paper-bg p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-4 max-w-md">
-              <div className="inline-flex items-center gap-2 text-xs font-mono uppercase text-stamp-indigo font-bold">
+              <div className="inline-flex items-center gap-2 text-xs font-mono uppercase text-stamp-red font-bold">
                 <Send className="h-4 w-4" />
                 <span>Mobile Freedom</span>
               </div>
@@ -472,7 +472,7 @@ export default function LandingPage() {
               <div className="pt-2">
                 <Link
                   href="/login?tab=signup"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-[4px] bg-stamp-indigo text-xs font-mono font-bold text-[#EDE7D6] hover:bg-stamp-indigo/90 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stamp-red text-xs font-mono font-bold text-[#FFFFFF] hover:bg-stamp-red/90 transition-colors"
                 >
                   <span>Connect Telegram Bot</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -481,16 +481,16 @@ export default function LandingPage() {
             </div>
 
             {/* Telegram simulated card */}
-            <div className="w-full max-w-sm rounded-[8px] border border-fiber-line bg-card-bg p-4 space-y-3 font-mono text-xs shadow-md">
+            <div className="w-full max-w-sm rounded-xl border border-fiber-line bg-card-bg p-4 space-y-3 font-mono text-xs shadow-md">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2 text-[10px] text-muted-text">
-                <span className="h-2 w-2 rounded-full bg-stamp-emerald" />
+                <span className="h-2 w-2 rounded-full bg-thrive-green" />
                 <span>@FinChatLedgerBot</span>
               </div>
-              <div className="p-2.5 rounded-[4px] bg-paper-bg border border-fiber-line text-ink-text">
+              <div className="p-2.5 rounded-lg bg-paper-bg border border-fiber-line text-ink-text">
                 &quot;Spent 120 on metro card&quot;
               </div>
-              <div className="p-2.5 rounded-[4px] bg-stamp-emerald/10 border border-stamp-emerald/30 text-ink-text space-y-1">
-                <div className="font-bold text-stamp-emerald text-[10px] uppercase">
+              <div className="p-2.5 rounded-lg bg-thrive-green/10 border border-thrive-green/30 text-ink-text space-y-1">
+                <div className="font-bold text-thrive-green text-[10px] uppercase">
                   ✓ Recorded to Travel
                 </div>
                 <div>Amount: -₹120.00</div>
@@ -506,7 +506,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       <section id="byok" className="py-16 md:py-24 border-t border-fiber-line">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase text-stamp-indigo font-bold">
+          <div className="inline-flex items-center gap-2 text-xs font-mono uppercase text-stamp-red font-bold">
             <Key className="h-4 w-4" />
             <span>Power User Flexibility</span>
           </div>
@@ -517,13 +517,13 @@ export default function LandingPage() {
             Want to use your personal Groq, Google Gemini, or Anthropic Claude API key? FinChat supports zero-markup key configuration encrypted directly on our secure server.
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-3 font-mono text-xs">
-            <span className="px-3 py-1.5 rounded-[4px] border border-fiber-line bg-card-bg">
+            <span className="px-3 py-1.5 rounded-lg border border-fiber-line bg-card-bg">
               Groq (Llama 3.3 70B)
             </span>
-            <span className="px-3 py-1.5 rounded-[4px] border border-fiber-line bg-card-bg">
+            <span className="px-3 py-1.5 rounded-lg border border-fiber-line bg-card-bg">
               Google Gemini (2.5 Flash &amp; Pro)
             </span>
-            <span className="px-3 py-1.5 rounded-[4px] border border-fiber-line bg-card-bg">
+            <span className="px-3 py-1.5 rounded-lg border border-fiber-line bg-card-bg">
               Anthropic Claude (3.5 Sonnet &amp; Haiku)
             </span>
           </div>
@@ -545,21 +545,21 @@ export default function LandingPage() {
           </div>
 
           <div className="space-y-3 font-sans text-xs">
-            <div className="p-4 rounded-[6px] border border-fiber-line bg-paper-bg space-y-1.5">
+            <div className="p-4 rounded-lg border border-fiber-line bg-paper-bg space-y-1.5">
               <h3 className="font-bold text-ink-text">Is my financial data secure?</h3>
               <p className="text-muted-text leading-relaxed">
                 Yes. Your records are stored in secure, access-controlled accounts. Your API keys are encrypted with AES-256-GCM. We never sell your data or serve third-party ads.
               </p>
             </div>
 
-            <div className="p-4 rounded-[6px] border border-fiber-line bg-paper-bg space-y-1.5">
+            <div className="p-4 rounded-lg border border-fiber-line bg-paper-bg space-y-1.5">
               <h3 className="font-bold text-ink-text">Can I export my transactions anytime?</h3>
               <p className="text-muted-text leading-relaxed">
                 Absolutely. You can export complete statements as CSV, Excel (.xlsx), or PDF files right from the Settings page with full date range control.
               </p>
             </div>
 
-            <div className="p-4 rounded-[6px] border border-fiber-line bg-paper-bg space-y-1.5">
+            <div className="p-4 rounded-lg border border-fiber-line bg-paper-bg space-y-1.5">
               <h3 className="font-bold text-ink-text">Do I need a paid subscription?</h3>
               <p className="text-muted-text leading-relaxed">
                 FinChat is completely free to start out-of-the-box. You can also plug in your own API key for infinite personal headroom.
@@ -583,7 +583,7 @@ export default function LandingPage() {
           <div className="pt-2">
             <Link
               href="/login?tab=signup"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-sm font-mono font-bold text-[#EDE7D6] transition-all shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-sm font-mono font-bold text-[#FFFFFF] transition-all shadow-md"
             >
               <span>Open Free Register</span>
               <ArrowRight className="h-4 w-4" />
@@ -598,7 +598,7 @@ export default function LandingPage() {
       <footer className="border-t border-fiber-line bg-card-bg py-8 text-xs font-mono text-muted-text">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <BookOpen className="h-4 w-4 text-stamp-indigo" />
+            <BookOpen className="h-4 w-4 text-stamp-red" />
             <span className="font-bold text-ink-text">FinChat Ledger</span>
             <span>&bull; Physical Account Register Reimagined</span>
           </div>

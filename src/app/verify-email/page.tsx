@@ -90,7 +90,7 @@ export default function VerifyEmailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-paper-bg">
         <div className="flex items-center gap-2 text-xs font-mono text-muted-text">
-          <Loader2 className="h-4 w-4 animate-spin text-stamp-indigo" />
+          <Loader2 className="h-4 w-4 animate-spin text-stamp-red" />
           Loading register...
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function VerifyEmailPage() {
       <div className="w-full max-w-md space-y-6">
         {/* Ledger Brand Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-[6px] bg-stamp-indigo text-[#EDE7D6] shadow-sm">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] shadow-sm">
             <BookOpen className="h-6 w-6" />
           </div>
           <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
@@ -114,9 +114,9 @@ export default function VerifyEmailPage() {
         </div>
 
         {/* Verification Card */}
-        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-6 sm:p-8 shadow-sm space-y-5">
+        <div className="rounded-xl border border-fiber-line bg-card-bg p-6 sm:p-8 shadow-sm space-y-5">
           <div className="flex items-center justify-center">
-            <div className="h-16 w-16 rounded-full bg-stamp-indigo/10 border border-stamp-indigo/20 flex items-center justify-center text-stamp-indigo">
+            <div className="h-16 w-16 rounded-full bg-stamp-red/10 border border-stamp-red/20 flex items-center justify-center text-stamp-red">
               <Mail className="h-8 w-8 animate-pulse" />
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function VerifyEmailPage() {
             <p className="text-sm font-sans text-ink-text">
               We have dispatched a secure verification link to:
             </p>
-            <p className="text-xs font-mono font-bold text-stamp-indigo px-3 py-1.5 bg-paper-bg rounded-[4px] border border-fiber-line inline-block break-all">
+            <p className="text-xs font-mono font-bold text-stamp-red px-3 py-1.5 bg-paper-bg rounded-lg border border-fiber-line inline-block break-all">
               {user?.email}
             </p>
             <p className="text-xs font-sans text-muted-text pt-2 leading-relaxed">
@@ -138,7 +138,7 @@ export default function VerifyEmailPage() {
               type="button"
               onClick={handleManualCheck}
               disabled={isChecking}
-              className="w-full flex items-center justify-center gap-2 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold text-[#EDE7D6] py-2.5 px-4 transition-colors disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold text-[#FFFFFF] py-2.5 px-4 transition-colors disabled:opacity-50"
             >
               {isChecking ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -152,7 +152,7 @@ export default function VerifyEmailPage() {
               type="button"
               onClick={handleResend}
               disabled={resendCooldown > 0 || isResending}
-              className="w-full flex items-center justify-center gap-2 rounded-[6px] border border-fiber-line bg-paper-bg hover:bg-card-bg text-xs font-mono text-ink-text py-2 px-4 transition-colors disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 rounded-lg border border-fiber-line bg-paper-bg hover:bg-card-bg text-xs font-mono text-ink-text py-2 px-4 transition-colors disabled:opacity-50"
             >
               {isResending ? (
                 <Loader2 className="h-3 w-3 animate-spin" />
@@ -172,7 +172,7 @@ export default function VerifyEmailPage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="text-rule-red hover:underline flex items-center gap-1"
+              className="text-stamp-red hover:underline flex items-center gap-1"
             >
               <LogOut className="h-3 w-3" /> Sign Out
             </button>

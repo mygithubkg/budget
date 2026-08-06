@@ -93,16 +93,16 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
+    <div className="flex-1 space-y-5 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
       {/* Top Segmented Sub-Tab Bar */}
       <div className="flex items-center justify-between border-b border-fiber-line pb-3">
-        <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+        <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono gap-0.5">
           <button
             type="button"
             onClick={() => handleTabChange("overview")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-all ${
               activeTab === "overview"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-white font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -113,22 +113,22 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={() => handleTabChange("trends")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-all ${
               activeTab === "trends"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-white font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
             <TrendingUp className="h-3.5 w-3.5" />
-            <span>Trends &amp; Charts</span>
+            <span>Trends</span>
           </button>
 
           <button
             type="button"
             onClick={() => handleTabChange("categories")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[4px] transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-all ${
               activeTab === "categories"
-                ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                ? "bg-stamp-red text-white font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
             }`}
           >
@@ -139,7 +139,7 @@ export default function DashboardPage() {
 
         <Link
           href="/chat"
-          className="hidden sm:inline-flex items-center gap-1.5 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] transition-colors shadow-xs"
+          className="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-stamp-red hover:bg-stamp-red/90 px-3.5 py-2 text-xs font-mono font-bold uppercase tracking-wider text-white transition-all shadow-xs hover:shadow-stamp"
         >
           <MessageSquare className="h-3.5 w-3.5" />
           <span>AI Register</span>
@@ -151,106 +151,114 @@ export default function DashboardPage() {
       ) : activeTab === "categories" ? (
         <CategoriesView />
       ) : (
-        /* Overview View */
-        <div className="space-y-6">
-          {/* Top Display: Balance Figure */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between border-b border-fiber-line pb-6 gap-4">
-            <div>
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-muted-text">
-                Net Ledger Balance
-              </span>
-              <div className="flex items-baseline gap-2 mt-1">
-                <span className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink-text">
-                  {currentTotalBalance >= 0 ? "+" : "−"}
-                  {formatCurrency(Math.abs(currentTotalBalance), currency)}
+        /* ── OVERVIEW — Bento Grid Layout ── */
+        <div className="space-y-4">
+          {/* ── Row 1: Hero Balance Card (full width) ── */}
+          <div
+            className="relative overflow-hidden rounded-2xl p-6 sm:p-8 text-white"
+            style={{ background: "var(--sig-gradient)" }}
+          >
+            {/* Decorative circles */}
+            <div className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 rounded-full bg-white/10" />
+            <div className="pointer-events-none absolute -right-4 bottom-0 h-32 w-32 rounded-full bg-white/[0.07]" />
+
+            <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
+              <div>
+                <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-white/70">
+                  Net Ledger Balance
                 </span>
-                <span
-                  className={`font-mono text-xs font-bold uppercase px-2 py-0.5 border border-fiber-line rounded-[3px] ${
-                    currentTotalBalance >= 0 ? "text-passbook-gold" : "text-rule-red"
-                  }`}
-                >
-                  {currentTotalBalance >= 0 ? "In Credit" : "In Debit"}
-                </span>
+
+                {/* Gradient text balance — the hero moment */}
+                <div className="flex items-baseline gap-3 mt-1.5">
+                  <span className="font-display font-bold tracking-tight text-white"
+                    style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", lineHeight: 1.05 }}
+                  >
+                    {currentTotalBalance >= 0 ? "+" : "−"}
+                    {formatCurrency(Math.abs(currentTotalBalance), currency)}
+                  </span>
+                  <span
+                    className={`font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${
+                      currentTotalBalance >= 0
+                        ? "border-white/40 bg-white/15 text-white"
+                        : "border-white/30 bg-white/10 text-white/80"
+                    }`}
+                  >
+                    {currentTotalBalance >= 0 ? "In Credit" : "In Debit"}
+                  </span>
+                </div>
+
+                <p className="mt-1.5 text-xs font-sans text-white/60">
+                  All-time income minus expenses · {userProfile?.displayName || "Account"}
+                </p>
               </div>
-              <p className="text-xs font-sans text-muted-text pt-1">
-                All-time registered income minus expenses for {userProfile?.displayName || "Account"}
-              </p>
-            </div>
 
-            <div className="flex items-center gap-2">
-              <Link
-                href="/chat"
-                className="inline-flex items-center gap-2 rounded-[6px] bg-stamp-indigo hover:bg-stamp-indigo/90 px-3.5 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] transition-colors shadow-sm"
-              >
-                <MessageSquare className="h-4 w-4" />
-                <span>Open Register</span>
-              </Link>
+              <div className="flex items-center gap-2 shrink-0">
+                <Link
+                  href="/chat"
+                  className="inline-flex items-center gap-2 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 px-4 py-2.5 text-xs font-mono font-bold uppercase tracking-wider text-white transition-all"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  <span>Open Register</span>
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* 4 KPI Quick-Stat Cards */}
-          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4">
-            <div className="snap-start min-w-[240px] sm:min-w-0">
-              <StatsCard
-                title="This Month Income"
-                value={`+${formatCurrency(thisMonthIncome, currency)}`}
-                subtitle={format(now, "MMMM yyyy")}
-                icon={ArrowUpRight}
-                type="income"
-              />
-            </div>
-            <div className="snap-start min-w-[240px] sm:min-w-0">
-              <StatsCard
-                title="This Month Expense"
-                value={`−${formatCurrency(thisMonthExpense, currency)}`}
-                subtitle="Personal net spend"
-                icon={ArrowDownRight}
-                type="expense"
-              />
-            </div>
-            <div className="snap-start min-w-[240px] sm:min-w-0">
-              <StatsCard
-                title="Monthly Savings Rate"
-                value={`${savingsRate}%`}
-                subtitle={`${savingsRate}% of income saved`}
-                icon={PiggyBank}
-                type="neutral"
-              />
-            </div>
-            <div className="snap-start min-w-[240px] sm:min-w-0">
-              <StatsCard
-                title="Friend Debts Net"
-                value={`${friendsNet >= 0 ? "+" : "−"}${formatCurrency(Math.abs(friendsNet), currency)}`}
-                subtitle={
-                  friendsNet > 0
-                    ? "You are owed"
-                    : friendsNet < 0
-                    ? "You owe friends"
-                    : "All debts settled"
-                }
-                icon={Users}
-                type={friendsNet >= 0 ? "income" : "expense"}
-              />
-            </div>
+          {/* ── Row 2: 4 KPI Stat Cards — bento 4-col grid ── */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <StatsCard
+              title="This Month Income"
+              value={`+${formatCurrency(thisMonthIncome, currency)}`}
+              subtitle={format(now, "MMMM yyyy")}
+              icon={ArrowUpRight}
+              type="income"
+            />
+            <StatsCard
+              title="This Month Expense"
+              value={`−${formatCurrency(thisMonthExpense, currency)}`}
+              subtitle="Personal net spend"
+              icon={ArrowDownRight}
+              type="expense"
+            />
+            <StatsCard
+              title="Monthly Savings Rate"
+              value={`${savingsRate}%`}
+              subtitle={`${savingsRate}% of income saved`}
+              icon={PiggyBank}
+              type="neutral"
+            />
+            <StatsCard
+              title="Friend Debts Net"
+              value={`${friendsNet >= 0 ? "+" : "−"}${formatCurrency(Math.abs(friendsNet), currency)}`}
+              subtitle={
+                friendsNet > 0
+                  ? "You are owed"
+                  : friendsNet < 0
+                  ? "You owe friends"
+                  : "All debts settled"
+              }
+              icon={Users}
+              type={friendsNet >= 0 ? "income" : "expense"}
+            />
           </div>
 
-          {/* Transactions Ledger Table */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg shadow-xs overflow-hidden">
+          {/* ── Row 3: Transactions Ledger Table ── */}
+          <div className="rounded-2xl border border-fiber-line bg-card-bg shadow-card dark:shadow-none dark:border-white/[0.06] overflow-hidden">
             <div className="p-4 sm:p-5 border-b border-fiber-line flex items-center justify-between">
               <div>
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Recent Ledger Entries
                 </h2>
-                <p className="text-xs text-muted-text">
+                <p className="text-xs text-muted-text mt-0.5">
                   Itemized chronological journal entries
                 </p>
               </div>
               <Link
                 href="/chat"
-                className="text-xs font-mono font-bold text-stamp-indigo hover:underline flex items-center gap-1"
+                className="flex items-center gap-1.5 rounded-lg bg-stamp-red/10 hover:bg-stamp-red/20 px-3 py-1.5 text-xs font-mono font-bold text-stamp-red transition-colors"
               >
+                <Plus className="h-3.5 w-3.5" />
                 <span>Add Entry</span>
-                <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
 
@@ -269,7 +277,7 @@ export default function DashboardPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left font-mono text-xs border-collapse">
                   <thead>
-                    <tr className="border-b border-fiber-line text-muted-text text-[10px] uppercase bg-paper-bg/50">
+                    <tr className="border-b border-fiber-line text-muted-text text-[10px] uppercase bg-paper-bg/60">
                       <th className="py-2.5 px-4 font-normal">Date</th>
                       <th className="py-2.5 px-4 font-normal">Description</th>
                       <th className="py-2.5 px-4 font-normal">Category</th>
@@ -291,7 +299,7 @@ export default function DashboardPage() {
                       return (
                         <tr
                           key={t.id}
-                          className="hover:bg-paper-bg/40 transition-colors group"
+                          className="hover:bg-paper-bg/50 dark:hover:bg-white/[0.03] transition-colors group"
                         >
                           <td className="py-3 px-4 text-muted-text whitespace-nowrap">
                             {format(dateObj, "yyyy-MM-dd")}
@@ -299,19 +307,19 @@ export default function DashboardPage() {
                           <td className="py-3 px-4 font-bold text-ink-text">
                             {t.description}
                             {t.splits && t.splits.length > 0 && (
-                              <span className="ml-2 text-[10px] font-normal text-stamp-indigo border border-stamp-indigo/30 px-1.5 py-0.2 rounded-[2px] bg-stamp-indigo/5">
+                              <span className="ml-2 text-[10px] font-normal text-stamp-red border border-stamp-red/30 px-1.5 py-0.5 rounded bg-stamp-red/5">
                                 Split
                               </span>
                             )}
                           </td>
                           <td className="py-3 px-4">
-                            <span className="text-[10px] px-2 py-0.5 rounded-[3px] border border-fiber-line bg-paper-bg text-muted-text">
+                            <span className="text-[10px] px-2 py-0.5 rounded border border-fiber-line bg-paper-bg text-muted-text">
                               {t.category || "General"}
                             </span>
                           </td>
                           <td
                             className={`py-3 px-4 text-right font-bold whitespace-nowrap ${
-                              isExpense ? "text-rule-red" : "text-stamp-emerald"
+                              isExpense ? "text-stamp-red" : "text-thrive-green"
                             }`}
                           >
                             {isExpense ? "−" : "+"}
@@ -321,7 +329,7 @@ export default function DashboardPage() {
                             <button
                               type="button"
                               onClick={() => handleDelete(t)}
-                              className="text-muted-text hover:text-rule-red transition-colors p-1"
+                              className="text-muted-text hover:text-stamp-red transition-colors p-1 rounded opacity-0 group-hover:opacity-100"
                               title="Delete entry"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -340,3 +348,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+

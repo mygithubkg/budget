@@ -27,7 +27,7 @@ export function VoiceInputButton({
       {isListening && (
         <span
           aria-hidden="true"
-          className="absolute inset-0 rounded-[6px] border-2 border-rule-red bg-rule-red/20 animate-mic-pulse motion-reduce:hidden pointer-events-none"
+          className="absolute inset-0 rounded-lg border-2 border-stamp-red bg-stamp-red/20 animate-mic-pulse motion-reduce:hidden pointer-events-none"
         />
       )}
 
@@ -37,16 +37,16 @@ export function VoiceInputButton({
         disabled={disabled}
         aria-label={isListening ? "Stop voice input" : "Start voice input"}
         title={isListening ? "Stop listening (Tap to finish)" : "Voice input (Speak to record)"}
-        className={`relative flex h-11 w-11 items-center justify-center rounded-[6px] border transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-stamp-indigo/40 disabled:opacity-40 disabled:pointer-events-none ${
+        className={`relative flex h-11 w-11 items-center justify-center rounded-lg border transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-stamp-red/40 disabled:opacity-40 disabled:pointer-events-none ${
           isListening
-            ? "border-rule-red bg-rule-red/10 text-rule-red shadow-sm"
-            : "border-fiber-line bg-paper-bg text-stamp-indigo hover:border-stamp-indigo hover:bg-card-bg active:scale-95"
+            ? "border-stamp-red bg-stamp-red/10 text-stamp-red shadow-sm"
+            : "border-fiber-line bg-paper-bg text-stamp-red hover:border-stamp-red hover:bg-card-bg active:scale-95"
         }`}
       >
         {isListening ? (
-          <MicOff className="h-4 w-4 text-rule-red animate-pulse motion-reduce:animate-none" />
+          <MicOff className="h-4 w-4 text-stamp-red animate-pulse motion-reduce:animate-none" />
         ) : (
-          <Mic className="h-4 w-4 text-stamp-indigo transition-transform hover:scale-105" />
+          <Mic className="h-4 w-4 text-stamp-red transition-transform hover:scale-105" />
         )}
       </button>
     </div>

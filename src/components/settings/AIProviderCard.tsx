@@ -185,16 +185,16 @@ export function AIProviderCard() {
   };
 
   return (
-    <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-sm space-y-4 text-ink-text">
+    <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-sm space-y-4 text-ink-text">
       <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
         <div className="flex items-center gap-2">
-          <Cpu className="h-4 w-4 text-stamp-indigo" />
+          <Cpu className="h-4 w-4 text-stamp-red" />
           <h2 className="font-display text-base font-bold text-ink-text">
             AI Provider (Bring Your Own Key)
           </h2>
         </div>
         {isSet ? (
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase text-stamp-emerald border border-stamp-emerald/30 bg-stamp-emerald/5 px-2 py-0.5 rounded-[3px]">
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase text-thrive-green border border-thrive-green/30 bg-thrive-green/5 px-2 py-0.5 rounded-[3px]">
             <CheckCircle2 className="h-3 w-3" /> Custom Key Active
           </span>
         ) : (
@@ -211,12 +211,12 @@ export function AIProviderCard() {
 
       {loading ? (
         <div className="py-6 flex items-center justify-center gap-2 text-xs font-mono text-muted-text">
-          <Loader2 className="h-4 w-4 animate-spin text-stamp-indigo" />
+          <Loader2 className="h-4 w-4 animate-spin text-stamp-red" />
           Loading configuration...
         </div>
       ) : isSet && !isEditing ? (
         /* Configured State View */
-        <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-4 space-y-3">
+        <div className="rounded-lg border border-fiber-line bg-paper-bg p-4 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -234,7 +234,7 @@ export function AIProviderCard() {
               <div className="flex items-center gap-2 text-xs font-mono text-muted-text">
                 <Key className="h-3 w-3" />
                 <span>••••••••••••{last4}</span>
-                <span className="text-[10px] text-passbook-gold flex items-center gap-1">
+                <span className="text-[10px] text-thrive-green flex items-center gap-1">
                   <ShieldCheck className="h-3 w-3" /> AES-256 Encrypted
                 </span>
               </div>
@@ -244,7 +244,7 @@ export function AIProviderCard() {
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="px-3 py-1.5 rounded-[4px] border border-fiber-line bg-card-bg hover:bg-paper-bg text-xs font-mono text-ink-text transition-colors"
+                className="px-3 py-1.5 rounded-lg border border-fiber-line bg-card-bg hover:bg-paper-bg text-xs font-mono text-ink-text transition-colors"
               >
                 Change Key
               </button>
@@ -252,7 +252,7 @@ export function AIProviderCard() {
                 type="button"
                 onClick={handleRemove}
                 disabled={saving}
-                className="p-1.5 rounded-[4px] border border-rule-red/30 hover:border-rule-red text-rule-red hover:bg-rule-red/5 text-xs transition-colors"
+                className="p-1.5 rounded-lg border border-stamp-red/30 hover:border-stamp-red text-stamp-red hover:bg-stamp-red/5 text-xs transition-colors"
                 title="Revert to default"
               >
                 {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
@@ -268,9 +268,9 @@ export function AIProviderCard() {
             <button
               type="button"
               onClick={() => setMode("default")}
-              className={`p-3 rounded-[6px] border text-left transition-all ${
+              className={`p-3 rounded-lg border text-left transition-all ${
                 mode === "default"
-                  ? "border-stamp-indigo bg-stamp-indigo/5 ring-1 ring-stamp-indigo"
+                  ? "border-stamp-red bg-stamp-red/5 ring-1 ring-stamp-red"
                   : "border-fiber-line bg-paper-bg hover:bg-card-bg"
               }`}
             >
@@ -283,9 +283,9 @@ export function AIProviderCard() {
             <button
               type="button"
               onClick={() => setMode("custom")}
-              className={`p-3 rounded-[6px] border text-left transition-all ${
+              className={`p-3 rounded-lg border text-left transition-all ${
                 mode === "custom"
-                  ? "border-stamp-indigo bg-stamp-indigo/5 ring-1 ring-stamp-indigo"
+                  ? "border-stamp-red bg-stamp-red/5 ring-1 ring-stamp-red"
                   : "border-fiber-line bg-paper-bg hover:bg-card-bg"
               }`}
             >
@@ -297,7 +297,7 @@ export function AIProviderCard() {
           </div>
 
           {mode === "custom" && (
-            <div className="space-y-4 rounded-[6px] border border-fiber-line bg-paper-bg p-4">
+            <div className="space-y-4 rounded-lg border border-fiber-line bg-paper-bg p-4">
               {/* Provider Selection */}
               <div className="space-y-1.5">
                 <label className="text-[11px] font-mono uppercase text-muted-text">
@@ -309,9 +309,9 @@ export function AIProviderCard() {
                       key={prov}
                       type="button"
                       onClick={() => handleProviderChange(prov)}
-                      className={`py-2 px-2.5 rounded-[4px] border text-xs font-mono font-medium capitalize text-center transition-all ${
+                      className={`py-2 px-2.5 rounded-lg border text-xs font-mono font-medium capitalize text-center transition-all ${
                         selectedProvider === prov
-                          ? "border-stamp-indigo bg-card-bg text-ink-text font-bold shadow-sm"
+                          ? "border-stamp-red bg-card-bg text-ink-text font-bold shadow-sm"
                           : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
                       }`}
                     >
@@ -329,7 +329,7 @@ export function AIProviderCard() {
                 <select
                   value={selectedModel}
                   onChange={(e) => setSelectedModel(e.target.value)}
-                  className="w-full h-9 rounded-[4px] border border-fiber-line bg-card-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full h-9 rounded-lg border border-fiber-line bg-card-bg px-3 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                 >
                   {BYOK_MODEL_OPTIONS[selectedProvider].map((m) => (
                     <option key={m.id} value={m.id}>
@@ -349,7 +349,7 @@ export function AIProviderCard() {
                     href={getProviderPortalUrl(selectedProvider)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] font-mono text-stamp-indigo hover:underline flex items-center gap-1"
+                    className="text-[10px] font-mono text-stamp-red hover:underline flex items-center gap-1"
                   >
                     Get {selectedProvider.toUpperCase()} key <ExternalLink className="h-2.5 w-2.5" />
                   </a>
@@ -366,7 +366,7 @@ export function AIProviderCard() {
                     }
                     value={apiKey}
                     onChange={(e) => setApiKey(e.target.value)}
-                    className="w-full h-9 rounded-[4px] border border-fiber-line bg-card-bg px-3 pr-10 text-xs font-mono text-ink-text placeholder:text-muted-text/50 focus:border-stamp-indigo focus:outline-none"
+                    className="w-full h-9 rounded-lg border border-fiber-line bg-card-bg px-3 pr-10 text-xs font-mono text-ink-text placeholder:text-muted-text/50 focus:border-stamp-red focus:outline-none"
                   />
                   <button
                     type="button"
@@ -378,8 +378,8 @@ export function AIProviderCard() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 text-[11px] text-muted-text font-sans bg-card-bg/60 p-2.5 rounded-[4px] border border-fiber-line">
-                <Info className="h-3.5 w-3.5 text-stamp-indigo shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 text-[11px] text-muted-text font-sans bg-card-bg/60 p-2.5 rounded-lg border border-fiber-line">
+                <Info className="h-3.5 w-3.5 text-stamp-red shrink-0 mt-0.5" />
                 <span>
                   FinChat encrypts this key with AES-256-GCM before writing to the secure server store. It is decrypted strictly in ephemeral memory when parsing ledger requests.
                 </span>
@@ -395,7 +395,7 @@ export function AIProviderCard() {
                   setIsEditing(false);
                   setMode(isSet ? "custom" : "default");
                 }}
-                className="px-3.5 py-1.5 rounded-[4px] border border-fiber-line bg-paper-bg text-xs font-mono text-muted-text hover:text-ink-text transition-colors"
+                className="px-3.5 py-1.5 rounded-lg border border-fiber-line bg-paper-bg text-xs font-mono text-muted-text hover:text-ink-text transition-colors"
               >
                 Cancel
               </button>
@@ -403,7 +403,7 @@ export function AIProviderCard() {
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-2 rounded-[4px] bg-stamp-indigo hover:bg-stamp-indigo/90 text-xs font-mono font-bold text-[#EDE7D6] transition-colors disabled:opacity-50 flex items-center gap-1.5"
+              className="px-4 py-2 rounded-lg bg-stamp-red hover:bg-stamp-red/90 text-xs font-mono font-bold text-[#FFFFFF] transition-colors disabled:opacity-50 flex items-center gap-1.5"
             >
               {saving && <Loader2 className="h-3 w-3 animate-spin" />}
               {mode === "default" ? "Save & Use Default" : "Save Encrypted Key"}

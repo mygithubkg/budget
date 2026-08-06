@@ -170,7 +170,7 @@ export function TrendsView() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="rounded-[4px] border border-fiber-line bg-card-bg p-3 shadow-md text-xs font-mono">
+        <div className="rounded-lg border border-fiber-line bg-card-bg p-3 shadow-md text-xs font-mono">
           <p className="font-bold text-ink-text pb-1 border-b border-fiber-line/60">{label}</p>
           <div className="pt-1.5 space-y-1">
             {payload.map((entry: any, index: number) => (
@@ -197,15 +197,15 @@ export function TrendsView() {
         {/* Date Range Selector */}
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] font-mono uppercase text-muted-text hidden sm:inline">Range:</span>
-          <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
             {(["week", "month", "3months", "all"] as DateRangeType[]).map((r) => (
               <button
                 key={r}
                 type="button"
                 onClick={() => setDateRange(r)}
-                className={`px-2.5 py-1 rounded-[4px] capitalize transition-colors ${
+                className={`px-2.5 py-1 rounded-lg capitalize transition-colors ${
                   dateRange === r
-                    ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                    ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                     : "text-muted-text hover:text-ink-text"
                 }`}
               >
@@ -218,15 +218,15 @@ export function TrendsView() {
         {/* Grouping & Chart Type Selectors */}
         <div className="flex items-center gap-2">
           {/* Grouping */}
-          <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
             {(["day", "week", "month"] as GroupingType[]).map((g) => (
               <button
                 key={g}
                 type="button"
                 onClick={() => setGrouping(g)}
-                className={`px-2.5 py-1 rounded-[4px] capitalize transition-colors ${
+                className={`px-2.5 py-1 rounded-lg capitalize transition-colors ${
                   grouping === g
-                    ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                    ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                     : "text-muted-text hover:text-ink-text"
                 }`}
               >
@@ -236,13 +236,13 @@ export function TrendsView() {
           </div>
 
           {/* Chart View Toggle */}
-          <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
             <button
               type="button"
               onClick={() => setChartType("area")}
-              className={`px-2 py-1 rounded-[4px] transition-colors ${
+              className={`px-2 py-1 rounded-lg transition-colors ${
                 chartType === "area"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
               title="Area Chart"
@@ -252,9 +252,9 @@ export function TrendsView() {
             <button
               type="button"
               onClick={() => setChartType("bar")}
-              className={`px-2 py-1 rounded-[4px] transition-colors ${
+              className={`px-2 py-1 rounded-lg transition-colors ${
                 chartType === "bar"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
               title="Bar Chart"
@@ -292,7 +292,7 @@ export function TrendsView() {
 
       {/* Main Chart Canvas */}
       {isLoading ? (
-        <div className="h-80 rounded-[8px] border border-fiber-line bg-card-bg/60 animate-pulse" />
+        <div className="h-80 rounded-xl border border-fiber-line bg-card-bg/60 animate-pulse" />
       ) : chartData.length === 0 ? (
         <EmptyState
           title="No Data in Selected Period"
@@ -301,10 +301,10 @@ export function TrendsView() {
           actionHref="/chat"
         />
       ) : (
-        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-4 sm:p-6 shadow-xs space-y-3">
+        <div className="rounded-xl border border-fiber-line bg-card-bg p-4 sm:p-6 shadow-xs space-y-3">
           <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
             <h2 className="font-display text-base font-bold text-ink-text flex items-center gap-2">
-              <BarChart2 className="h-4 w-4 text-stamp-indigo" />
+              <BarChart2 className="h-4 w-4 text-stamp-red" />
               Cashflow Trajectory
             </h2>
             <span className="text-[11px] font-mono text-muted-text">

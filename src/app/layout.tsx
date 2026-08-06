@@ -59,7 +59,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
     >
-      <body className="min-h-screen bg-paper-bg text-ink-text font-sans antialiased selection:bg-stamp-indigo/20 selection:text-stamp-indigo">
+      <body className="min-h-screen bg-paper-bg text-ink-text font-sans antialiased selection:bg-stamp-red/20 selection:text-stamp-red">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

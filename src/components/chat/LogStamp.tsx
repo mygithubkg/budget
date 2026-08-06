@@ -33,16 +33,16 @@ export const LogStamp: React.FC<LogStampProps> = ({
 
   return (
     <div
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold tracking-wider uppercase border-2 rounded-[4px] shadow-sm select-none animate-stamp"
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono font-bold tracking-wider uppercase border-2 rounded-lg shadow-sm select-none animate-stamp"
       style={
         {
           "--stamp-deg": `${deg}deg`,
           animationDelay: `${delayMs}ms`,
-          color: isExpense ? "var(--rule-red)" : "var(--passbook-gold)",
-          borderColor: isExpense ? "var(--rule-red)" : "var(--passbook-gold)",
+          color: isExpense ? "var(--stamp-red)" : "var(--thrive-green)",
+          borderColor: isExpense ? "var(--stamp-red)" : "var(--thrive-green)",
           backgroundColor: isExpense
-            ? "color-mix(in srgb, var(--rule-red) 6%, transparent)"
-            : "color-mix(in srgb, var(--passbook-gold) 6%, transparent)",
+            ? "color-mix(in srgb, var(--stamp-red) 6%, transparent)"
+            : "color-mix(in srgb, var(--thrive-green) 6%, transparent)",
         } as React.CSSProperties
       }
     >

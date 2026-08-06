@@ -310,7 +310,7 @@ export default function ImportPage() {
             <span className="font-mono text-xs text-muted-text uppercase tracking-widest">
               Ledger Tool
             </span>
-            <span className="rounded bg-stamp-indigo/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-stamp-indigo uppercase">
+            <span className="rounded bg-stamp-red/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-stamp-red uppercase">
               AI Assisted
             </span>
           </div>
@@ -329,7 +329,7 @@ export default function ImportPage() {
               setParseResult(null);
               setItems([]);
             }}
-            className="self-start sm:self-auto inline-flex items-center gap-1.5 rounded-[4px] border border-fiber-line bg-card-bg px-3 py-1.5 text-xs font-mono font-medium text-ink-text hover:bg-paper-bg transition-colors"
+            className="self-start sm:self-auto inline-flex items-center gap-1.5 rounded-lg border border-fiber-line bg-card-bg px-3 py-1.5 text-xs font-mono font-medium text-ink-text hover:bg-paper-bg transition-colors"
           >
             <RefreshCw className="h-3.5 w-3.5" />
             <span>Upload Another File</span>
@@ -341,15 +341,15 @@ export default function ImportPage() {
       {mode === "upload" && (
         <div className="space-y-6">
           {isProcessing ? (
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-12 text-center space-y-4 shadow-sm">
-              <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-full bg-stamp-indigo/10 text-stamp-indigo animate-pulse">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-12 text-center space-y-4 shadow-sm">
+              <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-full bg-stamp-red/10 text-stamp-red animate-pulse">
                 <Loader2 className="h-7 w-7 animate-spin" />
               </div>
               <div className="space-y-1">
                 <h3 className="font-display text-lg font-bold text-ink-text">
                   Processing Your Document
                 </h3>
-                <p className="text-xs font-mono text-stamp-indigo">
+                <p className="text-xs font-mono text-stamp-red">
                   {processingStage}
                 </p>
               </div>
@@ -363,10 +363,10 @@ export default function ImportPage() {
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
-              className={`relative rounded-[8px] border-2 border-dashed transition-all p-8 sm:p-12 text-center bg-card-bg shadow-sm ${
+              className={`relative rounded-xl border-2 border-dashed transition-all p-8 sm:p-12 text-center bg-card-bg shadow-sm ${
                 dragActive
-                  ? "border-stamp-indigo bg-stamp-indigo/5"
-                  : "border-fiber-line hover:border-stamp-indigo/50"
+                  ? "border-stamp-red bg-stamp-red/5"
+                  : "border-fiber-line hover:border-stamp-red/50"
               }`}
             >
               <input
@@ -381,7 +381,7 @@ export default function ImportPage() {
                 }}
               />
 
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-stamp-indigo/10 text-stamp-indigo mb-4">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-stamp-red/10 text-stamp-red mb-4">
                 <UploadCloud className="h-7 w-7" />
               </div>
 
@@ -395,16 +395,16 @@ export default function ImportPage() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-2 rounded-[4px] bg-stamp-indigo px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] hover:bg-stamp-indigo/90 shadow-sm transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-stamp-red px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-stamp-red/90 shadow-sm transition-colors"
               >
                 <FileSpreadsheet className="h-4 w-4" />
                 <span>Select File from Device</span>
               </button>
 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-fiber-line text-left">
-                <div className="rounded-[6px] border border-fiber-line p-3.5 bg-paper-bg space-y-1">
+                <div className="rounded-lg border border-fiber-line p-3.5 bg-paper-bg space-y-1">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-ink-text">
-                    <FileSpreadsheet className="h-3.5 w-3.5 text-stamp-emerald" />
+                    <FileSpreadsheet className="h-3.5 w-3.5 text-thrive-green" />
                     <span>Path A: Tabular Statements (.xlsx, .csv)</span>
                   </div>
                   <p className="text-[11px] text-muted-text leading-relaxed">
@@ -412,9 +412,9 @@ export default function ImportPage() {
                   </p>
                 </div>
 
-                <div className="rounded-[6px] border border-fiber-line p-3.5 bg-paper-bg space-y-1">
+                <div className="rounded-lg border border-fiber-line p-3.5 bg-paper-bg space-y-1">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-ink-text">
-                    <FileText className="h-3.5 w-3.5 text-stamp-indigo" />
+                    <FileText className="h-3.5 w-3.5 text-stamp-red" />
                     <span>Path B: Prose Diaries (.docx)</span>
                   </div>
                   <p className="text-[11px] text-muted-text leading-relaxed">
@@ -432,7 +432,7 @@ export default function ImportPage() {
         <div className="space-y-6">
           {/* Summary Metric Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="rounded-[6px] border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
+            <div className="rounded-lg border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
               <span className="font-mono text-[10px] uppercase tracking-wider text-muted-text">
                 Total Extracted
               </span>
@@ -444,11 +444,11 @@ export default function ImportPage() {
               </span>
             </div>
 
-            <div className="rounded-[6px] border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
+            <div className="rounded-lg border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
               <span className="font-mono text-[10px] uppercase tracking-wider text-muted-text">
                 Ready to Import
               </span>
-              <p className="font-mono text-xl font-bold text-stamp-emerald">
+              <p className="font-mono text-xl font-bold text-thrive-green">
                 {selectedItems.length}
               </p>
               <span className="text-[10px] font-mono text-muted-text">
@@ -456,7 +456,7 @@ export default function ImportPage() {
               </span>
             </div>
 
-            <div className="rounded-[6px] border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
+            <div className="rounded-lg border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
               <span className="font-mono text-[10px] uppercase tracking-wider text-muted-text">
                 Possible Duplicates
               </span>
@@ -474,31 +474,31 @@ export default function ImportPage() {
               </span>
             </div>
 
-            <div className="rounded-[6px] border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
+            <div className="rounded-lg border border-fiber-line bg-card-bg p-3.5 shadow-sm space-y-1">
               <span className="font-mono text-[10px] uppercase tracking-wider text-muted-text">
                 Selected Expenses
               </span>
               <p className="font-mono text-xl font-bold text-stamp-terracotta">
                 {formatCurrency(totalSelectedExpense, currency)}
               </p>
-              <span className="text-[10px] font-mono text-stamp-emerald">
+              <span className="text-[10px] font-mono text-thrive-green">
                 Income: {formatCurrency(totalSelectedIncome, currency)}
               </span>
             </div>
           </div>
 
           {/* Controls Bar: Filters, Search & Bulk Actions */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-4 shadow-sm space-y-4">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-4 shadow-sm space-y-4">
             {/* Top row: Filter Tabs & Search */}
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
               {/* Tab Pills */}
-              <div className="flex flex-wrap items-center gap-1.5 p-1 bg-paper-bg rounded-[6px] border border-fiber-line text-xs font-mono">
+              <div className="flex flex-wrap items-center gap-1.5 p-1 bg-paper-bg rounded-lg border border-fiber-line text-xs font-mono">
                 <button
                   onClick={() => {
                     setFilterTab("all");
                     setPage(1);
                   }}
-                  className={`px-3 py-1 rounded-[4px] transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors ${
                     filterTab === "all"
                       ? "bg-card-bg text-ink-text font-bold shadow-sm"
                       : "text-muted-text hover:text-ink-text"
@@ -511,7 +511,7 @@ export default function ImportPage() {
                     setFilterTab("selected");
                     setPage(1);
                   }}
-                  className={`px-3 py-1 rounded-[4px] transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors ${
                     filterTab === "selected"
                       ? "bg-card-bg text-ink-text font-bold shadow-sm"
                       : "text-muted-text hover:text-ink-text"
@@ -525,7 +525,7 @@ export default function ImportPage() {
                       setFilterTab("duplicates");
                       setPage(1);
                     }}
-                    className={`px-3 py-1 rounded-[4px] transition-colors ${
+                    className={`px-3 py-1 rounded-lg transition-colors ${
                       filterTab === "duplicates"
                         ? "bg-card-bg text-stamp-terracotta font-bold shadow-sm"
                         : "text-muted-text hover:text-stamp-terracotta"
@@ -539,7 +539,7 @@ export default function ImportPage() {
                     setFilterTab("expense");
                     setPage(1);
                   }}
-                  className={`px-3 py-1 rounded-[4px] transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors ${
                     filterTab === "expense"
                       ? "bg-card-bg text-ink-text font-bold shadow-sm"
                       : "text-muted-text hover:text-ink-text"
@@ -552,7 +552,7 @@ export default function ImportPage() {
                     setFilterTab("income");
                     setPage(1);
                   }}
-                  className={`px-3 py-1 rounded-[4px] transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors ${
                     filterTab === "income"
                       ? "bg-card-bg text-ink-text font-bold shadow-sm"
                       : "text-muted-text hover:text-ink-text"
@@ -573,7 +573,7 @@ export default function ImportPage() {
                     setPage(1);
                   }}
                   placeholder="Search description, category..."
-                  className="w-full rounded-[4px] border border-fiber-line bg-paper-bg pl-8 pr-3 py-1.5 text-xs font-sans text-ink-text focus:border-stamp-indigo focus:outline-none"
+                  className="w-full rounded-lg border border-fiber-line bg-paper-bg pl-8 pr-3 py-1.5 text-xs font-sans text-ink-text focus:border-stamp-red focus:outline-none"
                 />
               </div>
             </div>
@@ -583,14 +583,14 @@ export default function ImportPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={selectAll}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] border border-fiber-line bg-paper-bg text-ink-text hover:bg-card-bg"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-fiber-line bg-paper-bg text-ink-text hover:bg-card-bg"
                 >
-                  <CheckSquare className="h-3 w-3 text-stamp-indigo" />
+                  <CheckSquare className="h-3 w-3 text-stamp-red" />
                   <span>Select All</span>
                 </button>
                 <button
                   onClick={deselectAll}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] border border-fiber-line bg-paper-bg text-ink-text hover:bg-card-bg"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-fiber-line bg-paper-bg text-ink-text hover:bg-card-bg"
                 >
                   <Square className="h-3 w-3 text-muted-text" />
                   <span>Deselect All</span>
@@ -598,7 +598,7 @@ export default function ImportPage() {
                 {parseResult.duplicatesCount > 0 && (
                   <button
                     onClick={selectNonDuplicatesOnly}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] border border-fiber-line bg-paper-bg text-ink-text hover:bg-card-bg"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-fiber-line bg-paper-bg text-ink-text hover:bg-card-bg"
                   >
                     <span>Select Non-Duplicates Only</span>
                   </button>
@@ -611,7 +611,7 @@ export default function ImportPage() {
                 <select
                   value={bulkCategory}
                   onChange={(e) => setBulkCategory(e.target.value)}
-                  className="rounded-[4px] border border-fiber-line bg-paper-bg px-2.5 py-1 text-xs font-mono text-ink-text focus:outline-none"
+                  className="rounded-lg border border-fiber-line bg-paper-bg px-2.5 py-1 text-xs font-mono text-ink-text focus:outline-none"
                 >
                   <option value="">Choose category...</option>
                   {categoryNames.map((c) => (
@@ -623,7 +623,7 @@ export default function ImportPage() {
                 <button
                   onClick={applyBulkCategory}
                   disabled={!bulkCategory || selectedItems.length === 0}
-                  className="rounded-[4px] bg-stamp-indigo px-3 py-1 text-xs font-mono font-bold text-[#EDE7D6] hover:bg-stamp-indigo/90 disabled:opacity-40"
+                  className="rounded-lg bg-stamp-red px-3 py-1 text-xs font-mono font-bold text-[#FFFFFF] hover:bg-stamp-red/90 disabled:opacity-40"
                 >
                   Apply to {selectedItems.length}
                 </button>
@@ -632,7 +632,7 @@ export default function ImportPage() {
           </div>
 
           {/* Transactions Table */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg shadow-sm overflow-hidden">
+          <div className="rounded-xl border border-fiber-line bg-card-bg shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -653,7 +653,7 @@ export default function ImportPage() {
                             )
                           );
                         }}
-                        className="rounded border-fiber-line text-stamp-indigo focus:ring-0"
+                        className="rounded border-fiber-line text-stamp-red focus:ring-0"
                       />
                     </th>
                     <th className="py-2.5 px-3 w-28">Date</th>
@@ -687,7 +687,7 @@ export default function ImportPage() {
                             type="checkbox"
                             checked={item.selected}
                             onChange={() => toggleItemSelect(item.tempId)}
-                            className="rounded border-fiber-line text-stamp-indigo focus:ring-0 cursor-pointer"
+                            className="rounded border-fiber-line text-stamp-red focus:ring-0 cursor-pointer"
                           />
                         </td>
 
@@ -699,7 +699,7 @@ export default function ImportPage() {
                             onChange={(e) =>
                               updateItemDate(item.tempId, e.target.value)
                             }
-                            className="bg-transparent border-0 font-mono text-[11px] text-ink-text focus:outline-none focus:ring-1 focus:ring-stamp-indigo rounded px-1 -ml-1"
+                            className="bg-transparent border-0 font-mono text-[11px] text-ink-text focus:outline-none focus:ring-1 focus:ring-stamp-red rounded px-1 -ml-1"
                           />
                         </td>
 
@@ -711,10 +711,10 @@ export default function ImportPage() {
                             onChange={(e) =>
                               updateItemDescription(item.tempId, e.target.value)
                             }
-                            className="w-full bg-transparent border-0 text-xs font-sans text-ink-text focus:outline-none focus:ring-1 focus:ring-stamp-indigo rounded px-1 -ml-1 truncate"
+                            className="w-full bg-transparent border-0 text-xs font-sans text-ink-text focus:outline-none focus:ring-1 focus:ring-stamp-red rounded px-1 -ml-1 truncate"
                           />
                           {item.splits && item.splits.length > 0 && (
-                            <span className="block text-[10px] font-mono text-stamp-indigo mt-0.5">
+                            <span className="block text-[10px] font-mono text-stamp-red mt-0.5">
                               Splits with: {item.splits.map((s) => s.friendName).join(", ")}
                             </span>
                           )}
@@ -725,7 +725,7 @@ export default function ImportPage() {
                           <span
                             className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
                               item.type === "income"
-                                ? "bg-stamp-emerald/10 text-stamp-emerald"
+                                ? "bg-thrive-green/10 text-thrive-green"
                                 : "bg-stamp-terracotta/10 text-stamp-terracotta"
                             }`}
                           >
@@ -740,7 +740,7 @@ export default function ImportPage() {
                             onChange={(e) =>
                               updateItemCategory(item.tempId, e.target.value)
                             }
-                            className="w-full rounded border border-fiber-line bg-paper-bg px-2 py-1 text-xs font-mono text-ink-text focus:border-stamp-indigo focus:outline-none"
+                            className="w-full rounded border border-fiber-line bg-paper-bg px-2 py-1 text-xs font-mono text-ink-text focus:border-stamp-red focus:outline-none"
                           >
                             {categoryNames.map((cat) => (
                               <option key={cat} value={cat}>
@@ -754,7 +754,7 @@ export default function ImportPage() {
                         <td
                           className={`py-2.5 px-3 text-right font-mono font-bold whitespace-nowrap ${
                             item.type === "income"
-                              ? "text-stamp-emerald"
+                              ? "text-thrive-green"
                               : "text-ink-text"
                           }`}
                         >
@@ -774,7 +774,7 @@ export default function ImportPage() {
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 text-[10px] font-mono text-muted-text">
-                              <Check className="h-3 w-3 text-stamp-emerald" />
+                              <Check className="h-3 w-3 text-thrive-green" />
                               <span>New</span>
                             </span>
                           )}
@@ -832,7 +832,7 @@ export default function ImportPage() {
           </div>
 
           {/* Sticky Bottom Action Bar */}
-          <div className="sticky bottom-4 z-20 rounded-[8px] border border-fiber-line bg-card-bg/95 backdrop-blur p-4 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="sticky bottom-4 z-20 rounded-xl border border-fiber-line bg-card-bg/95 backdrop-blur p-4 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs font-mono">
               <span className="text-muted-text">Importing:</span>
               <strong className="text-ink-text font-bold">
@@ -852,7 +852,7 @@ export default function ImportPage() {
                   setItems([]);
                 }}
                 disabled={isImporting}
-                className="px-4 py-2 rounded-[4px] border border-fiber-line text-xs font-mono text-muted-text hover:text-ink-text disabled:opacity-50"
+                className="px-4 py-2 rounded-lg border border-fiber-line text-xs font-mono text-muted-text hover:text-ink-text disabled:opacity-50"
               >
                 Discard
               </button>
@@ -861,7 +861,7 @@ export default function ImportPage() {
                 type="button"
                 onClick={handleConfirmImport}
                 disabled={selectedItems.length === 0 || isImporting}
-                className="inline-flex items-center gap-2 rounded-[4px] bg-stamp-indigo px-6 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#EDE7D6] hover:bg-stamp-indigo/90 shadow-sm disabled:opacity-50 transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-stamp-red px-6 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#FFFFFF] hover:bg-stamp-red/90 shadow-sm disabled:opacity-50 transition-colors"
               >
                 {isImporting ? (
                   <>

@@ -137,14 +137,14 @@ export default function AIAnalysisPage() {
     if (active && payload && payload.length) {
       const point: ProjectionPoint = payload[0].payload;
       return (
-        <div className="rounded-[4px] border border-fiber-line bg-card-bg p-2.5 shadow-md text-xs font-mono">
+        <div className="rounded-lg border border-fiber-line bg-card-bg p-2.5 shadow-md text-xs font-mono">
           <p className="font-bold text-ink-text pb-1">Day {point.day} ({point.dateStr})</p>
           {point.actualSpend !== undefined && (
-            <p className="text-stamp-indigo">
+            <p className="text-stamp-red">
               Actual Spend: {formatCurrency(point.actualSpend, currency)}
             </p>
           )}
-          <p className="text-passbook-gold">
+          <p className="text-thrive-green">
             Projected Trajectory: {formatCurrency(point.projectedSpend, currency)}
           </p>
         </div>
@@ -157,15 +157,15 @@ export default function AIAnalysisPage() {
     if (active && payload && payload.length) {
       const item = payload[0].payload;
       return (
-        <div className="rounded-[4px] border border-fiber-line bg-card-bg p-2.5 shadow-md text-xs font-mono">
+        <div className="rounded-lg border border-fiber-line bg-card-bg p-2.5 shadow-md text-xs font-mono">
           <p className="font-bold text-ink-text pb-1">{item.dayName} Pattern</p>
-          <p className="text-stamp-indigo">Daily Avg: {formatCurrency(item.avgSpend, currency)}</p>
+          <p className="text-stamp-red">Daily Avg: {formatCurrency(item.avgSpend, currency)}</p>
           <p className="text-muted-text">90-Day Total: {formatCurrency(item.totalSpend, currency)}</p>
           {item.isOutlierHigh && (
-            <p className="text-rule-red font-bold pt-1">⚡ Peak High Spending Day</p>
+            <p className="text-stamp-red font-bold pt-1">⚡ Peak High Spending Day</p>
           )}
           {item.isOutlierLow && (
-            <p className="text-stamp-emerald font-bold pt-1">🌱 Low Expense Day</p>
+            <p className="text-thrive-green font-bold pt-1">🌱 Low Expense Day</p>
           )}
         </div>
       );
@@ -184,7 +184,7 @@ export default function AIAnalysisPage() {
             <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
               AI Spending Analysis
             </h1>
-            <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-[3px] border border-stamp-indigo/30 bg-stamp-indigo/10 text-stamp-indigo font-bold flex items-center gap-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-[3px] border border-stamp-red/30 bg-stamp-red/10 text-stamp-red font-bold flex items-center gap-1">
               <Sparkles className="h-3 w-3" />
               Pro Insights
             </span>
@@ -197,13 +197,13 @@ export default function AIAnalysisPage() {
         {/* Action Controls */}
         <div className="flex items-center gap-2 self-start sm:self-auto">
           {/* Period Selector */}
-          <div className="flex rounded-[6px] border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono">
             <button
               type="button"
               onClick={() => setPeriod("week")}
-              className={`px-3 py-1 rounded-[4px] transition-colors ${
+              className={`px-3 py-1 rounded-lg transition-colors ${
                 period === "week"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -212,9 +212,9 @@ export default function AIAnalysisPage() {
             <button
               type="button"
               onClick={() => setPeriod("month")}
-              className={`px-3 py-1 rounded-[4px] transition-colors ${
+              className={`px-3 py-1 rounded-lg transition-colors ${
                 period === "month"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -223,9 +223,9 @@ export default function AIAnalysisPage() {
             <button
               type="button"
               onClick={() => setPeriod("3months")}
-              className={`px-3 py-1 rounded-[4px] transition-colors ${
+              className={`px-3 py-1 rounded-lg transition-colors ${
                 period === "3months"
-                  ? "bg-stamp-indigo text-[#EDE7D6] font-bold shadow-xs"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
                   : "text-muted-text hover:text-ink-text"
               }`}
             >
@@ -243,9 +243,9 @@ export default function AIAnalysisPage() {
                 ? `Cooldown active: ${formatCooldownTime(cooldownRemainingMs)}`
                 : "Recalculate AI analysis"
             }
-            className="flex items-center gap-1.5 h-8 px-3 rounded-[4px] border border-fiber-line bg-card-bg hover:bg-paper-bg text-xs font-mono text-ink-text disabled:opacity-50 transition-colors shadow-xs"
+            className="flex items-center gap-1.5 h-8 px-3 rounded-lg border border-fiber-line bg-card-bg hover:bg-paper-bg text-xs font-mono text-ink-text disabled:opacity-50 transition-colors shadow-xs"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin text-stamp-indigo" : ""}`} />
+            <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin text-stamp-red" : ""}`} />
             <span className="hidden md:inline">
               {cooldownRemainingMs
                 ? formatCooldownTime(cooldownRemainingMs)
@@ -261,13 +261,13 @@ export default function AIAnalysisPage() {
       {data?.generatedAt && !loading && (
         <div className="flex items-center justify-between text-[11px] font-mono text-muted-text px-1">
           <span className="flex items-center gap-1.5">
-            <Clock className="h-3 w-3 text-passbook-gold" />
+            <Clock className="h-3 w-3 text-thrive-green" />
             <span>
               Updated {formatDistanceToNow(new Date(data.generatedAt), { addSuffix: true })}
             </span>
           </span>
           <span className="flex items-center gap-1.5">
-            <ShieldCheck className="h-3 w-3 text-stamp-emerald" />
+            <ShieldCheck className="h-3 w-3 text-thrive-green" />
             <span>Zero math hallucination guarantee</span>
           </span>
         </div>
@@ -276,17 +276,17 @@ export default function AIAnalysisPage() {
       {loading ? (
         /* Loading Skeleton */
         <div className="space-y-4 py-8 animate-pulse">
-          <div className="h-28 rounded-[8px] border border-fiber-line bg-card-bg/60" />
-          <div className="h-72 rounded-[8px] border border-fiber-line bg-card-bg/60" />
+          <div className="h-28 rounded-xl border border-fiber-line bg-card-bg/60" />
+          <div className="h-72 rounded-xl border border-fiber-line bg-card-bg/60" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="h-60 rounded-[8px] border border-fiber-line bg-card-bg/60" />
-            <div className="h-60 rounded-[8px] border border-fiber-line bg-card-bg/60" />
+            <div className="h-60 rounded-xl border border-fiber-line bg-card-bg/60" />
+            <div className="h-60 rounded-xl border border-fiber-line bg-card-bg/60" />
           </div>
         </div>
       ) : !stats || stats.totalExpense === 0 ? (
         /* Empty State */
-        <div className="rounded-[8px] border border-fiber-line bg-card-bg p-8 text-center space-y-3">
-          <div className="h-10 w-10 mx-auto rounded-full bg-stamp-indigo/10 flex items-center justify-center text-stamp-indigo">
+        <div className="rounded-xl border border-fiber-line bg-card-bg p-8 text-center space-y-3">
+          <div className="h-10 w-10 mx-auto rounded-full bg-stamp-red/10 flex items-center justify-center text-stamp-red">
             <Calendar className="h-5 w-5" />
           </div>
           <h2 className="font-display text-base font-bold text-ink-text">
@@ -301,9 +301,9 @@ export default function AIAnalysisPage() {
           {/* ========================================================================= */}
           {/* 2. EXECUTIVE PROSE SUMMARY CARD */}
           {/* ========================================================================= */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-2.5">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-2.5">
             <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-              <Sparkles className="h-4 w-4 text-stamp-indigo" />
+              <Sparkles className="h-4 w-4 text-stamp-red" />
               <h2 className="font-display text-base font-bold text-ink-text">
                 Analyst Executive Summary
               </h2>
@@ -316,10 +316,10 @@ export default function AIAnalysisPage() {
           {/* ========================================================================= */}
           {/* 3. PACE & PROJECTED TRAJECTORY (RECHARTS) */}
           {/* ========================================================================= */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-stamp-indigo" />
+                <TrendingUp className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Cumulative Spend &amp; Month-End Trajectory
                 </h2>
@@ -331,7 +331,7 @@ export default function AIAnalysisPage() {
 
             {/* Metric Overview Pills */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-              <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3 space-y-0.5">
+              <div className="rounded-lg border border-fiber-line bg-paper-bg p-3 space-y-0.5">
                 <span className="text-[10px] text-muted-text uppercase">Actual Spend</span>
                 <p className="font-bold text-ink-text text-sm sm:text-base">
                   {formatCurrency(stats.totalExpense, currency)}
@@ -341,32 +341,32 @@ export default function AIAnalysisPage() {
                 </span>
               </div>
 
-              <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3 space-y-0.5">
+              <div className="rounded-lg border border-fiber-line bg-paper-bg p-3 space-y-0.5">
                 <span className="text-[10px] text-muted-text uppercase">Projected Total</span>
-                <p className="font-bold text-stamp-indigo text-sm sm:text-base">
+                <p className="font-bold text-stamp-red text-sm sm:text-base">
                   {formatCurrency(stats.projectedMonthEndExpense, currency)}
                 </p>
                 <span className="text-[10px] text-muted-text block">Blended pace</span>
               </div>
 
-              <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3 space-y-0.5">
+              <div className="rounded-lg border border-fiber-line bg-paper-bg p-3 space-y-0.5">
                 <span className="text-[10px] text-muted-text uppercase">Baseline Delta</span>
                 <div className="flex items-center gap-1 font-bold text-sm sm:text-base">
                   {stats.projectedDiffPercentage >= 0 ? (
                     <ArrowUpRight
                       className={`h-4 w-4 ${
-                        stats.projectedDiffPercentage > 15 ? "text-rule-red" : "text-passbook-gold"
+                        stats.projectedDiffPercentage > 15 ? "text-stamp-red" : "text-thrive-green"
                       }`}
                     />
                   ) : (
-                    <ArrowDownRight className="h-4 w-4 text-stamp-emerald" />
+                    <ArrowDownRight className="h-4 w-4 text-thrive-green" />
                   )}
                   <span
                     className={
                       stats.projectedDiffPercentage > 15
-                        ? "text-rule-red"
+                        ? "text-stamp-red"
                         : stats.projectedDiffPercentage < -10
-                        ? "text-stamp-emerald"
+                        ? "text-thrive-green"
                         : "text-ink-text"
                     }
                   >
@@ -376,11 +376,11 @@ export default function AIAnalysisPage() {
                 <span className="text-[10px] text-muted-text block">vs 90-day baseline</span>
               </div>
 
-              <div className="rounded-[6px] border border-fiber-line bg-paper-bg p-3 space-y-0.5">
+              <div className="rounded-lg border border-fiber-line bg-paper-bg p-3 space-y-0.5">
                 <span className="text-[10px] text-muted-text uppercase">Savings Rate</span>
                 <p
                   className={`font-bold text-sm sm:text-base ${
-                    stats.savingsRate >= 0.2 ? "text-stamp-emerald" : "text-ink-text"
+                    stats.savingsRate >= 0.2 ? "text-thrive-green" : "text-ink-text"
                   }`}
                 >
                   {Math.round(stats.savingsRate * 100)}%
@@ -393,8 +393,8 @@ export default function AIAnalysisPage() {
 
             {/* Projection Narrative Note */}
             {narrative?.projection?.narrative && (
-              <div className="rounded-[4px] border border-fiber-line/80 bg-paper-bg/60 p-3 text-xs font-sans text-ink-text leading-relaxed">
-                <span className="font-bold font-mono text-[11px] text-stamp-indigo uppercase block pb-0.5">
+              <div className="rounded-lg border border-fiber-line/80 bg-paper-bg/60 p-3 text-xs font-sans text-ink-text leading-relaxed">
+                <span className="font-bold font-mono text-[11px] text-stamp-red uppercase block pb-0.5">
                   Trajectory Outlook:
                 </span>
                 {narrative.projection.narrative}
@@ -453,9 +453,9 @@ export default function AIAnalysisPage() {
           {/* ========================================================================= */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* Left: AI Pattern Observations */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-3.5">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-3.5">
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
-                <Lightbulb className="h-4 w-4 text-passbook-gold" />
+                <Lightbulb className="h-4 w-4 text-thrive-green" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Observed Spending Patterns
                 </h2>
@@ -465,10 +465,10 @@ export default function AIAnalysisPage() {
                 {narrative?.patterns?.map((pattern, idx) => (
                   <div
                     key={idx}
-                    className="rounded-[6px] border border-fiber-line bg-paper-bg p-3.5 space-y-1"
+                    className="rounded-lg border border-fiber-line bg-paper-bg p-3.5 space-y-1"
                   >
                     <h3 className="font-bold font-display text-xs text-ink-text flex items-center gap-1.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-stamp-indigo" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-stamp-red" />
                       {pattern.title}
                     </h3>
                     <p className="text-xs font-sans text-muted-text leading-relaxed">
@@ -480,10 +480,10 @@ export default function AIAnalysisPage() {
             </div>
 
             {/* Right: Weekday Intensity Bar Chart */}
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 shadow-xs space-y-3.5">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 shadow-xs space-y-3.5">
               <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-stamp-indigo" />
+                  <Calendar className="h-4 w-4 text-stamp-red" />
                   <h2 className="font-display text-base font-bold text-ink-text">
                     Day-of-Week 90-Day Baseline
                   </h2>
@@ -529,10 +529,10 @@ export default function AIAnalysisPage() {
           {/* ========================================================================= */}
           {/* 5. OPPORTUNITIES & CATEGORY SHIFTS */}
           {/* ========================================================================= */}
-          <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="rounded-xl border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between border-b border-fiber-line pb-3">
               <div className="flex items-center gap-2">
-                <Layers className="h-4 w-4 text-stamp-indigo" />
+                <Layers className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
                   Category Shifts &amp; Points Worth a Look
                 </h2>
@@ -548,11 +548,11 @@ export default function AIAnalysisPage() {
                 {narrative.opportunities.map((opp, idx) => (
                   <div
                     key={idx}
-                    className="rounded-[6px] border border-fiber-line bg-paper-bg p-3.5 space-y-1"
+                    className="rounded-lg border border-fiber-line bg-paper-bg p-3.5 space-y-1"
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-xs text-ink-text flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-passbook-gold" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-thrive-green" />
                         {opp.title}
                       </span>
                       {opp.category && (
@@ -592,9 +592,9 @@ export default function AIAnalysisPage() {
                         <span
                           className={`inline-flex items-center gap-0.5 font-bold ${
                             cd.changePercent > 0
-                              ? "text-rule-red"
+                              ? "text-stamp-red"
                               : cd.changePercent < 0
-                              ? "text-stamp-emerald"
+                              ? "text-thrive-green"
                               : "text-muted-text"
                           }`}
                         >
@@ -613,10 +613,10 @@ export default function AIAnalysisPage() {
           {/* 6. NOTABLE OUTLIER TRANSACTIONS */}
           {/* ========================================================================= */}
           {stats.topOutliers && stats.topOutliers.length > 0 && (
-            <div className="rounded-[8px] border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-3">
+            <div className="rounded-xl border border-fiber-line bg-card-bg p-5 sm:p-6 shadow-xs space-y-3">
               <div className="flex items-center justify-between border-b border-fiber-line pb-2.5">
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-stamp-indigo" />
+                  <DollarSign className="h-4 w-4 text-stamp-red" />
                   <h2 className="font-display text-base font-bold text-ink-text">
                     Largest Transactions This Period
                   </h2>
@@ -628,7 +628,7 @@ export default function AIAnalysisPage() {
                 {stats.topOutliers.map((tx, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2.5 rounded-[4px] border border-fiber-line/80 bg-paper-bg"
+                    className="flex items-center justify-between p-2.5 rounded-lg border border-fiber-line/80 bg-paper-bg"
                   >
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
@@ -639,7 +639,7 @@ export default function AIAnalysisPage() {
                       </div>
                       <span className="text-[10px] text-muted-text">{tx.date}</span>
                     </div>
-                    <span className="font-bold text-rule-red text-sm">
+                    <span className="font-bold text-stamp-red text-sm">
                       {formatCurrency(tx.amount, currency)}
                     </span>
                   </div>
@@ -651,7 +651,7 @@ export default function AIAnalysisPage() {
           {/* ========================================================================= */}
           {/* 7. FOOTER DISCLAIMER */}
           {/* ========================================================================= */}
-          <div className="rounded-[6px] border border-fiber-line/60 bg-card-bg/40 p-3.5 text-center text-[11px] font-sans text-muted-text">
+          <div className="rounded-lg border border-fiber-line/60 bg-card-bg/40 p-3.5 text-center text-[11px] font-sans text-muted-text">
             <p>
               Informational analysis computed from your recorded ledger entries. FinChat does not provide formal investment or financial advice.
             </p>
