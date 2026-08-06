@@ -10,6 +10,7 @@ import { StatsCard } from "@/components/dashboard/StatsCard";
 import { EmptyState } from "@/components/dashboard/EmptyState";
 import { TrendsView } from "@/components/dashboard/TrendsView";
 import { CategoriesView } from "@/components/dashboard/CategoriesView";
+import { MarketsView } from "@/components/dashboard/MarketsView";
 import {
   Wallet,
   ArrowDownRight,
@@ -25,6 +26,7 @@ import {
   LayoutDashboard,
   TrendingUp,
   PieChart as PieChartIcon,
+  Globe,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { format, isSameMonth } from "date-fns";
@@ -96,11 +98,11 @@ export default function DashboardPage() {
     <div className="flex-1 space-y-5 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
       {/* Top Segmented Sub-Tab Bar */}
       <div className="flex items-center justify-between border-b border-fiber-line pb-3">
-        <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono gap-0.5">
+        <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono gap-0.5 overflow-x-auto">
           <button
             type="button"
             onClick={() => handleTabChange("overview")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all whitespace-nowrap ${
               activeTab === "overview"
                 ? "bg-stamp-red text-white font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
@@ -113,7 +115,7 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={() => handleTabChange("trends")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all whitespace-nowrap ${
               activeTab === "trends"
                 ? "bg-stamp-red text-white font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
@@ -126,7 +128,7 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={() => handleTabChange("categories")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-md transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all whitespace-nowrap ${
               activeTab === "categories"
                 ? "bg-stamp-red text-white font-bold shadow-xs"
                 : "text-muted-text hover:text-ink-text"
@@ -134,6 +136,19 @@ export default function DashboardPage() {
           >
             <PieChartIcon className="h-3.5 w-3.5" />
             <span>Categories</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleTabChange("markets")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all whitespace-nowrap ${
+              activeTab === "markets"
+                ? "bg-stamp-red text-white font-bold shadow-xs"
+                : "text-muted-text hover:text-ink-text"
+            }`}
+          >
+            <Globe className="h-3.5 w-3.5" />
+            <span>Markets</span>
           </button>
         </div>
 
@@ -150,6 +165,8 @@ export default function DashboardPage() {
         <TrendsView />
       ) : activeTab === "categories" ? (
         <CategoriesView />
+      ) : activeTab === "markets" ? (
+        <MarketsView />
       ) : (
         /* ── OVERVIEW — Bento Grid Layout ── */
         <div className="space-y-4">
