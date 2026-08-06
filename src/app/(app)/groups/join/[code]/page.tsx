@@ -20,7 +20,7 @@ export default function JoinGroupPage() {
   const [groupId, setGroupId] = useState<string | null>(null);
   const [groupName, setGroupName] = useState<string | null>(null);
 
-  const handleJoin = async () => {
+  const handleJoin = React.useCallback(async () => {
     if (!code) return;
     try {
       const res = await joinGroupMutation.mutateAsync({ code });
@@ -34,13 +34,13 @@ export default function JoinGroupPage() {
     } catch (err: any) {
       toast.error(err.message || "Failed to join group");
     }
-  };
+  }, [code, joinGroupMutation, router]);
 
   useEffect(() => {
     if (!authLoading && user && code && !hasJoined && !joinGroupMutation.isPending) {
       handleJoin();
     }
-  }, [user, authLoading, code]);
+  }, [user, authLoading, code, hasJoined, joinGroupMutation.isPending, handleJoin]);
 
   if (authLoading) {
     return (
@@ -83,7 +83,7 @@ export default function JoinGroupPage() {
               <CheckCircle2 className="h-6 w-6" />
             </div>
             <h1 className="font-display text-lg font-bold text-ink-text">
-              You're in!
+              You&apos;re in!
             </h1>
             <p className="text-xs text-muted-text">
               Successfully joined <strong>{groupName || "Group"}</strong>. Redirecting to ledger...

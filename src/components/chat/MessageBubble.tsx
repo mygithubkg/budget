@@ -54,6 +54,7 @@ export function MessageBubble({
             </div>
             {message.imageUrl && (
               <div className="mb-2 overflow-hidden rounded-[4px] border border-fiber-line max-w-[200px]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={message.imageUrl}
                   alt="Receipt thumbnail"

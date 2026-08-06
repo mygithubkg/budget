@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase/admin";
 import { getVisionAICompletion, BYOKError } from "@/lib/ai/aiProvider";
-import { matchCategory } from "@/lib/category-utils";
+import { findSimilarCategory } from "@/lib/category-utils";
 import { ParsedExpense } from "@/types";
 import { format } from "date-fns";
 
@@ -90,7 +90,7 @@ Set needsReview to true if the receipt is blurry, partially cropped, or line ite
     // 6. Map to ParsedExpense array with category matching
     const transactions: ParsedExpense[] = items.map((item: any) => {
       const amt = typeof item.amount === "number" ? Math.abs(item.amount) : 0;
-      const matchedCat = matchCategory(item.category || "General", categoryList);
+      const matchedCat = findSimilarCategory(item.category || "General", categoryList).resolvedName;
       const desc =
         item.description || (merchant ? `${merchant} item` : "Receipt item");
 

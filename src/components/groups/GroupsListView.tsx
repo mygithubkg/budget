@@ -225,7 +225,7 @@ export function GroupsListView() {
                   Offline / Ghost Members (Optional)
                 </label>
                 <p className="text-[11px] text-muted-text">
-                  Comma-separated names of friends who don't have FinChat accounts yet:
+                  Comma-separated names of friends who don&apos;t have FinChat accounts yet:
                 </p>
                 <input
                   type="text"
