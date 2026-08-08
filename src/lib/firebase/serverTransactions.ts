@@ -144,11 +144,22 @@ export async function commitParsedTransactions(
         }
       }
 
+      const nature =
+        item.nature ||
+        (item.type === "income"
+          ? "income"
+          : /savings|emergency fund|transfer|minimum balance|fixed deposit|fd|recurring deposit|rd|invested in|mutual fund|sip/i.test(
+              `${item.description} ${item.category}`
+            )
+          ? "transfer"
+          : "spend");
+
       transactionDocsToCreate.push({
         transDocRef,
         transData: {
           groupId: groupId || null,
           type: item.type,
+          nature,
           amount: Number(item.totalAmount) || 0,
           userShare: Number(item.userShare) ?? Number(item.totalAmount) ?? 0,
           description: item.description || "Transaction",

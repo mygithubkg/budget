@@ -101,6 +101,7 @@ Your job is to parse messages into structured finance logs or answer status quer
   "transactions": [
     {
       "type": "expense" | "income",
+      "nature": "spend" | "transfer" | "income",
       "totalAmount": number,
       "userShare": number,
       "description": string,
@@ -122,15 +123,19 @@ Today's date: "${todayDate}"
 
 CRITICAL RULES:
 1. MULTI-EXPENSE SPLITTING: If the user lists multiple distinct items or amounts in one message (e.g. "spent 500 on food, 300 on mattress and 100 on cake today"), you MUST output a separate transaction object for EVERY item in the "transactions" array. Do NOT merge them into one. Do NOT drop any item.
-2. CATEGORY ASSIGNMENT: Assign each item its own best-fit category independently (e.g. Food -> "Food & Dining", Mattress -> "Shopping", Cake -> "Food & Dining").
-3. SINGLE EXPENSES: Even if there is only 1 expense, "transactions" must be an array of length 1.
-4. FRIEND DEBTS & SPLIT DIRECTION:
+2. NATURE CLASSIFICATION:
+   - "spend": Ordinary spending/purchases (food, shopping, bills, commute, entertainment).
+   - "transfer": Moving money to savings, emergency funds, fixed deposits (FD), recurring deposits (RD), mutual funds, investments, paying bank minimum balance, or self-account transfers. (type is "expense", nature is "transfer").
+   - "income": Earnings, salary, deposits, gifts, refunds received. (type is "income", nature is "income").
+3. CATEGORY ASSIGNMENT: Assign each item its own best-fit category independently (e.g. Food -> "Food & Dining", Mattress -> "Shopping", Cake -> "Food & Dining", Emergency Fund -> "Savings" or "Transfers").
+4. SINGLE EXPENSES: Even if there is only 1 expense, "transactions" must be an array of length 1.
+5. FRIEND DEBTS & SPLIT DIRECTION:
    - When a friend owes the user (e.g., "Spent 500 on dinner, Sam owes 250", "Sam owes me 500", "Lent 500 to Sam"):
      Set split "direction": "they_owe_me".
    - When the user owes a friend (e.g., "I owe 500 to Sam", "I owe my friend Rohit 300 for lunch", "Sam paid 500 for dinner for me", "Borrowed 500 from Sam"):
      Set split "direction": "i_owe_them". The transaction is an expense of that amount with userShare = totalAmount and split = [{ "friendName": "Sam", "amount": 500, "direction": "i_owe_them" }].
    - If the user says "Spent 250 on coffee with Sam" with no split amount, return 1 transaction with "needsClarification": true, "clarificationQuestion": "Did you split this ₹250 with Sam (e.g., does Sam owe you a share), or should I record the full ₹250 as your own complete expense?".
-5. STATUS QUERIES: If asking for balance, last transactions, friend debts, or summary, set "transactions": null and "queryType" to the appropriate value.
+6. STATUS QUERIES: If asking for balance, last transactions, friend debts, or summary, set "transactions": null and "queryType" to the appropriate value.
 
 FEW-SHOT EXAMPLES:
 Input: "spent 500 on food, 300 on mattress and 100 on cake today"
@@ -138,9 +143,20 @@ Output:
 {
   "intent": "log_transaction",
   "transactions": [
-    { "type": "expense", "totalAmount": 500, "userShare": 500, "description": "Food", "category": "Food & Dining", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
-    { "type": "expense", "totalAmount": 300, "userShare": 300, "description": "Mattress", "category": "Shopping", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
-    { "type": "expense", "totalAmount": 100, "userShare": 100, "description": "Cake", "category": "Food & Dining", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null }
+    { "type": "expense", "nature": "spend", "totalAmount": 500, "userShare": 500, "description": "Food", "category": "Food & Dining", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
+    { "type": "expense", "nature": "spend", "totalAmount": 300, "userShare": 300, "description": "Mattress", "category": "Shopping", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
+    { "type": "expense", "nature": "spend", "totalAmount": 100, "userShare": 100, "description": "Cake", "category": "Food & Dining", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null }
+  ],
+  "queryType": null
+}
+
+Input: "moved 3750 to emergency fund and 1250 to savings"
+Output:
+{
+  "intent": "log_transaction",
+  "transactions": [
+    { "type": "expense", "nature": "transfer", "totalAmount": 3750, "userShare": 3750, "description": "Emergency Fund", "category": "Savings", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
+    { "type": "expense", "nature": "transfer", "totalAmount": 1250, "userShare": 1250, "description": "Savings", "category": "Savings", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null }
   ],
   "queryType": null
 }
@@ -150,7 +166,7 @@ Output:
 {
   "intent": "log_transaction",
   "transactions": [
-    { "type": "expense", "totalAmount": 500, "userShare": 500, "description": "Dinner (Owe Sam)", "category": "Food & Dining", "date": "${todayDate}", "splits": [{ "friendName": "Sam", "amount": 500, "direction": "i_owe_them" }], "needsClarification": false, "clarificationQuestion": null }
+    { "type": "expense", "nature": "spend", "totalAmount": 500, "userShare": 500, "description": "Dinner (Owe Sam)", "category": "Food & Dining", "date": "${todayDate}", "splits": [{ "friendName": "Sam", "amount": 500, "direction": "i_owe_them" }], "needsClarification": false, "clarificationQuestion": null }
   ],
   "queryType": null
 }
@@ -160,7 +176,7 @@ Output:
 {
   "intent": "log_transaction",
   "transactions": [
-    { "type": "expense", "totalAmount": 300, "userShare": 0, "description": "Lunch (Rohit share)", "category": "Food & Dining", "date": "${todayDate}", "splits": [{ "friendName": "Rohit", "amount": 300, "direction": "they_owe_me" }], "needsClarification": false, "clarificationQuestion": null }
+    { "type": "expense", "nature": "spend", "totalAmount": 300, "userShare": 0, "description": "Lunch (Rohit share)", "category": "Food & Dining", "date": "${todayDate}", "splits": [{ "friendName": "Rohit", "amount": 300, "direction": "they_owe_me" }], "needsClarification": false, "clarificationQuestion": null }
   ],
   "queryType": null
 }
@@ -170,8 +186,8 @@ Output:
 {
   "intent": "log_transaction",
   "transactions": [
-    { "type": "expense", "totalAmount": 1500, "userShare": 1500, "description": "Electricity", "category": "Bills & Utilities", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
-    { "type": "expense", "totalAmount": 500, "userShare": 500, "description": "Wifi", "category": "Bills & Utilities", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null }
+    { "type": "expense", "nature": "spend", "totalAmount": 1500, "userShare": 1500, "description": "Electricity", "category": "Bills & Utilities", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null },
+    { "type": "expense", "nature": "spend", "totalAmount": 500, "userShare": 500, "description": "Wifi", "category": "Bills & Utilities", "date": "${todayDate}", "splits": [], "needsClarification": false, "clarificationQuestion": null }
   ],
   "queryType": null
 }`;
@@ -532,8 +548,11 @@ export function extractMultiExpenseItems(
     if (!itemDesc) itemDesc = "Expense";
     itemDesc = itemDesc.charAt(0).toUpperCase() + itemDesc.slice(1);
 
-    const clauseLower = clause.toLowerCase();
-    let itemCat = "Miscellaneous";
+    const isIncome = /salary|credited|freelance|bonus|received/i.test(clauseLower);
+    const isTransfer = /savings|emergency fund|transfer|minimum balance|fixed deposit|fd|recurring deposit|rd|invested in|mutual fund|sip/i.test(
+      clauseLower
+    );
+
     if (
       /mattress|furniture|bed|pillow|table|chair|clothes|shopping|shoes|shirt|pant|phone|laptop|cable|amazon|flipkart/i.test(
         clauseLower
@@ -552,16 +571,17 @@ export function extractMultiExpenseItems(
       itemCat = "Food & Dining";
     } else if (/electricity|water|wifi|bill|rent|recharge|gas/i.test(clauseLower)) {
       itemCat = "Bills & Utilities";
-    } else if (/salary|credited|freelance|bonus|received/i.test(clauseLower)) {
+    } else if (isIncome) {
       itemCat = "Salary/Income";
+    } else if (isTransfer) {
+      itemCat = "Savings";
     } else if (categoryList.length > 0) {
       itemCat = categoryList[0];
     }
 
     items.push({
-      type: /salary|credited|received|deposit|income/i.test(clauseLower)
-        ? "income"
-        : "expense",
+      type: isIncome ? "income" : "expense",
+      nature: isIncome ? "income" : isTransfer ? "transfer" : "spend",
       totalAmount: amt,
       userShare: amt,
       description: itemDesc,

@@ -17,6 +17,10 @@ export const parsedExpenseSchema = z.object({
     .enum(["expense", "income"])
     .nullish()
     .transform((v) => v || "expense"),
+  nature: z
+    .enum(["spend", "transfer", "income"])
+    .nullish()
+    .transform((v) => v || "spend"),
   totalAmount: z
     .number()
     .nullish()

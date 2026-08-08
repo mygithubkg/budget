@@ -217,6 +217,14 @@ export function MobileAnalysisView({
               <p className="text-sm text-md-on-surface leading-relaxed font-inter font-normal">
                 {narrative?.summary}
               </p>
+              {stats.transfersTotal > 0 && (
+                <div className="flex items-center gap-2 pt-2 border-t border-fiber-line dark:border-white/[0.06] text-xs text-md-on-surface-variant font-inter">
+                  <MaterialIcon name="info" size={14} className="text-md-primary shrink-0" />
+                  <span>
+                    <strong className="text-md-on-surface font-semibold">{stats.transfersTotalFormatted}</strong> moved to savings/transfers (excluded from spend).
+                  </span>
+                </div>
+              )}
             </div>
           </motion.div>
 
@@ -238,10 +246,10 @@ export function MobileAnalysisView({
                 </span>
               </div>
               <p className="text-lg font-bold font-jetbrains-mono tracking-tight text-md-on-surface tabular-nums">
-                {formatCurrency(stats.totalExpense, currency)}
+                {stats.totalExpenseFormatted || formatCurrency(stats.totalExpense, currency)}
               </p>
               <p className="text-[10px] text-md-on-surface-variant font-inter mt-0.5">
-                ~{formatCurrency(stats.currentDailyAvg, currency)}/day
+                ~{stats.currentDailyAvgFormatted || formatCurrency(stats.currentDailyAvg, currency)}/day
               </p>
             </motion.div>
 
@@ -261,7 +269,7 @@ export function MobileAnalysisView({
                 </span>
               </div>
               <p className="text-lg font-bold font-jetbrains-mono tracking-tight text-md-error tabular-nums">
-                {formatCurrency(stats.projectedMonthEndExpense, currency)}
+                {stats.projectedMonthEndExpenseFormatted || formatCurrency(stats.projectedMonthEndExpense, currency)}
               </p>
               <p className="text-[10px] text-md-on-surface-variant font-inter mt-0.5">
                 Blended pace
@@ -330,21 +338,21 @@ export function MobileAnalysisView({
                   stats.savingsRate >= 0.2 ? "text-md-tertiary" : "text-md-on-surface"
                 }`}
               >
-                {Math.round(stats.savingsRate * 100)}%
+                {stats.savingsRatePercentFormatted || `${Math.round(stats.savingsRate * 100)}%`}
               </p>
               <p className="text-[10px] text-md-on-surface-variant font-inter mt-0.5">
-                Hist: {Math.round(stats.historicalSavingsRate * 100)}%
+                Hist: {stats.historicalSavingsRatePercentFormatted || `${Math.round(stats.historicalSavingsRate * 100)}%`}
               </p>
             </motion.div>
           </div>
 
-          {/* ── Trajectory Outlook Note ── */}
+          {/* ── Trajectory Outlook Note & Recurring Items ── */}
           {narrative?.projection?.narrative && (
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.25, ease: "easeOut" }}
-              className="rounded-[24px] bg-md-surface-container border border-fiber-line dark:border-white/[0.06] p-4 md-card-shadow space-y-1.5"
+              className="rounded-[24px] bg-md-surface-container border border-fiber-line dark:border-white/[0.06] p-4 md-card-shadow space-y-2"
             >
               <div className="flex items-center gap-1.5">
                 <MaterialIcon name="route" size={16} className="text-md-primary" />
@@ -355,6 +363,14 @@ export function MobileAnalysisView({
               <p className="text-xs text-md-on-surface leading-relaxed font-inter">
                 {narrative.projection.narrative}
               </p>
+              {stats.recurringNotYetOccurredTotal > 0 && (
+                <div className="pt-2 border-t border-fiber-line dark:border-white/[0.06] text-[11px] text-md-on-surface-variant flex items-center gap-1.5 font-inter">
+                  <MaterialIcon name="info" size={14} className="text-md-primary shrink-0" />
+                  <span>
+                    Includes <strong className="text-md-on-surface">{stats.recurringNotYetOccurredTotalFormatted}</strong> in expected bills ({stats.expectedRecurringItems.map((i) => i.description).join(", ")}) not yet posted.
+                  </span>
+                </div>
+              )}
             </motion.div>
           )}
 

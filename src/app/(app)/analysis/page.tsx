@@ -323,6 +323,14 @@ export default function AIAnalysisPage() {
                   <p className="font-sans text-sm sm:text-base text-on-surface leading-relaxed">
                     {narrative?.summary}
                   </p>
+                  {stats.transfersTotal > 0 && (
+                    <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-secondary-container/30 border border-secondary/20 text-xs text-on-surface-variant font-sans mt-2">
+                      <Info className="h-4 w-4 text-primary shrink-0" />
+                      <span>
+                        <strong className="text-on-surface font-semibold">{stats.transfersTotalFormatted}</strong> moved to savings/transfers this period (excluded from spending totals).
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Trajectory & Cumulative Spend */}
@@ -344,17 +352,17 @@ export default function AIAnalysisPage() {
                     <div className="rounded-2xl border border-outline-variant/40 bg-surface-container-low p-3 space-y-1">
                       <span className="text-[10px] text-on-surface-variant uppercase font-semibold">Actual Spend</span>
                       <p className="font-bold text-on-surface text-sm">
-                        {formatCurrency(stats.totalExpense, currency)}
+                        {stats.totalExpenseFormatted || formatCurrency(stats.totalExpense, currency)}
                       </p>
                       <span className="text-[10px] text-on-surface-variant block">
-                        ~{formatCurrency(stats.currentDailyAvg, currency)} / day
+                        ~{stats.currentDailyAvgFormatted || formatCurrency(stats.currentDailyAvg, currency)} / day
                       </span>
                     </div>
 
                     <div className="rounded-2xl border border-outline-variant/40 bg-surface-container-low p-3 space-y-1">
                       <span className="text-[10px] text-on-surface-variant uppercase font-semibold">Projected</span>
                       <p className="font-bold text-error text-sm">
-                        {formatCurrency(stats.projectedMonthEndExpense, currency)}
+                        {stats.projectedMonthEndExpenseFormatted || formatCurrency(stats.projectedMonthEndExpense, currency)}
                       </p>
                       <span className="text-[10px] text-on-surface-variant block">Blended pace</span>
                     </div>
@@ -393,21 +401,31 @@ export default function AIAnalysisPage() {
                           stats.savingsRate >= 0.2 ? "text-emerald-500" : "text-on-surface"
                         }`}
                       >
-                        {Math.round(stats.savingsRate * 100)}%
+                        {stats.savingsRatePercentFormatted || `${Math.round(stats.savingsRate * 100)}%`}
                       </p>
                       <span className="text-[10px] text-on-surface-variant block">
-                        Past: {Math.round(stats.historicalSavingsRate * 100)}%
+                        Past: {stats.historicalSavingsRatePercentFormatted || `${Math.round(stats.historicalSavingsRate * 100)}%`}
                       </span>
                     </div>
                   </div>
 
-                  {/* Projection Narrative Note */}
+                  {/* Projection Narrative Note & Recurring Items */}
                   {narrative?.projection?.narrative && (
-                    <div className="rounded-2xl border border-outline-variant/40 bg-surface-container-low/70 p-3.5 text-xs font-sans text-on-surface leading-relaxed">
-                      <span className="font-bold font-jetbrains-mono text-[11px] text-primary uppercase block pb-0.5">
-                        Trajectory Outlook:
-                      </span>
-                      {narrative.projection.narrative}
+                    <div className="rounded-2xl border border-outline-variant/40 bg-surface-container-low/70 p-3.5 text-xs font-sans text-on-surface leading-relaxed space-y-2">
+                      <div>
+                        <span className="font-bold font-jetbrains-mono text-[11px] text-primary uppercase block pb-0.5">
+                          Trajectory Outlook:
+                        </span>
+                        {narrative.projection.narrative}
+                      </div>
+                      {stats.recurringNotYetOccurredTotal > 0 && (
+                        <div className="pt-1.5 border-t border-outline-variant/30 text-[11px] text-on-surface-variant flex items-center gap-1.5">
+                          <Info className="h-3.5 w-3.5 text-primary shrink-0" />
+                          <span>
+                            Includes <strong className="text-on-surface">{stats.recurringNotYetOccurredTotalFormatted}</strong> in expected bills ({stats.expectedRecurringItems.map((i) => i.description).join(", ")}) not yet posted this period.
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
 

@@ -44,6 +44,7 @@ export function useTransactions(filters?: TransactionFilters) {
             id: docSnap.id,
             groupId: data.groupId || undefined,
             type: data.type,
+            nature: data.nature || undefined,
             amount: Number(data.amount) || 0,
             userShare: Number(data.userShare) ?? Number(data.amount) ?? 0,
             description: data.description || "",
@@ -83,6 +84,7 @@ export function useTransactions(filters?: TransactionFilters) {
 export interface AddTransactionInput {
   groupId?: string;
   type: "expense" | "income";
+  nature?: "spend" | "transfer" | "income";
   amount: number;
   userShare: number;
   description: string;
@@ -176,9 +178,20 @@ export function useAddTransaction() {
         }
 
         // Save transaction document
+        const nature =
+          input.nature ||
+          (input.type === "income"
+            ? "income"
+            : /savings|emergency fund|transfer|minimum balance|fixed deposit|fd|recurring deposit|rd|invested in|mutual fund|sip/i.test(
+                `${input.description} ${input.category}`
+              )
+            ? "transfer"
+            : "spend");
+
         t.set(newTransRef, {
           groupId: input.groupId || null,
           type: input.type,
+          nature,
           amount: Number(input.amount),
           userShare: Number(input.userShare),
           description: input.description,

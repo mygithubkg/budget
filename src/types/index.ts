@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export type TransactionType = "expense" | "income";
+export type TransactionNature = "spend" | "transfer" | "income";
 export type TransactionSource = "chat" | "manual" | "telegram" | "receipt" | "import";
 export type LedgerEntryType = "owe" | "borrow" | "settle";
 export type SplitDirection = "they_owe_me" | "i_owe_them";
@@ -16,6 +17,7 @@ export interface Transaction {
   id?: string;
   groupId?: string; // Links multi-expense items created in the same batch
   type: TransactionType;
+  nature?: TransactionNature;
   amount: number;
   userShare: number;
   description: string;
@@ -95,6 +97,7 @@ export interface ParsedSplit {
 
 export interface ParsedExpense {
   type: TransactionType;
+  nature?: TransactionNature;
   totalAmount: number;
   userShare: number;
   description: string;
