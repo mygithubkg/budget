@@ -6,7 +6,6 @@ import { MobileBalanceHero } from "./MobileBalanceHero";
 import { MobileFeatureCards } from "./MobileFeatureCards";
 import { MobileRecentEntries } from "./MobileRecentEntries";
 import { MobileAllocationView } from "./MobileAllocationView";
-import { MarketsView } from "@/components/dashboard/MarketsView";
 import { TrendsView } from "@/components/dashboard/TrendsView";
 import MaterialIcon from "@/components/ui/MaterialIcon";
 import { isSameMonth } from "date-fns";
@@ -128,19 +127,6 @@ export function MobileDashboardView({
           <MaterialIcon name="pie_chart" size={16} fill={activeTab === "categories"} />
           <span>Categories</span>
         </button>
-
-        <button
-          type="button"
-          onClick={() => onTabChange("markets")}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full whitespace-nowrap transition-all font-inter ${
-            activeTab === "markets"
-              ? "bg-md-surface-bright text-md-on-surface font-bold shadow-sm"
-              : "text-md-on-surface-variant hover:text-md-on-surface"
-          }`}
-        >
-          <MaterialIcon name="language" size={16} />
-          <span>Markets</span>
-        </button>
       </div>
 
       {/* ── Active Content Branch ── */}
@@ -153,10 +139,6 @@ export function MobileDashboardView({
       ) : activeTab === "trends" ? (
         <div className="rounded-[24px] bg-md-surface-container border border-fiber-line dark:border-white/[0.06] p-4 md-card-shadow">
           <TrendsView />
-        </div>
-      ) : activeTab === "markets" ? (
-        <div className="rounded-[24px] bg-md-surface-container border border-fiber-line dark:border-white/[0.06] p-4 md-card-shadow">
-          <MarketsView />
         </div>
       ) : (
         /* ── Main Mobile Overview View ── */

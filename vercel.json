@@ -1,14 +1,6 @@
 {
   "crons": [
     {
-      "path": "/api/cron/refresh-markets",
-      "schedule": "*/10 8-23,0-2 * * *"
-    },
-    {
-      "path": "/api/cron/refresh-news",
-      "schedule": "0 */2 * * *"
-    },
-    {
       "path": "/api/cron/generate-recaps?period=weekly",
       "schedule": "0 8 * * 1"
     },

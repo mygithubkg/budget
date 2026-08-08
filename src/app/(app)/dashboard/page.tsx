@@ -10,7 +10,6 @@ import { StatsCard } from "@/components/dashboard/StatsCard";
 import { EmptyState } from "@/components/dashboard/EmptyState";
 import { TrendsView } from "@/components/dashboard/TrendsView";
 import { CategoriesView } from "@/components/dashboard/CategoriesView";
-import { MarketsView } from "@/components/dashboard/MarketsView";
 import { MobileDashboardView } from "@/components/mobile/MobileDashboardView";
 import {
   Wallet,
@@ -27,7 +26,6 @@ import {
   LayoutDashboard,
   TrendingUp,
   PieChart as PieChartIcon,
-  Globe,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import { format, isSameMonth } from "date-fns";
@@ -154,18 +152,6 @@ export default function DashboardPage() {
             <span>Categories</span>
           </button>
 
-          <button
-            type="button"
-            onClick={() => handleTabChange("markets")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all whitespace-nowrap ${
-              activeTab === "markets"
-                ? "bg-stamp-red text-white font-bold shadow-xs"
-                : "text-muted-text hover:text-ink-text"
-            }`}
-          >
-            <Globe className="h-3.5 w-3.5" />
-            <span>Markets</span>
-          </button>
         </div>
 
         <Link
@@ -181,8 +167,6 @@ export default function DashboardPage() {
         <TrendsView />
       ) : activeTab === "categories" ? (
         <CategoriesView />
-      ) : activeTab === "markets" ? (
-        <MarketsView />
       ) : (
         /* ── OVERVIEW — Bento Grid Layout ── */
         <div className="space-y-4">
