@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/dashboard/EmptyState";
 import { TrendsView } from "@/components/dashboard/TrendsView";
 import { CategoriesView } from "@/components/dashboard/CategoriesView";
 import { MarketsView } from "@/components/dashboard/MarketsView";
+import { MobileDashboardView } from "@/components/mobile/MobileDashboardView";
 import {
   Wallet,
   ArrowDownRight,
@@ -95,10 +96,25 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex-1 space-y-5 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
-      {/* Top Segmented Sub-Tab Bar */}
-      <div className="flex items-center justify-between border-b border-fiber-line pb-3">
-        <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono gap-0.5 overflow-x-auto">
+    <>
+      {/* ── Mobile UI v3 (<640px) ── */}
+      <div className="block sm:hidden">
+        <MobileDashboardView
+          transactions={transactions}
+          friends={friends}
+          currency={currency}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          onDeleteTransaction={handleDelete}
+          userProfile={userProfile}
+        />
+      </div>
+
+      {/* ── Desktop Ledger v2 (>=640px) ── */}
+      <div className="hidden sm:block flex-1 space-y-5 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto text-ink-text">
+        {/* Top Segmented Sub-Tab Bar */}
+        <div className="flex items-center justify-between border-b border-fiber-line pb-3">
+          <div className="flex rounded-lg border border-fiber-line bg-paper-bg p-0.5 text-xs font-mono gap-0.5 overflow-x-auto">
           <button
             type="button"
             onClick={() => handleTabChange("overview")}
@@ -362,7 +378,8 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
 

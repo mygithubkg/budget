@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useRef } from "react";
+import { MobileImportView } from "@/components/mobile/MobileImportView";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCategories } from "@/hooks/useCategories";
@@ -301,8 +302,53 @@ export default function ImportPage() {
     }
   };
 
+  const handleResetUpload = () => {
+    setMode("upload");
+    setParseResult(null);
+    setItems([]);
+  };
+
   return (
-    <div className="space-y-6 pb-20 max-w-6xl mx-auto">
+    <>
+      {/* ── Mobile UI (<640px) ── */}
+      <div className="block sm:hidden">
+        <MobileImportView
+          mode={mode}
+          isProcessing={isProcessing}
+          processingStage={processingStage}
+          isImporting={isImporting}
+          dragActive={dragActive}
+          parseResult={parseResult}
+          items={items}
+          filteredItems={filteredItems}
+          paginatedItems={paginatedItems}
+          selectedItems={selectedItems}
+          totalSelectedExpense={totalSelectedExpense}
+          totalSelectedIncome={totalSelectedIncome}
+          filterTab={filterTab}
+          searchQuery={searchQuery}
+          currency={currency}
+          page={page}
+          totalPages={totalPages}
+          categoryNames={categoryNames}
+          onFileUpload={handleFileUpload}
+          onDrag={handleDrag}
+          onDrop={handleDrop}
+          onFilterTabChange={(tab) => { setFilterTab(tab); setPage(1); }}
+          onSearchChange={(q) => { setSearchQuery(q); setPage(1); }}
+          onToggleItemSelect={toggleItemSelect}
+          onUpdateItemCategory={updateItemCategory}
+          onSelectAll={selectAll}
+          onDeselectAll={deselectAll}
+          onSelectNonDuplicates={selectNonDuplicatesOnly}
+          onPageChange={setPage}
+          onConfirmImport={handleConfirmImport}
+          onResetUpload={handleResetUpload}
+        />
+      </div>
+
+      {/* ── Desktop (>=640px) ── */}
+      <div className="hidden sm:block space-y-6 pb-20 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-fiber-line pb-4">
         <div className="space-y-1">
@@ -879,6 +925,7 @@ export default function ImportPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

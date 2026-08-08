@@ -26,6 +26,58 @@ const config: Config = {
         "thrive-green":"var(--thrive-green)",
         "fiber-line":  "var(--fiber-line)",
 
+        // ── Mobile UI v3 Tokens (<640px) ──
+        mobile: {
+          page:          "var(--mobile-bg-page)",
+          card:          "var(--mobile-bg-card)",
+          "card-elevated":"var(--mobile-bg-card-elevated)",
+          primary:       "var(--mobile-text-primary)",
+          secondary:     "var(--mobile-text-secondary)",
+          muted:         "var(--mobile-text-muted)",
+          green:         "var(--mobile-positive-green)",
+          red:           "var(--mobile-negative-red)",
+          border:        "var(--mobile-border)",
+        },
+
+        // ── Mobile UI v4 Material Design 3 Tokens ──
+        md: {
+          surface: "var(--md-surface)",
+          "surface-dim": "var(--md-surface-dim)",
+          "surface-container-lowest": "var(--md-surface-container-lowest)",
+          "surface-container-low": "var(--md-surface-container-low)",
+          "surface-container": "var(--md-surface-container)",
+          "surface-container-high": "var(--md-surface-container-high)",
+          "surface-container-highest": "var(--md-surface-container-highest)",
+          "surface-variant": "var(--md-surface-variant)",
+          "surface-bright": "var(--md-surface-bright)",
+          outline: "var(--md-outline)",
+          "outline-variant": "var(--md-outline-variant)",
+          "on-surface": "var(--md-on-surface)",
+          "on-surface-variant": "var(--md-on-surface-variant)",
+
+          primary: "var(--md-primary)",
+          "on-primary": "var(--md-on-primary)",
+          "primary-container": "var(--md-primary-container)",
+          "on-primary-container": "var(--md-on-primary-container)",
+          "inverse-primary": "var(--md-inverse-primary)",
+
+          secondary: "var(--md-secondary)",
+          "on-secondary": "var(--md-on-secondary)",
+          "secondary-container": "var(--md-secondary-container)",
+          "on-secondary-container": "var(--md-on-secondary-container)",
+
+          tertiary: "var(--md-tertiary)",
+          "on-tertiary": "var(--md-on-tertiary)",
+          "tertiary-container": "var(--md-tertiary-container)",
+          "on-tertiary-container": "var(--md-on-tertiary-container)",
+          "on-tertiary-fixed": "var(--md-on-tertiary-fixed)",
+
+          error: "var(--md-error)",
+          "on-error": "var(--md-on-error)",
+          "error-container": "var(--md-error-container)",
+          "on-error-container": "var(--md-on-error-container)",
+        },
+
         // Legacy aliases kept for gradual migration
         "rule-red":       "var(--stamp-red)",
         "passbook-gold":  "var(--thrive-green)",
@@ -82,8 +134,10 @@ const config: Config = {
       fontFamily: {
         display:       ["var(--font-fraunces)", "serif"],
         sans:          ["var(--font-ibm-plex-sans)", "sans-serif"],
-        mono:          ["var(--font-ibm-plex-mono)", "monospace"],
-        "mono-amount": ["var(--font-ibm-plex-mono)", "monospace"],
+        inter:         ["var(--font-inter)", "sans-serif"],
+        mono:          ["var(--font-jetbrains-mono)", "var(--font-ibm-plex-mono)", "monospace"],
+        "mono-amount": ["var(--font-jetbrains-mono)", "var(--font-ibm-plex-mono)", "monospace"],
+        "jetbrains-mono": ["var(--font-jetbrains-mono)", "monospace"],
       },
 
       borderRadius: {

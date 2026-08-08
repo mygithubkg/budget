@@ -539,11 +539,11 @@ export function ChatInterface() {
   const liveSpeechText = voiceInterim || voiceTranscript || "";
 
   return (
-    <div className="flex h-full w-full flex-col bg-paper-bg overflow-hidden select-text">
+    <div className="flex h-full w-full flex-col bg-transparent overflow-hidden select-text">
       {/* Top Header */}
-      <header className="flex h-14 items-center justify-between border-b border-fiber-line bg-card-bg px-4 sm:px-6 shrink-0">
+      <header className="flex h-14 items-center justify-between border-b border-fiber-line bg-card-bg/80 dark:bg-[#11131A]/80 backdrop-blur-xl px-4 sm:px-6 shrink-0 transition-colors">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] font-display font-bold text-sm shadow-sm">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] font-display font-bold text-sm shadow-stamp">
             <BookOpen className="h-3.5 w-3.5" />
           </div>
           <div>
@@ -557,7 +557,7 @@ export function ChatInterface() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[3px] bg-paper-bg">
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[4px] bg-paper-bg-subtle/60 dark:bg-white/[0.04]">
             <span className="h-1.5 w-1.5 rounded-full bg-thrive-green animate-pulse" />
             AI Assistant
           </span>
@@ -624,7 +624,7 @@ export function ChatInterface() {
       </div>
 
       {/* Input Bar pinned to bottom */}
-      <div className="sticky bottom-0 z-20 border-t border-fiber-line bg-card-bg p-2.5 sm:p-4 shrink-0 space-y-1.5">
+      <div className="sticky bottom-0 z-20 border-t border-fiber-line bg-card-bg/85 dark:bg-[#11131A]/85 backdrop-blur-xl p-2.5 sm:p-4 shrink-0 space-y-1.5 transition-colors">
         {/* Inline Voice Feedback / Screen Reader Live Region */}
         <div className="mx-auto max-w-[680px]">
           <div className="sr-only" aria-live="polite" role="status">

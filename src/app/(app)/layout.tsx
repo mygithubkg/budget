@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { MobileHeader } from "@/components/layout/MobileHeader";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { AddTransactionSheet } from "@/components/transactions/AddTransactionSheet";
 import { Loader2 } from "lucide-react";
@@ -56,7 +57,7 @@ export default function AppLayout({
   return (
     <div
       className={cn(
-        "relative flex w-full bg-background",
+        "relative flex w-full bg-transparent",
         isChatPage ? "h-[100dvh] overflow-hidden" : "min-h-screen"
       )}
     >
@@ -68,11 +69,14 @@ export default function AppLayout({
         className={cn(
           "flex flex-1 flex-col min-w-0 overflow-x-hidden",
           isChatPage
-            ? "h-[calc(100dvh-3.5rem)] sm:h-screen lg:h-screen overflow-hidden"
+            ? "h-[calc(100dvh-5rem)] sm:h-screen lg:h-screen overflow-hidden"
             : "pb-20 lg:pb-0"
         )}
       >
-        <main className={cn("flex-1 min-w-0", isChatPage && "h-full overflow-hidden flex flex-col")}>
+        {/* Mobile Header (<640px) */}
+        <MobileHeader />
+
+        <main className={cn("flex-1 min-w-0 pt-16 sm:pt-0", isChatPage && "h-full overflow-hidden flex flex-col")}>
           {children}
         </main>
       </div>

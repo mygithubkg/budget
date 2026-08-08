@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { MobileSettingsView } from "@/components/mobile/MobileSettingsView";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
@@ -132,7 +133,20 @@ function SettingsContent() {
   const currentTabInfo = SETTINGS_TABS.find((t) => t.id === activeTab) || SETTINGS_TABS[0];
 
   return (
-    <div className="flex-1 space-y-5 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto text-ink-text">
+    <>
+      {/* ── Mobile UI (<640px) ── */}
+      <div className="block sm:hidden">
+        <MobileSettingsView
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          currency={currency}
+          isUpdatingCurrency={isUpdatingCurrency}
+          onCurrencyChange={handleCurrencyChange}
+        />
+      </div>
+
+      {/* ── Desktop (>=640px) ── */}
+      <div className="hidden sm:block flex-1 space-y-5 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto text-ink-text">
       {/* ========================================================================= */}
       {/* 1. TOP TITLE HEADER */}
       {/* ========================================================================= */}
@@ -148,7 +162,7 @@ function SettingsContent() {
       {/* ========================================================================= */}
       {/* 2. SUB-NAVIGATION TABS BAR (DESKTOP & MOBILE SCROLLABLE) */}
       {/* ========================================================================= */}
-      <div className="sticky top-0 z-30 -mx-4 px-4 sm:mx-0 sm:px-0 bg-paper-bg/95 backdrop-blur-xs pt-1 pb-2 border-b border-fiber-line sm:border-none">
+      <div className="sticky top-0 z-30 -mx-4 px-4 sm:mx-0 sm:px-0 bg-card-bg/80 dark:bg-[#090A0F]/80 backdrop-blur-xl pt-1 pb-2 border-b border-fiber-line sm:border-none transition-colors">
         <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
           {SETTINGS_TABS.map((tab) => {
             const Icon = tab.icon;
@@ -160,7 +174,7 @@ function SettingsContent() {
                 type="button"
                 onClick={() => handleTabChange(tab.id)}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-mono whitespace-nowrap transition-all select-none shrink-0 ${isActive
-                    ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs border border-stamp-red"
+                    ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-stamp border border-stamp-red"
                     : "bg-card-bg text-muted-text hover:text-ink-text border border-fiber-line hover:border-muted-text/30"
                   }`}
               >
@@ -268,12 +282,12 @@ function SettingsContent() {
               <div className="flex items-center gap-2 border-b border-fiber-line pb-2.5">
                 <Palette className="h-4 w-4 text-stamp-red" />
                 <h2 className="font-display text-base font-bold text-ink-text">
-                  Ledger Surface &amp; Ink
+                  Ledger Surface &amp; Ambient Theme
                 </h2>
               </div>
 
               <p className="text-xs font-sans text-muted-text">
-                Choose between cream ruled paper register or iron-gall ink dark register.
+                Switch between warm tactile Cream Paper or immersive Designer Obsidian Dark.
               </p>
 
               <div className="grid grid-cols-3 gap-3 max-w-md pt-1 font-mono text-xs">
@@ -281,36 +295,36 @@ function SettingsContent() {
                   type="button"
                   onClick={() => setTheme("light")}
                   className={`flex flex-col items-center justify-between rounded-lg border p-3 text-xs transition-all ${theme === "light"
-                      ? "border-stamp-red bg-paper-bg text-ink-text font-bold shadow-xs"
+                      ? "border-stamp-red bg-paper-bg text-ink-text font-bold shadow-xs ring-1 ring-stamp-red"
                       : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
                     }`}
                 >
-                  <div className="h-5 w-5 rounded-[2px] bg-[#F6F3E7] border border-[#D5CEBA] mb-2" />
-                  <span>Paper Mode</span>
+                  <div className="h-6 w-6 rounded-[4px] bg-[#FDFBF7] border border-[#E8E2D4] shadow-xs mb-2" />
+                  <span>Cream Paper</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setTheme("dark")}
                   className={`flex flex-col items-center justify-between rounded-lg border p-3 text-xs transition-all ${theme === "dark"
-                      ? "border-stamp-red bg-card-bg text-ink-text font-bold shadow-xs"
+                      ? "border-stamp-red bg-card-bg text-ink-text font-bold shadow-xs ring-1 ring-stamp-red"
                       : "border-fiber-line bg-card-bg text-muted-text hover:text-ink-text"
                     }`}
                 >
-                  <div className="h-5 w-5 rounded-[2px] bg-[#101216] border border-[#272C35] mb-2" />
-                  <span>Ink Mode</span>
+                  <div className="h-6 w-6 rounded-[4px] bg-[#0A0C10] border border-[#1F2430] shadow-xs mb-2" />
+                  <span>Obsidian Dark</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setTheme("system")}
                   className={`flex flex-col items-center justify-between rounded-lg border p-3 text-xs transition-all ${theme === "system"
-                      ? "border-stamp-red bg-paper-bg text-ink-text font-bold shadow-xs"
+                      ? "border-stamp-red bg-paper-bg text-ink-text font-bold shadow-xs ring-1 ring-stamp-red"
                       : "border-fiber-line bg-paper-bg text-muted-text hover:text-ink-text"
                     }`}
                 >
-                  <div className="h-5 w-5 rounded-[2px] bg-gradient-to-r from-[#F6F3E7] to-[#101216] border border-fiber-line mb-2" />
-                  <span>System</span>
+                  <div className="h-6 w-6 rounded-[4px] bg-gradient-to-r from-[#FDFBF7] to-[#0A0C10] border border-fiber-line shadow-xs mb-2" />
+                  <span>System Auto</span>
                 </button>
               </div>
             </div>
@@ -424,7 +438,8 @@ function SettingsContent() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

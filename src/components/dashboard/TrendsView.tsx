@@ -11,6 +11,8 @@ import {
   Area,
   BarChart,
   Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   Tooltip,
@@ -38,7 +40,7 @@ import {
 
 type DateRangeType = "week" | "month" | "3months" | "all";
 type GroupingType = "day" | "week" | "month";
-type ChartType = "area" | "bar";
+type ChartType = "area" | "bar" | "line";
 
 export function TrendsView() {
   const { userProfile } = useAuth();
@@ -261,6 +263,18 @@ export function TrendsView() {
             >
               Bar
             </button>
+            <button
+              type="button"
+              onClick={() => setChartType("line")}
+              className={`px-2 py-1 rounded-lg transition-colors ${
+                chartType === "line"
+                  ? "bg-stamp-red text-[#FFFFFF] font-bold shadow-xs"
+                  : "text-muted-text hover:text-ink-text"
+              }`}
+              title="Line Chart"
+            >
+              Line
+            </button>
           </div>
         </div>
       </div>
@@ -355,7 +369,7 @@ export function TrendsView() {
                     fill="url(#expenseGrad)"
                   />
                 </AreaChart>
-              ) : (
+              ) : chartType === "bar" ? (
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#D5CEBA" opacity={0.3} />
                   <XAxis dataKey="label" stroke="#7A808A" fontSize={11} tickLine={false} />
@@ -370,6 +384,44 @@ export function TrendsView() {
                   <Bar dataKey="income" name="Income" fill="#2E6B4F" radius={[3, 3, 0, 0]} />
                   <Bar dataKey="expense" name="Expense" fill="#B84A39" radius={[3, 3, 0, 0]} />
                 </BarChart>
+              ) : (
+                <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#D5CEBA" opacity={0.3} />
+                  <XAxis dataKey="label" stroke="#7A808A" fontSize={11} tickLine={false} />
+                  <YAxis
+                    stroke="#7A808A"
+                    fontSize={11}
+                    tickLine={false}
+                    tickFormatter={(v) => (v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v)}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 11, fontFamily: "monospace" }} />
+                  <Line
+                    type="monotone"
+                    dataKey="income"
+                    name="Income"
+                    stroke="#2E6B4F"
+                    strokeWidth={2.5}
+                    dot={{ r: 3 }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="expense"
+                    name="Expense"
+                    stroke="#B84A39"
+                    strokeWidth={2.5}
+                    dot={{ r: 3 }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="net"
+                    name="Net Flow"
+                    stroke="#4F46E5"
+                    strokeWidth={2}
+                    strokeDasharray="4 4"
+                    dot={{ r: 2 }}
+                  />
+                </LineChart>
               )}
             </ResponsiveContainer>
           </div>

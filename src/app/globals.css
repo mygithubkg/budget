@@ -4,53 +4,202 @@
 
 @layer base {
   /* ─────────────────────────────────────────────
-     Paper Mode (Light) — Ledger v2
+     Creamy Luxury Ledger Mode (Light)
      ───────────────────────────────────────────── */
   :root {
+    /* Font Stacks */
+    --font-fraunces: 'Fraunces', Georgia, serif;
+    --font-ibm-plex-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-ibm-plex-mono: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-jetbrains-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
     /* Surfaces */
-    --paper-bg:   #F7F6F2;   /* Clean, bright, barely-warm neutral */
-    --card-bg:    #FFFFFF;   /* Pure white — pops off paper via shadow */
+    --paper-bg:           #F8F5EE;   /* Rich warm cream / ivory linen canvas */
+    --paper-bg-subtle:    #F2ECE1;   /* Elevated warm cream */
+    --card-bg:            #FFFFFF;   /* Pure warm alabaster white card */
+    --card-bg-elevated:   #F5EFE4;   /* Cream secondary surface */
+    --card-bg-hover:      #EFE8DC;   /* Interactive cream surface */
 
     /* Text */
-    --ink-text:   #171923;   /* Deep blue-grey-black (sophisticated dark neutral) */
-    --muted-text: #6B7684;   /* Neutral slate */
+    --ink-text:           #1C1917;   /* Deep espresso charcoal (sharp, rich contrast) */
+    --muted-text:         #78716C;   /* Warm stone neutral */
+    --muted-text-subtle:  #A8A29E;   /* Muted warm grey */
 
     /* Signature Colors */
-    --stamp-red:     #E63946;  /* Primary: buttons, active nav, expenses, ink-stamp */
-    --thrive-green:  #16A874;  /* Income, positive balances — clean saturated emerald */
+    --stamp-red:          #D9383A;   /* Primary: crimson scarlet ink-stamp */
+    --thrive-green:       #15803D;   /* Botanical forest emerald */
+    --amber-gold:         #D97706;   /* Warm amber gold */
+    --sky-blue:           #2563EB;   /* Classic cobalt */
 
     /* Dividers */
-    --fiber-line: #E4E2DA;   /* Hairline — supporting role, shadows carry separation */
+    --fiber-line:         #E6E0D4;   /* Warm sand hairline border */
+    --fiber-line-subtle:  rgba(28, 25, 23, 0.05);
 
-    /* Gradient (hero balance + primary CTAs only) */
-    --sig-gradient: linear-gradient(135deg, #E63946 0%, #FF8A5B 100%);
+    /* Gradient (hero balance + primary CTAs) */
+    --sig-gradient:       linear-gradient(135deg, #D9383A 0%, #EA580C 100%);
 
     /* Shadows */
-    --card-shadow:  0 2px 8px rgba(23, 25, 35, 0.06), 0 8px 24px rgba(23, 25, 35, 0.08);
-    --stamp-shadow: 0 3px 6px rgba(230, 57, 70, 0.25);
+    --card-shadow:        0 1px 3px rgba(44, 39, 32, 0.04), 0 8px 24px rgba(44, 39, 32, 0.06);
+    --stamp-shadow:       0 4px 12px rgba(217, 56, 58, 0.20);
+
+    /* ─────────────────────────────────────────────
+       Mobile UI v4 Tokens (Material Design 3 - Light)
+       ───────────────────────────────────────────── */
+    --md-surface:                  #F8F5EE;
+    --md-surface-dim:              #F0EAE0;
+    --md-surface-container-lowest: #FFFFFF;
+    --md-surface-container-low:    #FAF7F2;
+    --md-surface-container:        #FFFFFF;
+    --md-surface-container-high:   #F2ECE1;
+    --md-surface-container-highest:#ECE5D8;
+    --md-surface-variant:          #E6E0D4;
+    --md-surface-bright:           #FFFFFF;
+    --md-outline:                  #A8A29E;
+    --md-outline-variant:          #D6CEBE;
+    --md-on-surface:               #1C1917;
+    --md-on-surface-variant:       #78716C;
+
+    --md-primary:                  #1E40AF;
+    --md-on-primary:               #FFFFFF;
+    --md-primary-container:        #DBEAFE;
+    --md-on-primary-container:     #1E3A8A;
+    --md-inverse-primary:          #93C5FD;
+
+    --md-secondary:                #C2410C;
+    --md-on-secondary:             #FFFFFF;
+    --md-secondary-container:      #FFEDD5;
+    --md-on-secondary-container:   #7C2D12;
+
+    --md-tertiary:                 #15803D;
+    --md-on-tertiary:              #FFFFFF;
+    --md-tertiary-container:       #DCFCE7;
+    --md-on-tertiary-container:    #14532D;
+    --md-on-tertiary-fixed:        #15803D;
+
+    --md-error:                    #DC2626;
+    --md-on-error:                 #FFFFFF;
+    --md-error-container:          #FEE2E2;
+    --md-on-error-container:       #7F1D1D;
+
+    /* Category Two-Tone Gradients (Light) */
+    --md-grad-health:        linear-gradient(135deg, #E11D48, #9F1239);
+    --md-grad-food:          linear-gradient(135deg, #0284C7, #0369A1);
+    --md-grad-travel:        linear-gradient(135deg, #0D9488, #115E59);
+    --md-grad-groceries:     linear-gradient(135deg, #16A34A, #15803D);
+    --md-grad-rent:          linear-gradient(135deg, #D97706, #B45309);
+    --md-grad-utilities:     linear-gradient(135deg, #64748B, #475569);
+    --md-grad-entertainment: linear-gradient(135deg, #9333EA, #7E22CE);
+    --md-grad-shopping:      linear-gradient(135deg, #EA580C, #C2410C);
+    --md-grad-income:        linear-gradient(135deg, #15803D, #047857);
+
+    /* Legacy v3 aliases */
+    --mobile-bg-page:          #F8F5EE;
+    --mobile-bg-card:          #FFFFFF;
+    --mobile-bg-card-elevated: #F2ECE1;
+    --mobile-text-primary:     #1C1917;
+    --mobile-text-secondary:   #78716C;
+    --mobile-text-muted:       #A8A29E;
+    --mobile-positive-green:   #15803D;
+    --mobile-negative-red:     #DC2626;
+    --mobile-border:           rgba(28, 25, 23, 0.08);
 
     --radius: 12px;
   }
 
   /* ─────────────────────────────────────────────
-     Ink Mode (Dark) — Ledger v2
+     Designer Obsidian Deep Black Mode (Dark)
      ───────────────────────────────────────────── */
   .dark {
-    --paper-bg:   #14161F;   /* Deep blue-black */
-    --card-bg:    #1D2029;   /* Lifted surface tone */
+    /* Surfaces */
+    --paper-bg:           #090A0F;   /* True luxury deep obsidian black */
+    --paper-bg-subtle:    #0E1017;   /* Deep subtle black */
+    --card-bg:            #11131A;   /* Deep onyx glass surface */
+    --card-bg-elevated:   #181B24;   /* Lifted obsidian slate */
+    --card-bg-hover:      #1E222F;   /* Interactive dark surface */
 
-    --ink-text:   #F1EFE9;   /* Warm parchment white */
-    --muted-text: #8A92A0;   /* Muted slate */
+    /* Text */
+    --ink-text:           #F8FAFC;   /* Crisp luminous platinum white */
+    --muted-text:         #94A3B8;   /* Cool silver slate */
+    --muted-text-subtle:  #64748B;   /* Dark muted slate */
 
-    --stamp-red:    #FF6B6B;   /* Brightened for dark contrast */
-    --thrive-green: #2DD4A7;   /* Brightened emerald */
+    /* Signature Colors */
+    --stamp-red:          #FF5353;   /* Vivid luminous crimson coral */
+    --thrive-green:       #10B981;   /* Radiant cyber emerald */
+    --amber-gold:         #FBBF24;   /* Radiant gold */
+    --sky-blue:           #60A5FA;   /* Electric sky blue */
 
-    --fiber-line: rgba(255, 255, 255, 0.08);
+    /* Dividers */
+    --fiber-line:         rgba(255, 255, 255, 0.08);
+    --fiber-line-subtle:  rgba(255, 255, 255, 0.04);
 
-    --sig-gradient: linear-gradient(135deg, #FF6B6B 0%, #FF9A70 100%);
+    /* Gradient (hero balance + primary CTAs) */
+    --sig-gradient:       linear-gradient(135deg, #FF5353 0%, #FF8A5B 100%);
 
-    --card-shadow:  none;      /* Shadows invisible on dark — rely on lifted surface */
-    --stamp-shadow: 0 3px 6px rgba(255, 107, 107, 0.30);
+    /* Shadows & Border Highlights */
+    --card-shadow:        0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+    --stamp-shadow:       0 4px 16px rgba(255, 83, 83, 0.30);
+
+    /* ─────────────────────────────────────────────
+       Mobile UI v4 Tokens (Material Design 3 - Dark)
+       ───────────────────────────────────────────── */
+    --md-surface:                  #090A0F;
+    --md-surface-dim:              #07070B;
+    --md-surface-container-lowest: #050508;
+    --md-surface-container-low:    #0D0E14;
+    --md-surface-container:        #11131A;
+    --md-surface-container-high:   #181B24;
+    --md-surface-container-highest:#1E222E;
+    --md-surface-variant:          #282D3D;
+    --md-surface-bright:           #2E3446;
+    --md-outline:                  #64748B;
+    --md-outline-variant:          #334155;
+    --md-on-surface:               #F8FAFC;
+    --md-on-surface-variant:       #94A3B8;
+
+    --md-primary:                  #93C5FD;
+    --md-on-primary:               #0F172A;
+    --md-primary-container:        #1E3A8A;
+    --md-on-primary-container:     #DBEAFE;
+    --md-inverse-primary:          #005CBC;
+
+    --md-secondary:                #FDA4AF;
+    --md-on-secondary:             #4C0519;
+    --md-secondary-container:      #881337;
+    --md-on-secondary-container:   #FFE4E6;
+
+    --md-tertiary:                 #34D399;
+    --md-on-tertiary:              #022C22;
+    --md-tertiary-container:       #064E3B;
+    --md-on-tertiary-container:    #A7F3D0;
+    --md-on-tertiary-fixed:        #34D399;
+
+    --md-error:                    #FF6B6B;
+    --md-on-error:                 #450A0A;
+    --md-error-container:          #7F1D1D;
+    --md-on-error-container:       #FEE2E2;
+
+    /* Category Two-Tone Gradients (Dark) */
+    --md-grad-health:        linear-gradient(135deg, #991B1B, #581C87);
+    --md-grad-food:          linear-gradient(135deg, #0284C7, #1E3A8A);
+    --md-grad-travel:        linear-gradient(135deg, #059669, #064E3B);
+    --md-grad-groceries:     linear-gradient(135deg, #10B981, #0284C7);
+    --md-grad-rent:          linear-gradient(135deg, #D97706, #78350F);
+    --md-grad-utilities:     linear-gradient(135deg, #475569, #1E293B);
+    --md-grad-entertainment: linear-gradient(135deg, #9333EA, #4C1D95);
+    --md-grad-shopping:      linear-gradient(135deg, #F97316, #9A3412);
+    --md-grad-income:        linear-gradient(135deg, #10B981, #064E3B);
+
+    /* Legacy v3 aliases */
+    --mobile-bg-page:          #090A0F;
+    --mobile-bg-card:          #11131A;
+    --mobile-bg-card-elevated: #181B24;
+    --mobile-text-primary:     #F8FAFC;
+    --mobile-text-secondary:   #94A3B8;
+    --mobile-text-muted:       #64748B;
+    --mobile-positive-green:   #10B981;
+    --mobile-negative-red:     #FF5353;
+    --mobile-border:           rgba(255, 255, 255, 0.08);
   }
 }
 
@@ -64,7 +213,7 @@
     color: var(--ink-text);
     font-family: var(--font-ibm-plex-sans), sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   h1, h2, h3, .font-display {
@@ -75,6 +224,46 @@
     font-family: var(--font-ibm-plex-mono), monospace;
     font-variant-numeric: tabular-nums;
   }
+}
+
+/* ────────────────────────────────────────────────
+   Designer Background System (Ambient Glows & Mesh)
+   ──────────────────────────────────────────────── */
+.ambient-designer-canvas {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Light Theme Cream Texture Overlay */
+.creamy-paper-texture {
+  background-color: var(--paper-bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 80%),
+    radial-gradient(circle at 100% 100%, rgba(245, 238, 225, 0.6) 0%, transparent 50%);
+}
+
+/* Dark Theme Designer Mesh & Grid Pattern */
+.dark .dark-designer-mesh {
+  background-color: #090A0F;
+  background-image:
+    radial-gradient(ellipse 65% 45% at 15% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 40% at 85% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 35% at 75% 15%, rgba(255, 83, 83, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
+}
+
+.designer-grid-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 95%);
+}
+
+.light .designer-grid-dots {
+  background-image: radial-gradient(rgba(28, 25, 23, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 95%);
 }
 
 /* ────────────────────────────────────────────────
@@ -135,6 +324,85 @@
 .stamp-shadow {
   box-shadow: var(--stamp-shadow);
 }
+
+/* ────────────────────────────────────────────────
+   Mobile UI v4 Material Design 3 Utilities
+   ──────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-filled {
+  font-variation-settings: 'FILL' 1;
+}
+
+.md-grad-health {
+  background: var(--md-grad-health);
+}
+.md-grad-food {
+  background: var(--md-grad-food);
+}
+.md-grad-travel {
+  background: var(--md-grad-travel);
+}
+.md-grad-groceries {
+  background: var(--md-grad-groceries);
+}
+.md-grad-rent {
+  background: var(--md-grad-rent);
+}
+.md-grad-utilities {
+  background: var(--md-grad-utilities);
+}
+.md-grad-entertainment {
+  background: var(--md-grad-entertainment);
+}
+.md-grad-shopping {
+  background: var(--md-grad-shopping);
+}
+.md-grad-income {
+  background: var(--md-grad-income);
+}
+
+/* Material 3 Card Highlights */
+.md-hero-shadow {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+.md-card-shadow {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.24);
+}
+.md-fab-shadow {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+.md-inner-rim {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.md-sheen {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+}
+
+/* Legacy aliases for backward compatibility */
+.mobile-grad-food { background: var(--md-grad-food); }
+.mobile-grad-groceries { background: var(--md-grad-groceries); }
+.mobile-grad-travel { background: var(--md-grad-travel); }
+.mobile-grad-rent { background: var(--md-grad-rent); }
+.mobile-grad-utilities { background: var(--md-grad-utilities); }
+.mobile-grad-entertainment { background: var(--md-grad-entertainment); }
+.mobile-grad-shopping { background: var(--md-grad-shopping); }
+.mobile-grad-health { background: var(--md-grad-health); }
+
 
 /* ────────────────────────────────────────────────
    Custom Ledger Scrollbar

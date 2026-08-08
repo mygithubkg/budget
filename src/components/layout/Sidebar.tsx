@@ -43,13 +43,13 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
   };
 
   return (
-    <aside className="hidden sm:flex h-screen sm:w-16 lg:w-64 flex-col justify-between border-r border-fiber-line bg-card-bg shadow-card dark:shadow-none p-3 lg:p-4 shrink-0 select-none transition-all duration-200">
+    <aside className="hidden sm:flex h-screen sm:w-16 lg:w-64 flex-col justify-between border-r border-fiber-line bg-card-bg/80 backdrop-blur-xl shadow-card dark:shadow-[0_4px_24px_rgba(0,0,0,0.4)] p-3 lg:p-4 shrink-0 select-none transition-all duration-200 z-20">
       {/* Top Section */}
       <div className="space-y-5">
         {/* Brand Header */}
         <Link
           href="/dashboard"
-          className="flex items-center gap-3 px-2 py-2 group rounded-xl hover:bg-paper-bg transition-colors"
+          className="flex items-center gap-3 px-2 py-2 group rounded-xl hover:bg-paper-bg-subtle/70 dark:hover:bg-white/[0.04] transition-colors"
           title="FinChat Ledger"
         >
           <div
@@ -63,7 +63,7 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
               <span className="font-display text-lg font-bold tracking-tight text-ink-text">
                 FinChat
               </span>
-              <span className="text-[10px] font-mono uppercase text-muted-text px-1.5 py-0.5 border border-fiber-line rounded bg-paper-bg">
+              <span className="text-[10px] font-mono uppercase text-muted-text px-1.5 py-0.5 border border-fiber-line rounded bg-paper-bg-subtle/60 dark:bg-white/[0.04]">
                 Ledger
               </span>
             </div>
@@ -75,7 +75,7 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
         {onOpenManualAdd && (
           <button
             onClick={onOpenManualAdd}
-            className="w-full flex items-center justify-center lg:justify-start gap-2 rounded-xl border border-stamp-red/30 bg-stamp-red/5 hover:bg-stamp-red/10 hover:border-stamp-red/50 px-3 py-2.5 text-xs font-mono font-bold uppercase tracking-wide text-stamp-red transition-all"
+            className="w-full flex items-center justify-center lg:justify-start gap-2 rounded-xl border border-stamp-red/30 bg-stamp-red/8 hover:bg-stamp-red/15 hover:border-stamp-red/50 px-3 py-2.5 text-xs font-mono font-bold uppercase tracking-wide text-stamp-red transition-all"
             title="Manual Entry"
           >
             <Plus className="h-4 w-4 shrink-0" />
@@ -101,8 +101,8 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
                 className={cn(
                   "flex items-center justify-center lg:justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all group",
                   isActive
-                    ? "bg-stamp-red text-white font-semibold shadow-xs"
-                    : "text-ink-text/70 hover:bg-paper-bg hover:text-ink-text"
+                    ? "bg-stamp-red text-white font-semibold shadow-stamp"
+                    : "text-ink-text/70 hover:bg-paper-bg-subtle/70 dark:hover:bg-white/[0.04] hover:text-ink-text"
                 )}
                 title={item.label}
               >
@@ -116,7 +116,7 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
                   <span className="hidden lg:inline">{item.label}</span>
                 </div>
                 {isActive && (
-                  <div className="hidden lg:block h-1.5 w-1.5 rounded-full bg-white/60" />
+                  <div className="hidden lg:block h-1.5 w-1.5 rounded-full bg-white/70" />
                 )}
               </Link>
             );
@@ -146,25 +146,25 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
 
         <div className="flex items-center justify-center lg:justify-between gap-1 pt-1">
           <button
-            className="flex items-center justify-center lg:justify-start gap-1.5 px-2 py-1.5 rounded-xl text-[11px] text-muted-text hover:text-ink-text hover:bg-paper-bg transition-colors flex-1"
+            className="flex items-center justify-center lg:justify-start gap-1.5 px-2 py-1.5 rounded-xl text-[11px] text-muted-text hover:text-ink-text hover:bg-paper-bg-subtle/70 dark:hover:bg-white/[0.04] transition-colors flex-1"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            title={theme === "dark" ? "Switch to Paper mode" : "Switch to Ink mode"}
+            title={theme === "dark" ? "Switch to Creamy Paper mode" : "Switch to Obsidian Ink mode"}
           >
             {theme === "dark" ? (
               <>
-                <Sun className="h-3.5 w-3.5 text-thrive-green shrink-0" />
-                <span className="hidden lg:inline font-mono">Paper</span>
+                <Sun className="h-3.5 w-3.5 text-amber-gold shrink-0" />
+                <span className="hidden lg:inline font-mono">Cream</span>
               </>
             ) : (
               <>
                 <Moon className="h-3.5 w-3.5 text-stamp-red shrink-0" />
-                <span className="hidden lg:inline font-mono">Ink</span>
+                <span className="hidden lg:inline font-mono">Obsidian</span>
               </>
             )}
           </button>
 
           <button
-            className="p-1.5 rounded-xl text-muted-text hover:text-stamp-red hover:bg-stamp-red/5 transition-colors shrink-0"
+            className="p-1.5 rounded-xl text-muted-text hover:text-stamp-red hover:bg-stamp-red/10 transition-colors shrink-0"
             onClick={logout}
             title="Sign out"
           >
