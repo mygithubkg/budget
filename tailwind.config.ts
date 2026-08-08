@@ -17,6 +17,58 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // ── Global Material Design 3 Design System Tokens ──
+        surface: "var(--md-surface)",
+        "surface-dim": "var(--md-surface-dim)",
+        "surface-container-lowest": "var(--md-surface-container-lowest)",
+        "surface-container-low": "var(--md-surface-container-low)",
+        "surface-container": "var(--md-surface-container)",
+        "surface-container-high": "var(--md-surface-container-high)",
+        "surface-container-highest": "var(--md-surface-container-highest)",
+        "surface-variant": "var(--md-surface-variant)",
+        "surface-bright": "var(--md-surface-bright)",
+        outline: "var(--md-outline)",
+        "outline-variant": "var(--md-outline-variant)",
+        "on-surface": "var(--md-on-surface)",
+        "on-surface-variant": "var(--md-on-surface-variant)",
+
+        primary: {
+          DEFAULT: "var(--md-primary)",
+          container: "var(--md-primary-container)",
+          inverse: "var(--md-inverse-primary)",
+          foreground: "var(--md-on-primary)",
+        },
+        "on-primary": "var(--md-on-primary)",
+        "primary-container": "var(--md-primary-container)",
+        "on-primary-container": "var(--md-on-primary-container)",
+        "inverse-primary": "var(--md-inverse-primary)",
+
+        secondary: {
+          DEFAULT: "var(--md-secondary)",
+          container: "var(--md-secondary-container)",
+          foreground: "var(--md-on-secondary)",
+        },
+        "on-secondary": "var(--md-on-secondary)",
+        "secondary-container": "var(--md-secondary-container)",
+        "on-secondary-container": "var(--md-on-secondary-container)",
+
+        tertiary: {
+          DEFAULT: "var(--md-tertiary)",
+          container: "var(--md-tertiary-container)",
+        },
+        "on-tertiary": "var(--md-on-tertiary)",
+        "tertiary-container": "var(--md-tertiary-container)",
+        "on-tertiary-container": "var(--md-on-tertiary-container)",
+        "on-tertiary-fixed": "var(--md-on-tertiary-fixed)",
+
+        error: {
+          DEFAULT: "var(--md-error)",
+          container: "var(--md-error-container)",
+        },
+        "on-error": "var(--md-on-error)",
+        "error-container": "var(--md-error-container)",
+        "on-error-container": "var(--md-on-error-container)",
+
         // ── Ledger v2 Design System Tokens ──
         "paper-bg":    "var(--paper-bg)",
         "card-bg":     "var(--card-bg)",
@@ -39,7 +91,7 @@ const config: Config = {
           border:        "var(--mobile-border)",
         },
 
-        // ── Mobile UI v4 Material Design 3 Tokens ──
+        // ── MD Namespaced Aliases (Backwards Compatibility) ──
         md: {
           surface: "var(--md-surface)",
           "surface-dim": "var(--md-surface-dim)",
@@ -92,14 +144,6 @@ const config: Config = {
         },
         popover: {
           DEFAULT:    "var(--card-bg)",
-          foreground: "var(--ink-text)",
-        },
-        primary: {
-          DEFAULT:    "var(--stamp-red)",
-          foreground: "#FFFFFF",
-        },
-        secondary: {
-          DEFAULT:    "var(--fiber-line)",
           foreground: "var(--ink-text)",
         },
         muted: {

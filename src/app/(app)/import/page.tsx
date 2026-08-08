@@ -350,22 +350,14 @@ export default function ImportPage() {
       {/* ── Desktop (>=640px) ── */}
       <div className="hidden sm:block space-y-6 pb-20 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-fiber-line pb-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-muted-text uppercase tracking-widest">
-              Ledger Tool
-            </span>
-            <span className="rounded bg-stamp-red/10 px-1.5 py-0.5 font-mono text-[10px] font-bold text-stamp-red uppercase">
-              AI Assisted
-            </span>
-          </div>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-text">
-            Import Statement & Logs
-          </h1>
-          <p className="text-xs sm:text-sm text-muted-text max-w-2xl">
-            Upload previous bank statements (.xlsx, .xls, .csv) or personal expense notes (.docx). Review and edit extracted rows before importing into your ledger.
-          </p>
+      <div className="flex items-center justify-between border-b border-fiber-line pb-4">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs text-muted-text uppercase tracking-widest">
+            Ledger Tool
+          </span>
+          <span className="rounded bg-stamp-red/10 px-2 py-0.5 font-mono text-[10px] font-bold text-stamp-red uppercase">
+            AI Multi-Row Parsing
+          </span>
         </div>
 
         {mode === "review" && (

@@ -10,6 +10,9 @@ import { AddTransactionSheet } from "@/components/transactions/AddTransactionShe
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import MaterialIcon from "@/components/ui/MaterialIcon";
+import Link from "next/link";
+
 export default function AppLayout({
   children,
 }: {
@@ -21,6 +24,39 @@ export default function AppLayout({
   const [manualAddOpen, setManualAddOpen] = useState(false);
 
   const isChatPage = pathname === "/chat" || pathname?.startsWith("/chat");
+
+  const getPageMeta = () => {
+    if (pathname.startsWith("/analysis")) {
+      return {
+        title: "AI Financial Analysis",
+        subtitle: "Predictive trends, behavioral patterns & spending intelligence",
+      };
+    }
+    if (pathname.startsWith("/dashboard/friends")) {
+      return {
+        title: "Friends & Debt Register",
+        subtitle: "Shared expense tracking, itemized statements & settlements",
+      };
+    }
+    if (pathname.startsWith("/settings")) {
+      return {
+        title: "Settings & System",
+        subtitle: "Profile, custom AI keys (BYOK), Telegram bot & export tools",
+      };
+    }
+    if (pathname.startsWith("/import")) {
+      return {
+        title: "Import Statements & Logs",
+        subtitle: "AI-assisted multi-row parsing for bank statements (.xlsx, .csv) & logs",
+      };
+    }
+    return {
+      title: "Financial Ledger",
+      subtitle: "Account balance register, cash flow tracking & categorical spend",
+    };
+  };
+
+  const { title: pageTitle, subtitle: pageSubtitle } = getPageMeta();
 
   useEffect(() => {
     if (!loading) {
@@ -75,6 +111,28 @@ export default function AppLayout({
       >
         {/* Mobile Header (<640px) */}
         <MobileHeader />
+
+        {/* Desktop Header Top Bar (>=640px) */}
+        {!isChatPage && (
+          <header className="hidden sm:flex items-center justify-between px-6 lg:px-8 pt-6 pb-2 max-w-6xl w-full mx-auto">
+            <div>
+              <h1 className="text-xl lg:text-2xl font-bold font-display tracking-tight text-on-surface">
+                {pageTitle}
+              </h1>
+              <p className="text-xs text-on-surface-variant font-sans mt-0.5">
+                {pageSubtitle}
+              </p>
+            </div>
+
+            <Link
+              href="/chat"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary hover:bg-primary/90 active:scale-95 text-on-primary text-xs font-bold font-inter shadow-md shadow-primary/20 transition-all duration-150 group"
+            >
+              <MaterialIcon name="add" size={18} className="text-on-primary group-hover:rotate-90 transition-transform duration-200" />
+              <span>New Entry</span>
+            </Link>
+          </header>
+        )}
 
         <main className={cn("flex-1 min-w-0 pt-16 sm:pt-0", isChatPage && "h-full overflow-hidden flex flex-col")}>
           {children}

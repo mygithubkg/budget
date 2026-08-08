@@ -50,21 +50,28 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              function isExtensionError(msg, file) {
+                var m = (msg || '').toString();
+                var f = (file || '').toString();
+                return f.includes('extension') ||
+                  f.includes('keyboard-shortcuts') ||
+                  f.includes('chrome-extension') ||
+                  f.includes('moz-extension') ||
+                  m.includes('Injection error') ||
+                  m.includes('Crypto site') ||
+                  m.includes('SecurityError') ||
+                  m.includes('cross-origin frame') ||
+                  m.includes("reading 'location'");
+              }
               window.addEventListener('error', function(e) {
-                if (
-                  e.filename && (
-                    e.filename.includes('extension') ||
-                    e.filename.includes('keyboard-shortcuts') ||
-                    e.filename.includes('chrome-extension') ||
-                    e.filename.includes('moz-extension')
-                  ) ||
-                  (e.message && (
-                    e.message.includes('Injection error') ||
-                    e.message.includes('Crypto site') ||
-                    e.message.includes('SecurityError') ||
-                    e.message.includes('cross-origin frame')
-                  ))
-                ) {
+                if (isExtensionError(e.message, e.filename)) {
+                  e.stopImmediatePropagation();
+                  e.preventDefault();
+                }
+              }, true);
+              window.addEventListener('unhandledrejection', function(e) {
+                var reason = e.reason ? (e.reason.message || e.reason.toString()) : '';
+                if (isExtensionError(reason, '')) {
                   e.stopImmediatePropagation();
                   e.preventDefault();
                 }

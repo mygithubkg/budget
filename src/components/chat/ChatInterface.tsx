@@ -541,25 +541,25 @@ export function ChatInterface() {
   return (
     <div className="flex h-full w-full flex-col bg-transparent overflow-hidden select-text">
       {/* Top Header */}
-      <header className="flex h-14 items-center justify-between border-b border-fiber-line bg-card-bg/80 dark:bg-[#11131A]/80 backdrop-blur-xl px-4 sm:px-6 shrink-0 transition-colors">
+      <header className="flex h-14 items-center justify-between border-b border-outline-variant/40 bg-surface-container-low/90 backdrop-blur-xl px-4 sm:px-6 shrink-0 transition-colors">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-stamp-red text-[#FFFFFF] font-display font-bold text-sm shadow-stamp">
+          <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-primary text-on-primary font-display font-bold text-sm shadow-sm">
             <BookOpen className="h-3.5 w-3.5" />
           </div>
           <div>
-            <h2 className="font-display text-sm font-bold text-ink-text leading-tight">
-              Ledger Register
+            <h2 className="font-display text-sm font-bold text-on-surface leading-tight">
+              AI Ledger Register
             </h2>
-            <p className="text-[10px] font-mono text-muted-text">
-              Ruled Account Bot
+            <p className="text-[10px] font-jetbrains-mono text-on-surface-variant">
+              Conversational Bookkeeper
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase text-muted-text border border-fiber-line px-2 py-0.5 rounded-[4px] bg-paper-bg-subtle/60 dark:bg-white/[0.04]">
-            <span className="h-1.5 w-1.5 rounded-full bg-thrive-green animate-pulse" />
-            AI Assistant
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-jetbrains-mono uppercase text-on-surface-variant border border-outline-variant/40 px-2.5 py-0.5 rounded-full bg-surface-container">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Active
           </span>
         </div>
       </header>
@@ -570,14 +570,14 @@ export function ChatInterface() {
           {/* Empty State */}
           {!isMessagesLoading && messages.length === 0 && (
             <div className="text-center py-8 sm:py-12 px-3 sm:px-4 space-y-4">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg border border-fiber-line bg-card-bg text-stamp-red shadow-sm">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-outline-variant/40 bg-surface-container text-primary shadow-sm">
                 <BookOpen className="h-6 w-6" />
               </div>
               <div className="space-y-1">
-                <h3 className="font-display text-lg font-bold text-ink-text">
+                <h3 className="font-display text-lg font-bold text-on-surface">
                   Ledger Ready
                 </h3>
-                <p className="text-xs font-sans text-muted-text max-w-sm mx-auto">
+                <p className="text-xs font-sans text-on-surface-variant max-w-sm mx-auto">
                   Type or speak any expense, income, split, or query to record or review your accounts.
                 </p>
               </div>
@@ -589,7 +589,7 @@ export function ChatInterface() {
                     key={idx}
                     type="button"
                     onClick={() => handleSendMessage(chip)}
-                    className="rounded-lg border border-fiber-line bg-card-bg hover:border-stamp-red active:scale-95 touch-manipulation px-2.5 py-1.5 text-[11px] font-sans text-ink-text transition-all"
+                    className="rounded-xl border border-outline-variant/40 bg-surface-container hover:bg-surface-container-high hover:border-primary/50 active:scale-95 touch-manipulation px-3 py-1.5 text-xs font-sans text-on-surface transition-all"
                   >
                     {chip}
                   </button>
@@ -613,8 +613,8 @@ export function ChatInterface() {
 
           {/* AI Thinking Animation */}
           {isAiLoading && (
-            <div className="flex items-center gap-2 text-muted-text my-2 pl-1 font-mono text-xs animate-pulse">
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-stamp-red" />
+            <div className="flex items-center gap-2 text-on-surface-variant my-2 pl-1 font-jetbrains-mono text-xs animate-pulse">
+              <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
               <span>Recording into ledger...</span>
             </div>
           )}
@@ -624,19 +624,19 @@ export function ChatInterface() {
       </div>
 
       {/* Input Bar pinned to bottom */}
-      <div className="sticky bottom-0 z-20 border-t border-fiber-line bg-card-bg/85 dark:bg-[#11131A]/85 backdrop-blur-xl p-2.5 sm:p-4 shrink-0 space-y-1.5 transition-colors">
+      <div className="sticky bottom-0 z-20 border-t border-outline-variant/40 bg-surface-container-low/90 backdrop-blur-xl p-2.5 sm:p-4 shrink-0 space-y-1.5 transition-colors">
         {/* Inline Voice Feedback / Screen Reader Live Region */}
         <div className="mx-auto max-w-[680px]">
           <div className="sr-only" aria-live="polite" role="status">
             {srAnnouncement}
           </div>
           {voiceFeedback && (
-            <div className="mb-1.5 flex items-center justify-between rounded-lg border border-stamp-red/30 bg-stamp-red/10 px-2.5 py-1 text-[11px] font-mono text-stamp-red animate-in fade-in duration-150">
+            <div className="mb-1.5 flex items-center justify-between rounded-xl border border-error/30 bg-error/10 px-3 py-1 text-[11px] font-jetbrains-mono text-error animate-in fade-in duration-150">
               <span>{voiceFeedback}</span>
               <button
                 type="button"
                 onClick={() => setVoiceFeedback(null)}
-                className="text-stamp-red/70 hover:text-stamp-red ml-2 font-bold"
+                className="text-error/70 hover:text-error ml-2 font-bold"
                 aria-label="Dismiss feedback"
               >
                 ✕
@@ -648,12 +648,12 @@ export function ChatInterface() {
         <div className="mx-auto flex max-w-[680px] items-end gap-2">
           <div className="relative flex-1 min-w-0">
             {isListening ? (
-              <div className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-lg border border-stamp-red/50 bg-stamp-red/5 text-xs font-sans flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-stamp-red animate-ping" />
-                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-stamp-red shrink-0">
+              <div className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-2xl border border-primary/50 bg-primary/10 text-xs font-sans flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-primary animate-ping" />
+                <span className="text-[11px] font-jetbrains-mono font-bold uppercase tracking-wider text-primary shrink-0">
                   Listening:
                 </span>
-                <span className="italic text-ink-text/80 truncate">
+                <span className="italic text-on-surface/80 truncate">
                   {liveSpeechText || "Speak now..."}
                 </span>
               </div>
@@ -664,7 +664,7 @@ export function ChatInterface() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="e.g. Spent 500 on groceries, or 'What is my balance?'..."
-                className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-lg border border-fiber-line bg-paper-bg text-base sm:text-xs font-sans text-ink-text placeholder:text-muted-text/60 focus:border-stamp-red focus:outline-none resize-none touch-manipulation"
+                className="w-full min-h-[44px] max-h-28 py-2.5 px-3 rounded-2xl border border-outline-variant/40 bg-surface-container text-base sm:text-xs font-sans text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none resize-none touch-manipulation"
                 rows={1}
               />
             )}
@@ -685,7 +685,7 @@ export function ChatInterface() {
             type="button"
             onClick={() => receiptInputRef.current?.click()}
             disabled={isAiLoading}
-            className="flex h-11 w-11 items-center justify-center rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red hover:text-stamp-red active:scale-95 text-muted-text transition-all disabled:opacity-40 shrink-0 touch-manipulation shadow-xs"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl border border-outline-variant/40 bg-surface-container hover:border-primary hover:text-primary active:scale-95 text-on-surface-variant transition-all disabled:opacity-40 shrink-0 touch-manipulation shadow-sm"
             title="Scan Receipt Photo"
             aria-label="Scan Receipt Photo"
           >
@@ -695,7 +695,7 @@ export function ChatInterface() {
           {/* Import Statement / Log Button */}
           <Link
             href="/import"
-            className="flex h-11 w-11 items-center justify-center rounded-lg border border-fiber-line bg-paper-bg hover:border-stamp-red hover:text-stamp-red active:scale-95 text-muted-text transition-all shrink-0 touch-manipulation shadow-xs"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl border border-outline-variant/40 bg-surface-container hover:border-primary hover:text-primary active:scale-95 text-on-surface-variant transition-all shrink-0 touch-manipulation shadow-sm"
             title="Import Statement (.xlsx, .csv, .docx)"
             aria-label="Import Statement (.xlsx, .csv, .docx)"
           >
@@ -714,7 +714,7 @@ export function ChatInterface() {
           <button
             onClick={() => handleSendMessage()}
             disabled={(!inputText.trim() && !isListening) || isAiLoading}
-            className="flex h-11 w-11 items-center justify-center rounded-lg bg-stamp-red hover:bg-stamp-red/90 active:scale-95 text-[#FFFFFF] transition-all disabled:opacity-40 shrink-0 touch-manipulation"
+            className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary hover:bg-primary/90 active:scale-95 text-on-primary transition-all disabled:opacity-40 shrink-0 touch-manipulation shadow-sm"
             title="Record Entry"
             aria-label="Record Entry"
           >
@@ -725,7 +725,7 @@ export function ChatInterface() {
             )}
           </button>
         </div>
-        <p className="mx-auto max-w-[680px] text-center text-[10px] font-mono text-muted-text/70 hidden sm:block pt-0.5">
+        <p className="mx-auto max-w-[680px] text-center text-[10px] font-jetbrains-mono text-on-surface-variant/70 hidden sm:block pt-0.5">
           Enter to record • Shift+Enter for new line
         </p>
       </div>

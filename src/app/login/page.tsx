@@ -140,7 +140,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-paper-bg text-ink-text selection:bg-stamp-red/20">
+    <div className="relative min-h-screen w-full flex bg-surface text-on-surface selection:bg-primary/20">
       {/* LEFT PANEL: Product Preview & Ledger Mockup (Hidden on mobile, 50% on lg) */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between border-r border-fiber-line bg-card-bg/60 p-8 xl:p-12 relative overflow-hidden">
         {/* Subtle decorative background pattern */}

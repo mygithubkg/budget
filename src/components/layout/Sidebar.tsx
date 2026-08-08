@@ -3,22 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  MessageSquare,
-  LayoutDashboard,
-  Users,
-  Settings,
-  LogOut,
-  Moon,
-  Sun,
-  Plus,
-  BookOpen,
-  Sparkles,
-} from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import MaterialIcon from "@/components/ui/MaterialIcon";
 
 interface SidebarProps {
   onOpenManualAdd?: () => void;
@@ -30,11 +19,11 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
   const { theme, setTheme } = useTheme();
 
   const navItems = [
-    { href: "/dashboard",        label: "Ledger",      icon: LayoutDashboard, exact: true },
-    { href: "/chat",             label: "AI Register", icon: MessageSquare,   exact: true },
-    { href: "/analysis",         label: "Analysis",    icon: Sparkles,        exact: true },
-    { href: "/dashboard/friends",label: "Friends",     icon: Users },
-    { href: "/settings",         label: "Settings",    icon: Settings },
+    { href: "/dashboard",        label: "Ledger",      iconName: "receipt_long", exact: true },
+    { href: "/analysis",         label: "AI Analysis", iconName: "insights",     exact: true },
+    { href: "/chat",             label: "Chat",        iconName: "forum",        exact: true },
+    { href: "/dashboard/friends",label: "Friends",     iconName: "group" },
+    { href: "/settings",         label: "Settings",    iconName: "settings" },
   ];
 
   const getInitials = (name?: string | null) => {
@@ -43,80 +32,70 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
   };
 
   return (
-    <aside className="hidden sm:flex h-screen sm:w-16 lg:w-64 flex-col justify-between border-r border-fiber-line bg-card-bg/80 backdrop-blur-xl shadow-card dark:shadow-[0_4px_24px_rgba(0,0,0,0.4)] p-3 lg:p-4 shrink-0 select-none transition-all duration-200 z-20">
+    <aside className="hidden sm:flex h-screen w-16 lg:w-[248px] flex-col justify-between border-r border-outline-variant/40 dark:border-white/[0.06] bg-surface-container-low p-3 lg:p-4 shrink-0 select-none transition-all duration-200 z-30">
       {/* Top Section */}
-      <div className="space-y-5">
+      <div className="space-y-6">
         {/* Brand Header */}
         <Link
           href="/dashboard"
-          className="flex items-center gap-3 px-2 py-2 group rounded-xl hover:bg-paper-bg-subtle/70 dark:hover:bg-white/[0.04] transition-colors"
+          className="flex items-center gap-3 px-2 py-2 group rounded-2xl hover:bg-surface-container-high/60 transition-colors"
           title="FinChat Ledger"
         >
-          <div
-            className="flex h-9 w-9 items-center justify-center rounded-xl shrink-0 shadow-stamp"
-            style={{ background: "var(--sig-gradient)" }}
-          >
-            <BookOpen className="h-4 w-4 text-white" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl shrink-0 bg-primary text-on-primary shadow-md shadow-primary/25">
+            <MaterialIcon name="account_balance_wallet" size={22} className="text-on-primary" />
           </div>
           <div className="hidden lg:block overflow-hidden">
             <div className="flex items-baseline gap-1.5">
-              <span className="font-display text-lg font-bold tracking-tight text-ink-text">
+              <span className="font-display text-lg font-bold tracking-tight text-on-surface">
                 FinChat
               </span>
-              <span className="text-[10px] font-mono uppercase text-muted-text px-1.5 py-0.5 border border-fiber-line rounded bg-paper-bg-subtle/60 dark:bg-white/[0.04]">
+              <span className="text-[10px] font-mono uppercase text-on-surface-variant px-1.5 py-0.5 border border-outline-variant/60 rounded-md bg-surface-container-high">
                 Ledger
               </span>
             </div>
-            <p className="text-[11px] text-muted-text font-sans truncate">Account Register</p>
+            <p className="text-[11px] text-on-surface-variant font-sans truncate">Material Register</p>
           </div>
         </Link>
 
-        {/* Quick Action: New Entry */}
-        {onOpenManualAdd && (
-          <button
-            onClick={onOpenManualAdd}
-            className="w-full flex items-center justify-center lg:justify-start gap-2 rounded-xl border border-stamp-red/30 bg-stamp-red/8 hover:bg-stamp-red/15 hover:border-stamp-red/50 px-3 py-2.5 text-xs font-mono font-bold uppercase tracking-wide text-stamp-red transition-all"
-            title="Manual Entry"
-          >
-            <Plus className="h-4 w-4 shrink-0" />
-            <span className="hidden lg:inline">New Entry</span>
-          </button>
-        )}
-
         {/* Navigation */}
-        <nav className="space-y-1">
-          <div className="hidden lg:block px-2 pb-1 text-[10px] font-mono font-semibold uppercase tracking-wider text-muted-text">
-            Sections
+        <nav className="space-y-1.5">
+          <div className="hidden lg:block px-2.5 pb-1 text-[10px] font-mono font-semibold uppercase tracking-wider text-on-surface-variant/80">
+            Navigation
           </div>
           {navItems.map((item) => {
             const isActive = item.exact
               ? pathname === item.href
               : pathname.startsWith(item.href);
-            const Icon = item.icon;
 
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center justify-center lg:justify-between rounded-xl px-3 py-2.5 text-xs font-medium transition-all group",
+                  "flex items-center justify-center lg:justify-start gap-3 rounded-2xl px-3 py-2.5 text-xs font-semibold font-inter transition-all duration-150 group",
                   isActive
-                    ? "bg-stamp-red text-white font-semibold shadow-stamp"
-                    : "text-ink-text/70 hover:bg-paper-bg-subtle/70 dark:hover:bg-white/[0.04] hover:text-ink-text"
+                    ? "bg-primary-container text-on-primary-container dark:bg-primary-container/30 dark:text-primary shadow-sm"
+                    : "text-on-surface-variant hover:bg-surface-container-high/80 hover:text-on-surface"
                 )}
                 title={item.label}
               >
-                <div className="flex items-center gap-3">
-                  <Icon
-                    className={cn(
-                      "h-4 w-4 shrink-0",
-                      isActive ? "text-white" : "text-ink-text/60 group-hover:text-ink-text"
-                    )}
+                <div
+                  className={cn(
+                    "flex items-center justify-center h-7 w-7 rounded-xl transition-colors",
+                    isActive
+                      ? "text-primary dark:text-primary"
+                      : "text-on-surface-variant group-hover:text-on-surface"
+                  )}
+                >
+                  <MaterialIcon
+                    name={item.iconName}
+                    size={20}
+                    fill={isActive}
                   />
-                  <span className="hidden lg:inline">{item.label}</span>
                 </div>
+                <span className="hidden lg:inline text-xs tracking-wide">{item.label}</span>
                 {isActive && (
-                  <div className="hidden lg:block h-1.5 w-1.5 rounded-full bg-white/70" />
+                  <div className="hidden lg:block ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
                 )}
               </Link>
             );
@@ -124,51 +103,51 @@ export function Sidebar({ onOpenManualAdd }: SidebarProps) {
         </nav>
       </div>
 
-      {/* Bottom: User + Toggle + Sign Out */}
-      <div className="space-y-2 pt-3 border-t border-fiber-line">
+      {/* Bottom: User + Theme Toggle + Sign Out */}
+      <div className="space-y-3 pt-3 border-t border-outline-variant/40 dark:border-white/[0.06]">
         <div className="flex items-center justify-center lg:justify-between px-1">
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <Avatar className="h-8 w-8 border border-fiber-line rounded-xl shrink-0">
-              <AvatarFallback className="bg-stamp-red/10 text-stamp-red font-mono font-bold text-[11px] rounded-xl">
+            <Avatar className="h-9 w-9 border border-outline-variant/40 rounded-2xl shrink-0">
+              <AvatarFallback className="bg-primary-container text-on-primary-container font-jetbrains-mono font-bold text-xs rounded-2xl">
                 {getInitials(userProfile?.displayName)}
               </AvatarFallback>
             </Avatar>
             <div className="hidden lg:block overflow-hidden">
-              <div className="truncate text-xs font-semibold text-ink-text">
-                {userProfile?.displayName || "User"}
+              <div className="truncate text-xs font-semibold text-on-surface">
+                {userProfile?.displayName || "Account Holder"}
               </div>
-              <div className="truncate text-[10px] font-mono text-muted-text">
+              <div className="truncate text-[11px] font-jetbrains-mono text-on-surface-variant">
                 {userProfile?.currency || "INR"}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center lg:justify-between gap-1 pt-1">
+        <div className="flex items-center justify-center lg:justify-between gap-1.5 pt-1">
           <button
-            className="flex items-center justify-center lg:justify-start gap-1.5 px-2 py-1.5 rounded-xl text-[11px] text-muted-text hover:text-ink-text hover:bg-paper-bg-subtle/70 dark:hover:bg-white/[0.04] transition-colors flex-1"
+            className="flex items-center justify-center lg:justify-start gap-2 px-2.5 py-1.5 rounded-xl text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/80 transition-colors flex-1"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             title={theme === "dark" ? "Switch to Creamy Paper mode" : "Switch to Obsidian Ink mode"}
           >
             {theme === "dark" ? (
               <>
-                <Sun className="h-3.5 w-3.5 text-amber-gold shrink-0" />
-                <span className="hidden lg:inline font-mono">Cream</span>
+                <MaterialIcon name="light_mode" size={16} className="text-amber-500 shrink-0" />
+                <span className="hidden lg:inline font-mono text-[11px]">Cream</span>
               </>
             ) : (
               <>
-                <Moon className="h-3.5 w-3.5 text-stamp-red shrink-0" />
-                <span className="hidden lg:inline font-mono">Obsidian</span>
+                <MaterialIcon name="dark_mode" size={16} className="text-primary shrink-0" />
+                <span className="hidden lg:inline font-mono text-[11px]">Obsidian</span>
               </>
             )}
           </button>
 
           <button
-            className="p-1.5 rounded-xl text-muted-text hover:text-stamp-red hover:bg-stamp-red/10 transition-colors shrink-0"
+            className="p-2 rounded-xl text-on-surface-variant hover:text-error hover:bg-error-container/20 transition-colors shrink-0 flex items-center justify-center"
             onClick={logout}
             title="Sign out"
           >
-            <LogOut className="h-3.5 w-3.5" />
+            <MaterialIcon name="logout" size={16} />
           </button>
         </div>
       </div>

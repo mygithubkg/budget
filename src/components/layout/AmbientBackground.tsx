@@ -5,7 +5,7 @@ import React from "react";
 export function AmbientBackground() {
   return (
     <div
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none"
+      className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none"
       aria-hidden="true"
     >
       {/* Light Mode: Warm Cream Paper Radial Sheen */}
